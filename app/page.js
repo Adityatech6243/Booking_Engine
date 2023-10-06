@@ -58,7 +58,7 @@ export default function Home() {
       <div class="flex flex-col lg:flex-row w-full">
         <div class="lg:w-9/12 bg-gray-200 p-4">
           {" "}
-          <Accordion type="single" collapsible>
+          <Accordion type="multiple" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Search For Availability</AccordionTrigger>
               <AccordionContent>
@@ -69,7 +69,7 @@ export default function Home() {
                   >
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="checkin"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Check In*</FormLabel>
@@ -82,7 +82,7 @@ export default function Home() {
                     />
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="checkout"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Check Out*</FormLabel>
@@ -95,7 +95,7 @@ export default function Home() {
                     />
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="rooms"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Rooms</FormLabel>
@@ -105,9 +105,9 @@ export default function Home() {
                                 <SelectValue placeholder="1" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="light">1</SelectItem>
-                                <SelectItem value="dark">2</SelectItem>
-                                <SelectItem value="system">3</SelectItem>
+                                <SelectItem value="one">1</SelectItem>
+                                <SelectItem value="two">2</SelectItem>
+                                <SelectItem value="three">3</SelectItem>
                               </SelectContent>
                             </Select>
                           </FormControl>
@@ -127,9 +127,9 @@ export default function Home() {
                                 <SelectValue placeholder="1" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="light">1</SelectItem>
-                                <SelectItem value="dark">2</SelectItem>
-                                <SelectItem value="system">3</SelectItem>
+                                <SelectItem value="one">1</SelectItem>
+                                <SelectItem value="two">2</SelectItem>
+                                <SelectItem value="three">3</SelectItem>
                               </SelectContent>
                             </Select>
                           </FormControl>
@@ -139,7 +139,7 @@ export default function Home() {
                     />
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="childrens"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>(Childrens)</FormLabel>
@@ -161,7 +161,7 @@ export default function Home() {
                     />
                     <FormField
                       control={form.control}
-                      name="username"
+                      name="child age"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Child age</FormLabel>
@@ -219,7 +219,7 @@ export default function Home() {
           </div>
         </div>
         <div class="lg:w-3/12 bg-gray-300 p-4">
-          <Accordion type="single" collapsible>
+          <Accordion type="multiple" collapsible>
             <AccordionItem value="item-1">
               <AccordionTrigger>Hotel Details</AccordionTrigger>
               <AccordionContent>

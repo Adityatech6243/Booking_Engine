@@ -46,7 +46,7 @@ export function Details() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="guest name"
+          name="guest-name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Guest Name / (Agency Name)</FormLabel>
@@ -98,7 +98,7 @@ export function Details() {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="have-gst"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Have GST</FormLabel>
@@ -119,7 +119,7 @@ export function Details() {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="company-name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company Name</FormLabel>
@@ -132,7 +132,7 @@ export function Details() {
         />{" "}
         <FormField
           control={form.control}
-          name="username"
+          name="company-gst"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company GST</FormLabel>
@@ -145,7 +145,7 @@ export function Details() {
         />{" "}
         <FormField
           control={form.control}
-          name="username"
+          name="company-address"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Company Address</FormLabel>
@@ -158,7 +158,7 @@ export function Details() {
         />
         <FormField
           control={form.control}
-          name="username"
+          name="special-request"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Special Request</FormLabel>
