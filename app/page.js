@@ -54,7 +54,7 @@ export default function Home() {
     console.log(values);
   }
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
       <div class="flex flex-col lg:flex-row w-full">
         <div class="lg:w-9/12 bg-gray-200 p-4">
           {" "}
@@ -67,120 +67,135 @@ export default function Home() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                   >
-                    <FormField
-                      control={form.control}
-                      name="checkin"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Check In*</FormLabel>
-                          <FormControl>
-                            <DatePickerDemo />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="checkout"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Check Out*</FormLabel>
-                          <FormControl>
-                            <DatePickerDemo />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="rooms"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Rooms</FormLabel>
-                          <FormControl>
-                            <Select>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="1" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="one">1</SelectItem>
-                                <SelectItem value="two">2</SelectItem>
-                                <SelectItem value="three">3</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="username"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Room 1(Adults)</FormLabel>
-                          <FormControl>
-                            <Select>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="1" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="one">1</SelectItem>
-                                <SelectItem value="two">2</SelectItem>
-                                <SelectItem value="three">3</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="childrens"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>(Childrens)</FormLabel>
-                          <FormControl>
-                            <Select>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="0" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="light">1</SelectItem>
-                                <SelectItem value="dark">2</SelectItem>
-                                <SelectItem value="system">3</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="child age"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Child age</FormLabel>
-                          <FormControl>
-                            <Select>
-                              <SelectTrigger className="w-[180px]">
-                                <SelectValue placeholder="0" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="light">1</SelectItem>
-                                <SelectItem value="dark">2</SelectItem>
-                                <SelectItem value="system">3</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
+                    <div class="flex flex-wrap">
+                      <div class="w-1/3 p-4">
+                        <FormField
+                          control={form.control}
+                          name="checkin"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Check In*</FormLabel>
+                              <FormControl>
+                                <DatePickerDemo />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div class="w-1/3 p-4">
+                        <FormField
+                          control={form.control}
+                          name="checkout"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Check Out*</FormLabel>
+                              <FormControl>
+                                <DatePickerDemo />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div class="w-1/3 p-4">
+                        <FormField
+                          control={form.control}
+                          name="rooms"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Rooms</FormLabel>
+                              <FormControl>
+                                <Select>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="1" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="one">1</SelectItem>
+                                    <SelectItem value="two">2</SelectItem>
+                                    <SelectItem value="three">3</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div class="w-1/3 p-4">
+                        <FormField
+                          control={form.control}
+                          name="username"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Room 1(Adults)</FormLabel>
+                              <FormControl>
+                                <Select>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="1" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="one">1</SelectItem>
+                                    <SelectItem value="two">2</SelectItem>
+                                    <SelectItem value="three">3</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div class="w-1/3 p-4">
+                        <FormField
+                          control={form.control}
+                          name="childrens"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>(Childrens)</FormLabel>
+                              <FormControl>
+                                <Select>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="0" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="light">1</SelectItem>
+                                    <SelectItem value="dark">2</SelectItem>
+                                    <SelectItem value="system">3</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div class="w-1/3 p-4">
+                        <FormField
+                          control={form.control}
+                          name="child age"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Child age</FormLabel>
+                              <FormControl>
+                                <Select>
+                                  <SelectTrigger className="w-[180px]">
+                                    <SelectValue placeholder="0" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="light">1</SelectItem>
+                                    <SelectItem value="dark">2</SelectItem>
+                                    <SelectItem value="system">3</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    </div>
+
                     <Button type="submit">Search</Button>
                   </form>
                 </Form>
