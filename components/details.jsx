@@ -23,7 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
-
+import { useState } from "react";
 const formSchema = z.object({
   username: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -41,134 +41,173 @@ export function Details() {
   function onSubmit(values) {
     console.log(values);
   }
+  const on = () => {
+    console.log(form.setValue("have-gst", "No"));
+  };
+  const [userSelection, setuserSelection] = useState("no");
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="guest-name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Guest Name / (Agency Name)</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="space-y-8 flex flex-wrap"
+      >
+        <div class="w-1/3 p-2 mt-8">
+          <FormField
+            control={form.control}
+            name="guest-name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Guest / Business Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Guest / Business Name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>{" "}
+        <div class="w-1/3 p-2">
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Your Email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>{" "}
+        <div class="w-1/3 p-2">
+          <FormField
+            control={form.control}
+            name="number"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Contact Number</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Your Contact Number" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>{" "}
+        <div class="w-1/3 p-2">
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Your Address" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div class="w-1/3 p-2">
+          <FormField
+            control={form.control}
+            name="have-gst"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Have GST</FormLabel>
+                <FormControl>
+                  <Select
+                    value={userSelection}
+                    onValueChange={setuserSelection}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="NO" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="yes">Yes</SelectItem>
+                      <SelectItem value="no">No</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div class="flex w-full ">
+          {userSelection === "yes" && (
+            <div class="w-1/3 p-2">
+              <FormField
+                control={form.control}
+                name="company-name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter Your Company Name" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Your Email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          {userSelection === "yes" && (
+            <div class="w-1/3 p-2">
+              <FormField
+                control={form.control}
+                name="company-gst"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company GST</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter Your Company GST" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="number"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Contact Number</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter Your Contact Number" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
+          {userSelection === "yes" && (
+            <div class="w-1/3 p-2">
+              <FormField
+                control={form.control}
+                name="company-address"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company Address</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder=" Enter Your Company Address"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Enter your Address" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="have-gst"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Have GST</FormLabel>
-              <FormControl>
-                <Select>
-                  <SelectTrigger className="w-[180px]">
-                    <SelectValue placeholder="NO" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="yes">Yes</SelectItem>
-                    <SelectItem value="no">No</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="company-name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Company Name" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="company-gst"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company GST</FormLabel>
-              <FormControl>
-                <Input placeholder="Company GST" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />{" "}
-        <FormField
-          control={form.control}
-          name="company-address"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Company Address</FormLabel>
-              <FormControl>
-                <Input placeholder="Company Address" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="special-request"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Special Request</FormLabel>
-              <FormControl>
-                <Textarea />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        </div>
+        <div class="w-full">
+          <FormField
+            control={form.control}
+            name="special-request"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Special Request</FormLabel>
+                <FormControl>
+                  <Textarea />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
         <Button type="submit">Confirm</Button>
       </form>
     </Form>

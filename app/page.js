@@ -36,10 +36,25 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useEffect, useState } from "react";
 export default function Home() {
+  const [data, setData] = useState({});
+  const [roomsData, setRoomsData] = useState();
+  const [clientData, setClientsData] = useState();
+
+  useEffect(() => {
+    setRoomsData(data.client);
+    setClientsData(data.rooms);
+    console.log(roomsData);
+    console.log(clientData);
+  }, [data]);
+
   const formSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
+    }),
+    childrens: z.string({
+      required_error: "Please select number of children",
     }),
   });
   const form = useForm({
@@ -53,6 +68,31 @@ export default function Home() {
     // ✅ This will be type-safe and validated.
     console.log(values);
   }
+  const on = () => {
+    console.log(form.setValue("childrens", "light"));
+  };
+  const [childrenValue, setChildrenValue] = useState("");
+
+  useEffect(() => {
+    async function fetchData() {
+      let tempFetchedsData = await fetch("//192.168.1.19/index.php?ClientID=1")
+        .then((response) => response.json())
+        .then((response) => setData(response))
+        .catch((error) => {
+          return "error";
+        });
+      if (tempActivitiesData === "error") {
+        setData(tempFetchedsData);
+      } else {
+        console.log("php error");
+      }
+    }
+    fetchData();
+  }, []);
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
       <div class="flex flex-col lg:flex-row w-full">
@@ -112,8 +152,6 @@ export default function Home() {
                                   </SelectTrigger>
                                   <SelectContent>
                                     <SelectItem value="one">1</SelectItem>
-                                    <SelectItem value="two">2</SelectItem>
-                                    <SelectItem value="three">3</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </FormControl>
@@ -128,7 +166,7 @@ export default function Home() {
                           name="username"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Room 1(Adults)</FormLabel>
+                              <FormLabel>Adults</FormLabel>
                               <FormControl>
                                 <Select>
                                   <SelectTrigger className="w-[180px]">
@@ -137,7 +175,9 @@ export default function Home() {
                                   <SelectContent>
                                     <SelectItem value="one">1</SelectItem>
                                     <SelectItem value="two">2</SelectItem>
-                                    <SelectItem value="three">3</SelectItem>
+                                    <SelectItem value="three">3 </SelectItem>{" "}
+                                    <SelectItem value="two">4</SelectItem>
+                                    <SelectItem value="three">5</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </FormControl>
@@ -152,16 +192,21 @@ export default function Home() {
                           name="childrens"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>(Childrens)</FormLabel>
+                              <FormLabel>Childrens</FormLabel>
                               <FormControl>
-                                <Select>
+                                <Select
+                                  value={childrenValue}
+                                  defaultValue={form.childrens}
+                                  onValueChange={setChildrenValue}
+                                >
                                   <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="0" />
                                   </SelectTrigger>
                                   <SelectContent>
-                                    <SelectItem value="light">1</SelectItem>
-                                    <SelectItem value="dark">2</SelectItem>
-                                    <SelectItem value="system">3</SelectItem>
+                                    <SelectItem value="0">0</SelectItem>
+                                    <SelectItem value="1">1</SelectItem>
+                                    <SelectItem value="2">2</SelectItem>
+                                    <SelectItem value="3">3</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </FormControl>
@@ -170,30 +215,37 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div class="w-1/3 p-4">
-                        <FormField
-                          control={form.control}
-                          name="child age"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Child age</FormLabel>
-                              <FormControl>
-                                <Select>
-                                  <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder="0" />
-                                  </SelectTrigger>
-                                  <SelectContent>
-                                    <SelectItem value="light">1</SelectItem>
-                                    <SelectItem value="dark">2</SelectItem>
-                                    <SelectItem value="system">3</SelectItem>
-                                  </SelectContent>
-                                </Select>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </div>
+                      {parseInt(childrenValue) > 0 &&
+                        Array.from({ length: parseInt(childrenValue) }).map(
+                          (_, index) => (
+                            <div key={index} class="w-1/3 p-4">
+                              <FormField
+                                control={form.control}
+                                name={`childAge[${index}]`} // Use an array to differentiate between child ages
+                                render={({ field }) => (
+                                  <FormItem>
+                                    <FormLabel>Child {index + 1} age</FormLabel>
+                                    <FormControl>
+                                      <Select>
+                                        <SelectTrigger className="w-[180px]">
+                                          <SelectValue placeholder="0" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          <SelectItem value="1">1</SelectItem>
+                                          <SelectItem value="2">2</SelectItem>
+                                          <SelectItem value="3">3</SelectItem>
+                                          <SelectItem value="4">4</SelectItem>
+                                          <SelectItem value="5">5</SelectItem>
+                                        </SelectContent>
+                                      </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                  </FormItem>
+                                )}
+                              />
+                            </div>
+                          )
+                        )}
                     </div>
 
                     <Button type="submit">Search</Button>
@@ -207,12 +259,12 @@ export default function Home() {
                 <Availability />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-3">
+            {/* <AccordionItem value="item-3">
               <AccordionTrigger>Available Enhance Your Stay</AccordionTrigger>
               <AccordionContent>
                 <Button type="submit">Continue</Button>
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
             <AccordionItem value="item-4">
               <AccordionTrigger>Your Details</AccordionTrigger>
               <AccordionContent>
@@ -226,11 +278,9 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <div>
-            <Button>Reset</Button>
-          </div>
-          <div>
-            <Button>Submit</Button>
+          <div class="flex">
+            <Button className="ml-5">Reset</Button>
+            <Button className="ml-5">Submit</Button>
           </div>
         </div>
         <div class="lg:w-3/12 bg-gray-300 p-4">
