@@ -24,26 +24,41 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
+
 const formSchema = z.object({
-  username: z.string().min(2, {
+  UserName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
+  UserEmail: z.string().email(),
+  UserPhone: z.string(),
+  UserAddress: z.string(),
+  IsGST: z.string(),
+  CompanyName: z.string(),
+  CompanyGST: z.string(),
+  CompanyAddress: z.string(),
+  SpecialRequest: z.string(),
 });
 
 export function Details() {
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      UserName: "",
+      UserEmail: "",
+      UserPhone: "",
+      UserAddress: "",
+      IsGST: "",
+      CompanyName: "",
+      CompanyGST: "",
+      CompanyAddress: "",
+      SpecialRequest: "",
     },
   });
 
   function onSubmit(values) {
     console.log(values);
   }
-  const on = () => {
-    console.log(form.setValue("have-gst", "No"));
-  };
+
   const [userSelection, setuserSelection] = useState("no");
   return (
     <Form {...form}>
@@ -54,7 +69,7 @@ export function Details() {
         <div class="w-1/3 p-2 mt-8">
           <FormField
             control={form.control}
-            name="guest-name"
+            name="UserName"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Guest / Business Name</FormLabel>
@@ -69,7 +84,7 @@ export function Details() {
         <div class="w-1/3 p-2">
           <FormField
             control={form.control}
-            name="email"
+            name="UserEmail"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
@@ -84,7 +99,7 @@ export function Details() {
         <div class="w-1/3 p-2">
           <FormField
             control={form.control}
-            name="number"
+            name="UserPhone"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Contact Number</FormLabel>
@@ -99,7 +114,7 @@ export function Details() {
         <div class="w-1/3 p-2">
           <FormField
             control={form.control}
-            name="address"
+            name="UserAddress"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Address</FormLabel>
@@ -114,17 +129,17 @@ export function Details() {
         <div class="w-1/3 p-2">
           <FormField
             control={form.control}
-            name="have-gst"
+            name="IsGST"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Have GST</FormLabel>
                 <FormControl>
                   <Select
-                    value={userSelection}
                     onValueChange={setuserSelection}
+                    defaultValue={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="NO" />
+                      <SelectValue placeholder="No" />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="yes">Yes</SelectItem>
@@ -142,7 +157,7 @@ export function Details() {
             <div class="w-1/3 p-2">
               <FormField
                 control={form.control}
-                name="company-name"
+                name="CompanyName"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Company Name</FormLabel>
@@ -159,7 +174,7 @@ export function Details() {
             <div class="w-1/3 p-2">
               <FormField
                 control={form.control}
-                name="company-gst"
+                name="CompanyGST"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Company GST</FormLabel>
@@ -176,7 +191,7 @@ export function Details() {
             <div class="w-1/3 p-2">
               <FormField
                 control={form.control}
-                name="company-address"
+                name="CompanyAddress"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Company Address</FormLabel>
@@ -196,12 +211,12 @@ export function Details() {
         <div class="w-full">
           <FormField
             control={form.control}
-            name="special-request"
+            name="SpecialRequest"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Special Request</FormLabel>
                 <FormControl>
-                  <Textarea />
+                  <Textarea {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

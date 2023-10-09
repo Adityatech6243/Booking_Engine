@@ -75,17 +75,18 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      let tempFetchedsData = await fetch("//192.168.1.19/index.php?ClientID=1")
+      let tempFetchedsData = await fetch("//192.168.1.22/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
+          // setData({"client":{"ClientID":"1","ClientBusinessName":"River Orchid Resort","ClientName":"Sitaram Karande","ClientEmail":"lk","ClientPhone":"hh","ClientAddress":"Tapola"},"rooms":[{"RoomID":"1","RoomName":"Blue Bell cottage couple AC","Description":"An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32\u201d LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.","PricePerNight":"3190","RoomsClientID":"1","RoomPhotos":"http:\/\/riverorchidresort.com\/img\/landing%20page%20img\/mango.jpg, http:\/\/riverorchidresort.com\/img\/room%20img\/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http:\/\/riverorchidresort.com\/img\/room%20img\/Mango%20cottage%20Nabar%201%20bathrum.jpg"},{"RoomID":"2","RoomName":"Blue Bell cottage couple AC","Description":"An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32\u201dLED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.","PricePerNight":"3520","RoomsClientID":"1","RoomPhotos":"http:\/\/riverorchidresort.com\/img\/room%20img\/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http:\/\/riverorchidresort.com\/img\/landing%20page%20img\/bluebell%20couple.jpg"}]});
           return "error";
         });
-      if (tempActivitiesData === "error") {
-        setData(tempFetchedsData);
-      } else {
-        console.log("php error");
-      }
+      // if (tempActivitiesData === "error") {
+      //   setData(tempFetchedsData);
+      // } else {
+      //   console.log("php error");
+      // }
     }
     fetchData();
   }, []);
@@ -175,7 +176,9 @@ export default function Home() {
                                   <SelectContent>
                                     <SelectItem value="one">1</SelectItem>
                                     <SelectItem value="two">2</SelectItem>
-                                    <SelectItem value="three">3 </SelectItem>{" "}
+                                    <SelectItem value="three">
+                                      3{" "}
+                                    </SelectItem>{" "}
                                     <SelectItem value="two">4</SelectItem>
                                     <SelectItem value="three">5</SelectItem>
                                   </SelectContent>
@@ -256,7 +259,9 @@ export default function Home() {
             <AccordionItem value="item-2">
               <AccordionTrigger>Available Rooms</AccordionTrigger>
               <AccordionContent>
-                <Availability />
+                {data?.rooms?.map((iteam, i) => (
+                  <Availability room={iteam} key={i} />
+                ))}
               </AccordionContent>
             </AccordionItem>
             {/* <AccordionItem value="item-3">
@@ -291,12 +296,12 @@ export default function Home() {
                 <p class="mb-1">
                   <b>Hotel Name: </b>
                   <br />
-                  <span>River Orchid Resort</span>
+                  <span>{data?.client?.ClientBusinessName}</span>
                 </p>
                 <p class="mb-1">
                   <b>Email: </b>
                   <br />
-                  <span>tapolariverorchidresort@gmail.com</span>
+                  <span>{data?.client?.ClientEmail}</span>
                 </p>
                 <p class="mb-1">
                   <b>Mobile: </b>
@@ -306,12 +311,12 @@ export default function Home() {
                 <p class="mb-1">
                   <b>Phone: </b>
                   <br />
-                  <span>+91-9405751313</span>
+                  <span>{data?.client?.ClientPhone}</span>
                 </p>
                 <p class="mb-1">
                   <b>Addres: </b>
                   <br />
-                  <span>Pali t ategaon Maharashtra 412806</span>
+                  <span>{data?.client?.ClientAddress}</span>
                 </p>
               </AccordionContent>
             </AccordionItem>
