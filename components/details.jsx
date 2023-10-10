@@ -39,7 +39,8 @@ const formSchema = z.object({
   SpecialRequest: z.string(),
 });
 
-export function Details() {
+export function Details(props) {
+  const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -47,26 +48,54 @@ export function Details() {
       UserEmail: "",
       UserPhone: "",
       UserAddress: "",
-      IsGST: "",
+      IsGST: "no",
       CompanyName: "",
       CompanyGST: "",
       CompanyAddress: "",
       SpecialRequest: "",
     },
   });
+  const sendDataToParent = () => {
+    props.sendDataToParent(true);
+  };
 
+  // function onSubmit(values) {
+  //   console.log(values);
+  // }
   function onSubmit(values) {
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
     console.log(values);
+    values.ClientID = "1";
+    async function sendData() {
+      let tempSendData = await fetch("//192.168.1.22/index.php", {
+        method: "POST",
+        body: JSON.stringify(values),
+      })
+        .then((response) => response.text())
+        .then((json) => json)
+        .catch((error) => {
+          return "error";
+        });
+      if (tempSendData === "success") {
+        alert("submited");
+        setuseDetailsIsSuccess(true);
+        sendDataToParent();
+      } else {
+        console.log("php error");
+      }
+    }
+
+    sendData();
   }
 
-  const [userSelection, setuserSelection] = useState("no");
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-wrap"
       >
-        <div class="w-1/3 p-2 mt-8">
+        <div className="w-1/3 p-2 mt-8">
           <FormField
             control={form.control}
             name="UserName"
@@ -81,7 +110,7 @@ export function Details() {
             )}
           />
         </div>{" "}
-        <div class="w-1/3 p-2">
+        <div className="w-1/3 p-2">
           <FormField
             control={form.control}
             name="UserEmail"
@@ -96,7 +125,7 @@ export function Details() {
             )}
           />
         </div>{" "}
-        <div class="w-1/3 p-2">
+        <div className="w-1/3 p-2">
           <FormField
             control={form.control}
             name="UserPhone"
@@ -111,7 +140,7 @@ export function Details() {
             )}
           />
         </div>{" "}
-        <div class="w-1/3 p-2">
+        <div className="w-1/3 p-2">
           <FormField
             control={form.control}
             name="UserAddress"
@@ -126,7 +155,7 @@ export function Details() {
             )}
           />
         </div>
-        <div class="w-1/3 p-2">
+        <div className="w-1/3 p-2">
           <FormField
             control={form.control}
             name="IsGST"
@@ -135,7 +164,7 @@ export function Details() {
                 <FormLabel>Have GST</FormLabel>
                 <FormControl>
                   <Select
-                    onValueChange={setuserSelection}
+                    onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <SelectTrigger className="w-[180px]">
@@ -152,9 +181,9 @@ export function Details() {
             )}
           />
         </div>
-        <div class="flex w-full ">
-          {userSelection === "yes" && (
-            <div class="w-1/3 p-2">
+        <div className="flex w-full ">
+          {form.control._formValues.IsGST === "yes" && (
+            <div className="w-1/3 p-2">
               <FormField
                 control={form.control}
                 name="CompanyName"
@@ -170,8 +199,8 @@ export function Details() {
               />
             </div>
           )}
-          {userSelection === "yes" && (
-            <div class="w-1/3 p-2">
+          {form.control._formValues.IsGST === "yes" && (
+            <div className="w-1/3 p-2">
               <FormField
                 control={form.control}
                 name="CompanyGST"
@@ -187,8 +216,8 @@ export function Details() {
               />
             </div>
           )}
-          {userSelection === "yes" && (
-            <div class="w-1/3 p-2">
+          {form.control._formValues.IsGST === "yes" && (
+            <div className="w-1/3 p-2">
               <FormField
                 control={form.control}
                 name="CompanyAddress"
@@ -208,7 +237,7 @@ export function Details() {
             </div>
           )}
         </div>
-        <div class="w-full">
+        <div className="w-full">
           <FormField
             control={form.control}
             name="SpecialRequest"

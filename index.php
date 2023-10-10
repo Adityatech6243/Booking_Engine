@@ -27,8 +27,6 @@ if ($conn->connect_error) {
   
 // Function to sanitize and validate input data
 function sanitizeInput($data) {
-    // Sanitize and validate data here (e.g., using mysqli_real_escape_string, filter_var, etc.)
-    // Return the sanitized data
     return $data;
 }
 

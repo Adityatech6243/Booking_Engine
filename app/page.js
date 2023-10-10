@@ -40,13 +40,16 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [data, setData] = useState({});
   const [roomsData, setRoomsData] = useState();
+  const [isOpen, setisOpen] = useState();
   const [clientData, setClientsData] = useState();
+
+  const receiveDataFromChild = (data) => {
+    setisOpen(data);
+  };
 
   useEffect(() => {
     setRoomsData(data.client);
     setClientsData(data.rooms);
-    console.log(roomsData);
-    console.log(clientData);
   }, [data]);
 
   const formSchema = z.object({
@@ -57,17 +60,14 @@ export default function Home() {
       required_error: "Please select number of children",
     }),
   });
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
     },
   });
-  function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-  }
+
   const on = () => {
     console.log(form.setValue("childrens", "light"));
   };
@@ -90,16 +90,96 @@ export default function Home() {
     }
     fetchData();
   }, []);
+
   useEffect(() => {
     console.log(data);
   }, []);
 
+  //  sendDataToServer = () => {
+  //    const serverUrl = "//192.168.1.22/index.php";
+  //    fetch(serverUrl, {
+  //      method: "POST",
+  //      headers: {
+  //        "Content-Type": "application/json",
+  //      },
+  //      body: JSON.stringify(data),
+  //    })
+  //      .then((response) => {
+  //        if (!response.ok) {
+  //          throw new Error("Network response was not ok");
+  //        }
+  //        return response.json();
+  //      })
+  //      .then((responseData) => {
+  //        console.log("Server Response:", responseData);
+  //      })
+  //      .catch((error) => {
+  //        console.error("Error:", error);
+  //      });
+  //  };
+  function onSubmit(values) {
+    console.log(values);
+  }
+  // const handleSubmit = (event,data) => {
+  //   event.preventDefault();
+  //   // data.formName = formName;
+  //   // async function sendData() {
+  //   //   let tempSendData = await fetch("//192.168.1.22/index.php", {
+  //   //     method: "POST",
+  //   //     body: JSON.stringify(data),
+  //   //   })
+  //   //     .then((response) => response.text())
+  //   //     .then((json) => json)
+  //   //     .catch((error) => {
+  //   //       return "error";
+  //   //     });
+  //   //   if (tempSendData === "success") {
+  //   //     if (data.formName === "facility") {
+  //   //       const arr = [...facilityData];
+  //   //       arr[index] = { ...arr[index], show: true };
+  //   //       if (arr[index].delete) {
+  //   //         arr.splice(index, 1);
+  //   //       }
+  //   //       setFacilityData(arr);
+  //   //     }
+
+  //   //   } else {
+  //   //     console.log("php error");
+  //   //   }
+  //   // }
+
+  // sendDataToServer = () => {
+  //   const serverUrl = "//192.168.1.22/index.php";
+  //   fetch(serverUrl, {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(data),
+  //   })
+  //     .then((response) => {
+  //       if (!response.ok) {
+  //         throw new Error("Network response was not ok");
+  //       }
+  //       return response.json();
+  //     })
+  //     .then((responseData) => {
+  //       console.log("Server Response:", responseData);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error:", error);
+  //     });
+  // };
+
+  //   sendDataToServer();
+  // };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
-      <div class="flex flex-col lg:flex-row w-full">
-        <div class="lg:w-9/12 bg-gray-200 p-4">
+      <div className="flex flex-col lg:flex-row w-full">
+        <div className="lg:w-9/12 bg-gray-200 p-4">
           {" "}
-          <Accordion type="multiple" collapsible>
+          <Accordion type="single" collapsible="true" defaultValue="item-1">
             <AccordionItem value="item-1">
               <AccordionTrigger>Search For Availability</AccordionTrigger>
               <AccordionContent>
@@ -108,8 +188,8 @@ export default function Home() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                   >
-                    <div class="flex flex-wrap">
-                      <div class="w-1/3 p-4">
+                    <div className="flex flex-wrap">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="checkin"
@@ -124,7 +204,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div class="w-1/3 p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="checkout"
@@ -139,7 +219,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div class="w-1/3 p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="rooms"
@@ -161,7 +241,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div class="w-1/3 p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="username"
@@ -176,11 +256,9 @@ export default function Home() {
                                   <SelectContent>
                                     <SelectItem value="one">1</SelectItem>
                                     <SelectItem value="two">2</SelectItem>
-                                    <SelectItem value="three">
-                                      3{" "}
-                                    </SelectItem>{" "}
-                                    <SelectItem value="two">4</SelectItem>
-                                    <SelectItem value="three">5</SelectItem>
+                                    <SelectItem value="three">3</SelectItem>
+                                    <SelectItem value="four">4</SelectItem>
+                                    <SelectItem value="five">5</SelectItem>
                                   </SelectContent>
                                 </Select>
                               </FormControl>
@@ -189,7 +267,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div class="w-1/3 p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="childrens"
@@ -221,7 +299,7 @@ export default function Home() {
                       {parseInt(childrenValue) > 0 &&
                         Array.from({ length: parseInt(childrenValue) }).map(
                           (_, index) => (
-                            <div key={index} class="w-1/3 p-4">
+                            <div key={index} className="w-1/3 p-4">
                               <FormField
                                 control={form.control}
                                 name={`childAge[${index}]`} // Use an array to differentiate between child ages
@@ -273,7 +351,7 @@ export default function Home() {
             <AccordionItem value="item-4">
               <AccordionTrigger>Your Details</AccordionTrigger>
               <AccordionContent>
-                <Details />
+                <Details sendDataToParent={receiveDataFromChild} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5">
@@ -283,37 +361,32 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <div class="flex">
+          <div className="flex">
             <Button className="ml-5">Reset</Button>
-            <Button className="ml-5">Submit</Button>
+            <Button className="ml-5">Pay Now</Button>
           </div>
         </div>
-        <div class="lg:w-3/12 bg-gray-300 p-4">
-          <Accordion type="multiple" collapsible>
+        <div className="lg:w-3/12 bg-gray-300 p-4">
+          <Accordion type="multiple" collapsible="true">
             <AccordionItem value="item-1">
               <AccordionTrigger>Hotel Details</AccordionTrigger>
               <AccordionContent>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Hotel Name: </b>
                   <br />
                   <span>{data?.client?.ClientBusinessName}</span>
                 </p>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Email: </b>
                   <br />
                   <span>{data?.client?.ClientEmail}</span>
                 </p>
-                <p class="mb-1">
-                  <b>Mobile: </b>
-                  <br />
-                  <span>+91-9226271237</span>
-                </p>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Phone: </b>
                   <br />
                   <span>{data?.client?.ClientPhone}</span>
                 </p>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Addres: </b>
                   <br />
                   <span>{data?.client?.ClientAddress}</span>
@@ -342,15 +415,15 @@ export default function Home() {
             <AccordionItem value="item-3">
               <AccordionTrigger>Check In/Out Policy</AccordionTrigger>
               <AccordionContent>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Check In Time : </b>
                   <span>12:00PM</span>
                 </p>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Check Out Time:</b>
                   <span>10:00PM </span>
                 </p>
-                <p class="mb-1">
+                <p className="mb-1">
                   <b>Late Check Out Allowed: </b>
                   <span>Subject To Availability</span>
                 </p>{" "}
