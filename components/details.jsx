@@ -55,16 +55,9 @@ export function Details(props) {
       SpecialRequest: "",
     },
   });
-  const sendDataToParent = () => {
-    props.sendDataToParent(true);
-  };
-
-  // function onSubmit(values) {
-  //   console.log(values);
-  // }
+ 
   function onSubmit(values) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
+
     console.log(values);
     values.ClientID = "1";
     async function sendData() {
@@ -80,7 +73,6 @@ export function Details(props) {
       if (tempSendData === "success") {
         alert("submited");
         setuseDetailsIsSuccess(true);
-        sendDataToParent();
       } else {
         console.log("php error");
       }

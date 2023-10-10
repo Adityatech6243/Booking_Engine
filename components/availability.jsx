@@ -23,7 +23,6 @@ export function Availability({ room }) {
             </b>
           </p>
           <p className="mb-4">{room.Description}</p>
-          {/* <Button>View Other Available Rates</Button> */}
         </div>
         <div className="w-1/3 p-4">
           {currency}

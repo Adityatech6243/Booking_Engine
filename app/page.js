@@ -37,6 +37,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useEffect, useState } from "react";
+
 export default function Home() {
   const [data, setData] = useState({});
   const [roomsData, setRoomsData] = useState();
@@ -53,18 +54,23 @@ export default function Home() {
   }, [data]);
 
   const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username must be at least 2 characters.",
-    }),
-    childrens: z.string({
-      required_error: "Please select number of children",
-    }),
+    CheckIn: z.date(),
+    CheckOut: z.date(),
+    Rooms: z.string(),
+    Childrens: z.string(),
+    Adults: z.string(),
+    ChildAge: z.string(),
   });
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      CheckIn: "",
+      CheckOut: "",
+      Rooms: "1",
+      Adults: "1",
+      Childrens: "0",
+      ChildAge: "",
     },
   });
 
@@ -75,18 +81,44 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      let tempFetchedsData = await fetch("//192.168.1.22/index.php?ClientID=1")
+      let tempFetchedsData = await fetch("//192.168.1.20/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
-          // setData({"client":{"ClientID":"1","ClientBusinessName":"River Orchid Resort","ClientName":"Sitaram Karande","ClientEmail":"lk","ClientPhone":"hh","ClientAddress":"Tapola"},"rooms":[{"RoomID":"1","RoomName":"Blue Bell cottage couple AC","Description":"An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32\u201d LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.","PricePerNight":"3190","RoomsClientID":"1","RoomPhotos":"http:\/\/riverorchidresort.com\/img\/landing%20page%20img\/mango.jpg, http:\/\/riverorchidresort.com\/img\/room%20img\/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http:\/\/riverorchidresort.com\/img\/room%20img\/Mango%20cottage%20Nabar%201%20bathrum.jpg"},{"RoomID":"2","RoomName":"Blue Bell cottage couple AC","Description":"An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32\u201dLED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.","PricePerNight":"3520","RoomsClientID":"1","RoomPhotos":"http:\/\/riverorchidresort.com\/img\/room%20img\/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http:\/\/riverorchidresort.com\/img\/landing%20page%20img\/bluebell%20couple.jpg"}]});
+          setData({
+            client: {
+              ClientID: "1",
+              ClientBusinessName: "River Orchid Resort",
+              ClientName: "Sitaram Karande",
+              ClientEmail: "lk",
+              ClientPhone: "hh",
+              ClientAddress: "Tapola",
+            },
+            rooms: [
+              {
+                RoomID: "1",
+                RoomName: "Blue Bell cottage couple AC",
+                Description:
+                  "An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32\u201d LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.",
+                PricePerNight: "3190",
+                RoomsClientID: "1",
+                RoomPhotos:
+                  "http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg",
+              },
+              {
+                RoomID: "2",
+                RoomName: "Blue Bell cottage couple AC",
+                Description:
+                  "An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32\u201dLED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.",
+                PricePerNight: "3520",
+                RoomsClientID: "1",
+                RoomPhotos:
+                  "http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg",
+              },
+            ],
+          });
           return "error";
         });
-      // if (tempActivitiesData === "error") {
-      //   setData(tempFetchedsData);
-      // } else {
-      //   console.log("php error");
-      // }
     }
     fetchData();
   }, []);
@@ -95,84 +127,9 @@ export default function Home() {
     console.log(data);
   }, []);
 
-  //  sendDataToServer = () => {
-  //    const serverUrl = "//192.168.1.22/index.php";
-  //    fetch(serverUrl, {
-  //      method: "POST",
-  //      headers: {
-  //        "Content-Type": "application/json",
-  //      },
-  //      body: JSON.stringify(data),
-  //    })
-  //      .then((response) => {
-  //        if (!response.ok) {
-  //          throw new Error("Network response was not ok");
-  //        }
-  //        return response.json();
-  //      })
-  //      .then((responseData) => {
-  //        console.log("Server Response:", responseData);
-  //      })
-  //      .catch((error) => {
-  //        console.error("Error:", error);
-  //      });
-  //  };
   function onSubmit(values) {
     console.log(values);
   }
-  // const handleSubmit = (event,data) => {
-  //   event.preventDefault();
-  //   // data.formName = formName;
-  //   // async function sendData() {
-  //   //   let tempSendData = await fetch("//192.168.1.22/index.php", {
-  //   //     method: "POST",
-  //   //     body: JSON.stringify(data),
-  //   //   })
-  //   //     .then((response) => response.text())
-  //   //     .then((json) => json)
-  //   //     .catch((error) => {
-  //   //       return "error";
-  //   //     });
-  //   //   if (tempSendData === "success") {
-  //   //     if (data.formName === "facility") {
-  //   //       const arr = [...facilityData];
-  //   //       arr[index] = { ...arr[index], show: true };
-  //   //       if (arr[index].delete) {
-  //   //         arr.splice(index, 1);
-  //   //       }
-  //   //       setFacilityData(arr);
-  //   //     }
-
-  //   //   } else {
-  //   //     console.log("php error");
-  //   //   }
-  //   // }
-
-  // sendDataToServer = () => {
-  //   const serverUrl = "//192.168.1.22/index.php";
-  //   fetch(serverUrl, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(data),
-  //   })
-  //     .then((response) => {
-  //       if (!response.ok) {
-  //         throw new Error("Network response was not ok");
-  //       }
-  //       return response.json();
-  //     })
-  //     .then((responseData) => {
-  //       console.log("Server Response:", responseData);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //     });
-  // };
-
-  //   sendDataToServer();
-  // };
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
@@ -192,12 +149,16 @@ export default function Home() {
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
-                          name="checkin"
+                          name="CheckIn"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Check In*</FormLabel>
                               <FormControl>
-                                <DatePickerDemo />
+                                <DatePickerDemo
+                                  name="CheckIn"
+                                  form={form}
+                                  fields={field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -207,12 +168,16 @@ export default function Home() {
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
-                          name="checkout"
+                          name="CheckOut"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Check Out*</FormLabel>
                               <FormControl>
-                                <DatePickerDemo />
+                                <DatePickerDemo
+                                  name="CheckOut"
+                                  form={form}
+                                  fields={field}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -222,12 +187,15 @@ export default function Home() {
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
-                          name="rooms"
+                          name="Rooms"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Rooms</FormLabel>
                               <FormControl>
-                                <Select>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                >
                                   <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
@@ -244,12 +212,15 @@ export default function Home() {
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
-                          name="username"
+                          name="Adults"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Adults</FormLabel>
                               <FormControl>
-                                <Select>
+                                <Select
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
+                                >
                                   <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
@@ -270,15 +241,14 @@ export default function Home() {
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
-                          name="childrens"
+                          name="Childrens"
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Childrens</FormLabel>
                               <FormControl>
                                 <Select
-                                  value={childrenValue}
-                                  defaultValue={form.childrens}
-                                  onValueChange={setChildrenValue}
+                                  onValueChange={field.onChange}
+                                  defaultValue={field.value}
                                 >
                                   <SelectTrigger className="w-[180px]">
                                     <SelectValue placeholder="0" />
@@ -302,12 +272,16 @@ export default function Home() {
                             <div key={index} className="w-1/3 p-4">
                               <FormField
                                 control={form.control}
-                                name={`childAge[${index}]`} // Use an array to differentiate between child ages
+                                name={`
+                                ChildAge[${index}]`} // Use an array to differentiate between child ages
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormLabel>Child {index + 1} age</FormLabel>
                                     <FormControl>
-                                      <Select>
+                                      <Select
+                                        onValueChange={field.onChange}
+                                        defaultValue={field.value}
+                                      >
                                         <SelectTrigger className="w-[180px]">
                                           <SelectValue placeholder="0" />
                                         </SelectTrigger>
@@ -337,17 +311,12 @@ export default function Home() {
             <AccordionItem value="item-2">
               <AccordionTrigger>Available Rooms</AccordionTrigger>
               <AccordionContent>
-                {data?.rooms?.map((iteam, i) => (
-                  <Availability room={iteam} key={i} />
-                ))}
+                {data &&
+                  data?.rooms?.map((iteam, i) => (
+                    <Availability room={iteam} key={i} />
+                  ))}
               </AccordionContent>
             </AccordionItem>
-            {/* <AccordionItem value="item-3">
-              <AccordionTrigger>Available Enhance Your Stay</AccordionTrigger>
-              <AccordionContent>
-                <Button type="submit">Continue</Button>
-              </AccordionContent>
-            </AccordionItem> */}
             <AccordionItem value="item-4">
               <AccordionTrigger>Your Details</AccordionTrigger>
               <AccordionContent>
