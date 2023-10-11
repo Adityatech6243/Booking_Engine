@@ -41,6 +41,7 @@ const formSchema = z.object({
 
 export function Details(props) {
   const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -59,6 +60,7 @@ export function Details(props) {
   function onSubmit(values) {
 
     console.log(values);
+    props.setFinaldata(values);
     values.ClientID = "1";
     async function sendData() {
       let tempSendData = await fetch("//192.168.1.22/index.php", {
@@ -73,6 +75,9 @@ export function Details(props) {
       if (tempSendData === "success") {
         alert("submited");
         setuseDetailsIsSuccess(true);
+      } 
+     else if (tempSendData === "alreadyExists") {
+        alert("exist");
       } else {
         console.log("php error");
       }

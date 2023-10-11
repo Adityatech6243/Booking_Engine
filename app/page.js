@@ -37,6 +37,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useEffect, useState } from "react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 const formSchema = z.object({
   CheckIn: z.date(),
@@ -50,7 +59,18 @@ const formSchema = z.object({
 });
 export default function Home() {
   const [data, setData] = useState({});
+
   const [childrensCount, setChildrensCount] = useState(0);
+
+    
+  const [finaldata, setFinalData] = useState({});
+      const handleSetFinalData = (value) => {
+        const arr= {...value}
+                setFinalData(value);
+
+
+      };
+
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -83,7 +103,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.20/index.php?ClientID=1")
+      fetch("//192.168.1.22/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -321,13 +341,111 @@ export default function Home() {
             <AccordionItem value="item-4">
               <AccordionTrigger>Your Details</AccordionTrigger>
               <AccordionContent>
-                <Details />
+                <Details setFinaldata={handleSetFinalData} />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5">
               <AccordionTrigger>Review Your Booking</AccordionTrigger>
               <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
+                <Table>
+                  <TableCaption>A list of your recent invoices.</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Name</TableHead>
+                      <TableHead>{finaldata.UserName}</TableHead>
+                      <TableHead>Mobile</TableHead>
+                      <TableHead className="text-right">
+                        {finaldata.UserPhone}
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">Email</TableCell>
+                      <TableCell>{finaldata.UserEmail}</TableCell>
+                      <TableCell>Address</TableCell>
+                      <TableCell className="text-right">
+                        {finaldata.UserAddress}
+                      </TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">
+                        Special Request
+                      </TableCell>
+                      <TableCell>{finaldata.SpecialRequest}</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                <Table>
+                  <TableCaption>A list of your recent invoices.</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Check In Date</TableHead>
+                      <TableHead>12-oct-2023(12:00 PM)</TableHead>
+                      <TableHead>Check Out Date</TableHead>
+                      <TableHead className="text-right">
+                        12-oct-2023(12:00 PM)
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">No. Rooms</TableCell>
+                      <TableCell>1</TableCell>
+                      <TableCell>MealPlan</TableCell>
+                      <TableCell className="text-right">
+                        Room Only(EP)
+                      </TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                <Table>
+                  <TableCaption>A list of your recent invoices.</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Room</TableHead>
+                      <TableHead>Guest</TableHead>
+                      <TableHead>Child</TableHead>
+                      <TableHead>Child Age</TableHead>
+                      <TableHead>Child Cost</TableHead>{" "}
+                      <TableHead>Nights</TableHead>
+                      <TableHead>Extrabed</TableHead>{" "}
+                      <TableHead>Extrabed Cost</TableHead>
+                      <TableHead>Room Cost</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">
+                        Jasminum cottage couple non ac
+                      </TableCell>
+                      <TableCell>2 Adult(s)</TableCell>
+                      <TableCell>No Childs</TableCell>
+                      <TableCell>No Childs</TableCell>
+
+                      <TableCell className="text-right">0/-</TableCell>
+                      <TableCell className="font-medium">1</TableCell>
+                      <TableCell>0</TableCell>
+                      <TableCell>0/-</TableCell>
+                      <TableCell>3300/-</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
+                <Table>
+                  <TableCaption>A list of your recent invoices.</TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="w-[100px]">Sub Total</TableHead>
+                      <TableHead>3500</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">Grand Total</TableCell>
+                      <TableCell>3500</TableCell>
+                    </TableRow>
+                  </TableBody>
+                </Table>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
@@ -366,19 +484,15 @@ export default function Home() {
             <AccordionItem value="item-2">
               <AccordionTrigger>Cancellation Policy</AccordionTrigger>
               <AccordionContent>
-                <ul>
-                  <li>
+                <ul className="list-inside list-disc">
+                  {data?.policies?.CancellationPolicies?.map((elem, ind) => (
+                    <li key={ind}> {elem}</li>
+                  ))}
+
+                  {/* <li>
                     • If cancelled before 15 days of Check In date refundable
                     amount would Be 100% of total billing.
-                  </li>
-                  <li>
-                    • If cancelled before 15 days of Check In date refundable
-                    amount would Be 100% of total billing.
-                  </li>
-                  <li>
-                    • If cancelled before 6 days of Check In date booking will
-                    Be Non Refundable.
-                  </li>
+                  </li> */}
                 </ul>
               </AccordionContent>
             </AccordionItem>
@@ -386,16 +500,16 @@ export default function Home() {
               <AccordionTrigger>Check In/Out Policy</AccordionTrigger>
               <AccordionContent>
                 <p className="mb-1">
-                  <b>Check In Time : </b>
-                  <span>12:00PM</span>
+                  <b>Check In Time: </b>
+                  <span>{data?.policies?.CheckIn}</span>
                 </p>
                 <p className="mb-1">
-                  <b>Check Out Time:</b>
-                  <span>10:00PM </span>
+                  <b>Check Out Time: </b>
+                  <span>{data?.policies?.CheckOut} </span>
                 </p>
                 <p className="mb-1">
                   <b>Late Check Out Allowed: </b>
-                  <span>Subject To Availability</span>
+                  <span>{data?.policies?.LateCheckOut}</span>
                 </p>{" "}
               </AccordionContent>
             </AccordionItem>
