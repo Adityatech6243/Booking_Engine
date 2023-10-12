@@ -59,18 +59,14 @@ const formSchema = z.object({
 });
 export default function Home() {
   const [data, setData] = useState({});
-
+  const [searchdata, setSearchData] = useState();
   const [childrensCount, setChildrensCount] = useState(0);
-
-    
   const [finaldata, setFinalData] = useState({});
-      const handleSetFinalData = (value) => {
-        const arr= {...value}
-                setFinalData(value);
 
-
-      };
-
+  const handleSetFinalData = (value) => {
+    const arr = { ...value };
+    setFinalData(value);
+  };
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -147,7 +143,10 @@ export default function Home() {
 
   function onSubmit(values) {
     console.log(values);
+    setSearchData(values);
   }
+
+  useEffect(() => console.log(searchdata), [searchdata]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
@@ -372,7 +371,7 @@ export default function Home() {
                       <TableCell className="font-medium">
                         Special Request
                       </TableCell>
-                      <TableCell>{finaldata.SpecialRequest}</TableCell>
+                      <TableCell>{finaldata?.SpecialRequest}</TableCell>
                     </TableRow>
                   </TableBody>
                 </Table>
@@ -381,17 +380,27 @@ export default function Home() {
                   <TableHeader>
                     <TableRow>
                       <TableHead className="w-[100px]">Check In Date</TableHead>
-                      <TableHead>12-oct-2023(12:00 PM)</TableHead>
+                      <TableHead>
+                        {searchdata?.CheckIn.toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </TableHead>
                       <TableHead>Check Out Date</TableHead>
                       <TableHead className="text-right">
-                        12-oct-2023(12:00 PM)
+                        {searchdata?.CheckOut.toLocaleDateString("en-US", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
                       </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     <TableRow>
                       <TableCell className="font-medium">No. Rooms</TableCell>
-                      <TableCell>1</TableCell>
+                      <TableCell>{searchdata?.Rooms}</TableCell>
                       <TableCell>MealPlan</TableCell>
                       <TableCell className="text-right">
                         Room Only(EP)
@@ -407,9 +416,9 @@ export default function Home() {
                       <TableHead>Guest</TableHead>
                       <TableHead>Child</TableHead>
                       <TableHead>Child Age</TableHead>
-                      <TableHead>Child Cost</TableHead>{" "}
+                      <TableHead>Child Cost</TableHead>
                       <TableHead>Nights</TableHead>
-                      <TableHead>Extrabed</TableHead>{" "}
+                      <TableHead>Extrabed</TableHead>
                       <TableHead>Extrabed Cost</TableHead>
                       <TableHead>Room Cost</TableHead>
                     </TableRow>
@@ -422,7 +431,6 @@ export default function Home() {
                       <TableCell>2 Adult(s)</TableCell>
                       <TableCell>No Childs</TableCell>
                       <TableCell>No Childs</TableCell>
-
                       <TableCell className="text-right">0/-</TableCell>
                       <TableCell className="font-medium">1</TableCell>
                       <TableCell>0</TableCell>
@@ -488,11 +496,6 @@ export default function Home() {
                   {data?.policies?.CancellationPolicies?.map((elem, ind) => (
                     <li key={ind}> {elem}</li>
                   ))}
-
-                  {/* <li>
-                    • If cancelled before 15 days of Check In date refundable
-                    amount would Be 100% of total billing.
-                  </li> */}
                 </ul>
               </AccordionContent>
             </AccordionItem>
