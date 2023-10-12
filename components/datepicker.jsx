@@ -22,7 +22,7 @@ export function DatePickerDemo({ name, form, fields }) {
       name={name}
       render={({ field }) => (
         <Popover>
-          <PopoverTrigger asChild>
+          <PopoverTrigger asChild >
             <Button
               variant={"outline"}
               className={cn(

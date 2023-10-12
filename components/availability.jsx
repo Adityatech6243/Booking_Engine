@@ -11,11 +11,11 @@ import { currency } from "@/lib/constant";
 export function Availability({ room }) {
   return (
     <div>
-      <div className="flex">
-        <div className="w-1/3 p-4">
+      <div className="flex flex-col lg:flex-row">
+        <div className="lg:w-1/3 p-4">
           <Slider images={room.RoomPhotos.split(",")} />
         </div>
-        <div className="w-1/3 p-4">
+        <div className="lg:w-1/3 p-4">
           <p className="mb-1">
             <b>
               {room.RoomName}
@@ -24,18 +24,17 @@ export function Availability({ room }) {
           </p>
           <p className="mb-4">{room.Description}</p>
         </div>
-        <div className="w-1/3 p-4">
+        <div className="lg:w-1/3 p-4">
           {currency}
           {room.PricePerNight}/-
           <br />
           <span>Avg. Per Room/Night</span>
         </div>
-      </div>{" "}
+      </div>
       <div className="flex">
         <div className="w-1/3 p-4">Room Only</div>
         <div className="w-1/3 p-4"> {currency}3190/- Price</div>
         <div className="w-1/3 p-4">
-          {" "}
           <Button>Select</Button>
         </div>
       </div>

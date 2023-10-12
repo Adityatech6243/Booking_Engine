@@ -162,7 +162,7 @@ export default function Home() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                   >
-                    <div className="flex flex-wrap">
+                    <div className="flex flex-wrap flex-col lg:flex-row">
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
@@ -213,7 +213,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="w-[180px]">
+                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -238,7 +238,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="w-[180px]">
+                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -270,7 +270,7 @@ export default function Home() {
                                   }}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="w-[180px]">
+                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="0" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -303,7 +303,7 @@ export default function Home() {
                                       onValueChange={field.onChange}
                                       defaultValue={field.value}
                                     >
-                                      <SelectTrigger className="w-[180px]">
+                                      <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                         <SelectValue placeholder="0" />
                                       </SelectTrigger>
                                       <SelectContent>
@@ -346,121 +346,113 @@ export default function Home() {
             <AccordionItem value="item-5">
               <AccordionTrigger>Review Your Booking</AccordionTrigger>
               <AccordionContent>
-                <Table>
-                  <TableCaption>A list of your recent invoices.</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Name</TableHead>
-                      <TableHead>{finaldata.UserName}</TableHead>
-                      <TableHead>Mobile</TableHead>
-                      <TableHead className="text-right">
-                        {finaldata.UserPhone}
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">Email</TableCell>
-                      <TableCell>{finaldata.UserEmail}</TableCell>
-                      <TableCell>Address</TableCell>
-                      <TableCell className="text-right">
-                        {finaldata.UserAddress}
-                      </TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">
-                        Special Request
-                      </TableCell>
-                      <TableCell>{finaldata?.SpecialRequest}</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-                <Table>
-                  <TableCaption>A list of your recent invoices.</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Check In Date</TableHead>
-                      <TableHead>
-                        {searchdata?.CheckIn.toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </TableHead>
-                      <TableHead>Check Out Date</TableHead>
-                      <TableHead className="text-right">
-                        {searchdata?.CheckOut.toLocaleDateString("en-US", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">No. Rooms</TableCell>
-                      <TableCell>{searchdata?.Rooms}</TableCell>
-                      <TableCell>MealPlan</TableCell>
-                      <TableCell className="text-right">
-                        Room Only(EP)
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-                <Table>
-                  <TableCaption>A list of your recent invoices.</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Room</TableHead>
-                      <TableHead>Guest</TableHead>
-                      <TableHead>Child</TableHead>
-                      <TableHead>Child Age</TableHead>
-                      <TableHead>Child Cost</TableHead>
-                      <TableHead>Nights</TableHead>
-                      <TableHead>Extrabed</TableHead>
-                      <TableHead>Extrabed Cost</TableHead>
-                      <TableHead>Room Cost</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">
-                        Jasminum cottage couple non ac
-                      </TableCell>
-                      <TableCell>2 Adult(s)</TableCell>
-                      <TableCell>No Childs</TableCell>
-                      <TableCell>No Childs</TableCell>
-                      <TableCell className="text-right">0/-</TableCell>
-                      <TableCell className="font-medium">1</TableCell>
-                      <TableCell>0</TableCell>
-                      <TableCell>0/-</TableCell>
-                      <TableCell>3300/-</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-                <Table>
-                  <TableCaption>A list of your recent invoices.</TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">Sub Total</TableHead>
-                      <TableHead>3500</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">Grand Total</TableCell>
-                      <TableCell>3500</TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
+                <div>
+                  <h2 className="text-center font-bold">Your Details</h2>
+                  <ul className="flex flex-wrap flex-col lg:flex-row">
+                    <li className="p-5 lg:w-1/2">Name: {finaldata.UserName}</li>
+                    <li className="p-5 lg: w-1/2">
+                      Mobile: {finaldata.UserPhone}
+                    </li>
+                    <li className="p-5 lg: w-1/2">
+                      Email: {finaldata.UserEmail}
+                    </li>
+                    <li className="p-5 lg: w-1/2">
+                      Address: {finaldata.UserAddress}
+                    </li>
+                    <li className="p-5 lg: w-1/2">
+                      Special Request: {finaldata?.SpecialRequest}
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h2 className="text-center font-bold">Booking Details</h2>
+                  <ul className="flex flex-wrap flex-col lg:flex-row">
+                    <li className="p-5 lg:w-1/2">
+                      Check In Date:{" "}
+                      {searchdata?.CheckIn.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </li>
+                    <li className="p-5 lg: w-1/2">
+                      Check Out Date:{" "}
+                      {searchdata?.CheckOut.toLocaleDateString("en-US", {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </li>
+                    <li className="p-5 lg: w-1/2">
+                      No. Rooms: {searchdata?.Rooms}
+                    </li>
+                    <li className="p-5 lg: w-1/2">MealPlan: Room Only(EP)</li>
+                  </ul>
+                </div>
+                <div>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[100px]">Room</TableHead>
+                        <TableHead>Guest</TableHead>
+                        <TableHead>Child</TableHead>
+                        <TableHead>Child Age</TableHead>
+                        <TableHead>Child Cost</TableHead>
+                        <TableHead>Nights</TableHead>
+                        <TableHead>Extrabed</TableHead>
+                        <TableHead>Extrabed Cost</TableHead>
+                        <TableHead>Room Cost</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          Jasminum cottage couple non ac
+                        </TableCell>
+                        <TableCell>{searchdata?.Adults}</TableCell>
+                        <TableCell>
+                          <span>{searchdata?.Childrens}</span>
+                        </TableCell>
+                        <TableCell>
+                          <div>{searchdata?.Child1Age}</div>
+                          <div>{searchdata?.Child2Age}</div>
+                          <div>{searchdata?.Child3Age}</div>
+                        </TableCell>
+                        <TableCell className="text-right">0/-</TableCell>
+                        <TableCell className="font-medium">1</TableCell>
+                        <TableCell>0</TableCell>
+                        <TableCell>0/-</TableCell>
+                        <TableCell>3300/-</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+                <div>
+                  <h2 className="text-center font-bold">Summary</h2>
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead className="w-[100px]">Sub Total</TableHead>
+                        <TableHead>3500</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium">
+                          Grand Total
+                        </TableCell>
+                        <TableCell>3500</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+                <div className="flex">
+                  <Button className="ml-5">Reset</Button>
+                  <Button className="ml-5">Pay Now</Button>
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
-          <div className="flex">
-            <Button className="ml-5">Reset</Button>
-            <Button className="ml-5">Pay Now</Button>
-          </div>
         </div>
         <div className="lg:w-3/12 bg-gray-300 p-4">
           <Accordion type="multiple" collapsible="true">

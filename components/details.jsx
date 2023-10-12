@@ -92,13 +92,13 @@ export function Details(props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-wrap"
       >
-        <div className="w-1/3 p-2 mt-8">
+        <div className="md:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserName"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Guest / Business Name</FormLabel>
+                <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Guest / Business Name" {...field} />
                 </FormControl>
@@ -107,22 +107,7 @@ export function Details(props) {
             )}
           />
         </div>{" "}
-        <div className="w-1/3 p-2">
-          <FormField
-            control={form.control}
-            name="UserEmail"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="Enter Your Email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>{" "}
-        <div className="w-1/3 p-2">
+        <div className="md:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserPhone"
@@ -137,7 +122,22 @@ export function Details(props) {
             )}
           />
         </div>{" "}
-        <div className="w-1/3 p-2">
+        <div className="md:w-1/3 w-[100%] p-2 mt-3">
+          <FormField
+            control={form.control}
+            name="UserEmail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="Enter Your Email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="md:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserAddress"
@@ -152,7 +152,7 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="w-1/3 p-2">
+        <div className="w-1/3 p-2 mt-3">
           <FormField
             control={form.control}
             name="IsGST"
@@ -178,9 +178,9 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="flex w-full ">
+        <div className="flex w-full mt-3">
           {form.control._formValues.IsGST === "yes" && (
-            <div className="w-1/3 p-2">
+            <div className="w-1/3 p-2 mt-3">
               <FormField
                 control={form.control}
                 name="CompanyName"
@@ -214,7 +214,7 @@ export function Details(props) {
             </div>
           )}
           {form.control._formValues.IsGST === "yes" && (
-            <div className="w-1/3 p-2">
+            <div className="w-1/3 p-2 mt-3">
               <FormField
                 control={form.control}
                 name="CompanyAddress"
@@ -234,7 +234,7 @@ export function Details(props) {
             </div>
           )}
         </div>
-        <div className="w-full">
+        <div className="w-full mt-3">
           <FormField
             control={form.control}
             name="SpecialRequest"
