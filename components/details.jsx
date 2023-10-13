@@ -56,9 +56,8 @@ export function Details(props) {
       SpecialRequest: "",
     },
   });
- 
-  function onSubmit(values) {
 
+  function onSubmit(values) {
     console.log(values);
     props.setFinaldata(values);
     values.ClientID = "1";
@@ -75,8 +74,7 @@ export function Details(props) {
       if (tempSendData === "success") {
         alert("submited");
         setuseDetailsIsSuccess(true);
-      } 
-     else if (tempSendData === "alreadyExists") {
+      } else if (tempSendData === "alreadyExists") {
         alert("exist");
       } else {
         console.log("php error");
@@ -97,7 +95,7 @@ export function Details(props) {
             control={form.control}
             name="UserName"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-5">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Guest / Business Name" {...field} />
@@ -152,7 +150,7 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="w-1/3 p-2 mt-3">
+        <div className=" md:w-1/3 sm:w-full w-1/3  p-2 mt-3">
           <FormField
             control={form.control}
             name="IsGST"
@@ -178,9 +176,9 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="flex w-full mt-3">
+        <div className="flex flex-col lg:flex-row w-full mt-3">
           {form.control._formValues.IsGST === "yes" && (
-            <div className="w-1/3 p-2 mt-3">
+            <div className="md:w-1/3 sm:w-full p-2 mt-3">
               <FormField
                 control={form.control}
                 name="CompanyName"
@@ -197,7 +195,7 @@ export function Details(props) {
             </div>
           )}
           {form.control._formValues.IsGST === "yes" && (
-            <div className="w-1/3 p-2">
+            <div className="md:w-1/3 sm:w-full  p-2 mt-3">
               <FormField
                 control={form.control}
                 name="CompanyGST"
@@ -214,7 +212,7 @@ export function Details(props) {
             </div>
           )}
           {form.control._formValues.IsGST === "yes" && (
-            <div className="w-1/3 p-2 mt-3">
+            <div className="md:w-1/3 sm:w-full p-2 mt-3">
               <FormField
                 control={form.control}
                 name="CompanyAddress"

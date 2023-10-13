@@ -7,8 +7,12 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Slider from "@/components/slider";
 import { currency } from "@/lib/constant";
+import { useState } from "react";
 
-export function Availability({ room }) {
+
+
+export function Availability({setRoomId, room }) {
+
   return (
     <div>
       <div className="flex flex-col lg:flex-row">
@@ -33,23 +37,34 @@ export function Availability({ room }) {
       </div>
       <div className="flex">
         <div className="w-1/3 p-4">Room Only</div>
-        <div className="w-1/3 p-4"> {currency}3190/- Price</div>
         <div className="w-1/3 p-4">
-          <Button>Select</Button>
+          {" "}
+          {currency}
+          {room.PricePerNight}/- Price
+        </div>
+        <div className="w-1/3 p-4">
+          <Button onClick={() => setRoomId(room.RoomID)}>Select</Button>
         </div>
       </div>
       <div className="flex">
         <div className="w-1/3 p-4">Rooms with Breakfast</div>
-        <div className="w-1/3 p-4"> {currency}3520 /- Price</div>
         <div className="w-1/3 p-4">
-          <Button>Select</Button>
+          {" "}
+          {currency}
+          {room.RoomsWithBreakFast} /- Price
+        </div>
+        <div className="w-1/3 p-4">
+          <Button onClick={() => setRoomId(room.RoomID)}>Select</Button>
         </div>
       </div>
       <div className="flex">
         <div className="w-1/3 p-4">Rooms With All Meals</div>
-        <div className="w-1/3 p-4"> {currency}3190/- Price</div>
         <div className="w-1/3 p-4">
-          <Button>Select</Button>
+          {" "}
+          {currency} {room.RoomsWithAllMeals}/- Price
+        </div>
+        <div className="w-1/3 p-4">
+          <Button onClick={() => setRoomId(room.RoomID)}>Select</Button>
         </div>
       </div>
     </div>

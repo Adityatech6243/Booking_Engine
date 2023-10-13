@@ -62,6 +62,8 @@ export default function Home() {
   const [searchdata, setSearchData] = useState();
   const [childrensCount, setChildrensCount] = useState(0);
   const [finaldata, setFinalData] = useState({});
+  const [roomid, setRoomId] = useState();
+  const [stayNights, setStayNights] = useState();
 
   const handleSetFinalData = (value) => {
     const arr = { ...value };
@@ -81,6 +83,23 @@ export default function Home() {
       Child3Age: "",
     },
   });
+  useEffect(() => {
+   if (searchdata?.CheckIn && searchdata?.CheckOut) {
+     const startDate = new Date(searchdata.CheckIn);
+     const endDate = new Date(searchdata.CheckOut);
+
+     const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+     const diffDays = Math.round((endDate - startDate) / oneDay);
+setStayNights(diffDays);
+     console.log(
+       `The difference between check-in and check-out is ${diffDays} days.`
+     );
+
+     ///return diffDays;
+   }
+   //return null;
+ }, [searchdata]);
+
 
   useEffect(() => {
     if (childrensCount == 0) {
@@ -99,7 +118,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.22/index.php?ClientID=1")
+      fetch("//192.168.1.33/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -125,7 +144,7 @@ export default function Home() {
               },
               {
                 RoomID: "2",
-                RoomName: "Blue Bell cottage couple AC",
+                RoomName: "Blue Bell cottage Family AC",
                 Description:
                   "An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32\u201dLED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.",
                 PricePerNight: "3520",
@@ -144,6 +163,7 @@ export default function Home() {
   function onSubmit(values) {
     console.log(values);
     setSearchData(values);
+
   }
 
   useEffect(() => console.log(searchdata), [searchdata]);
@@ -201,6 +221,7 @@ export default function Home() {
                           )}
                         />
                       </div>
+
                       <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
@@ -322,7 +343,6 @@ export default function Home() {
                           </div>
                         ))}
                     </div>
-
                     <Button type="submit">Search</Button>
                   </form>
                 </Form>
@@ -333,7 +353,7 @@ export default function Home() {
               <AccordionContent>
                 {data &&
                   data?.rooms?.map((iteam, i) => (
-                    <Availability room={iteam} key={i} />
+                    <Availability setRoomId={setRoomId} room={iteam} key={i} />
                   ))}
               </AccordionContent>
             </AccordionItem>
@@ -407,7 +427,12 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium">
-                          Jasminum cottage couple non ac
+                          {data?.rooms?.map(
+                            (item, index) =>
+                              item.RoomID === roomid && (
+                                <span key={index}>{item.RoomName}</span>
+                              )
+                          )}
                         </TableCell>
                         <TableCell>{searchdata?.Adults}</TableCell>
                         <TableCell>
@@ -418,11 +443,21 @@ export default function Home() {
                           <div>{searchdata?.Child2Age}</div>
                           <div>{searchdata?.Child3Age}</div>
                         </TableCell>
-                        <TableCell className="text-right">0/-</TableCell>
-                        <TableCell className="font-medium">1</TableCell>
+                        <TableCell className="text-right">1000</TableCell>
+                        <TableCell className="font-medium">
+                          
+                          {stayNights}
+                        </TableCell>
                         <TableCell>0</TableCell>
                         <TableCell>0/-</TableCell>
-                        <TableCell>3300/-</TableCell>
+                        <TableCell>
+                          {data?.rooms?.map(
+                            (item, index) =>
+                              item.RoomID === roomid && (
+                                <span key={index}>{item.PricePerNight}</span>
+                              )
+                          )}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
