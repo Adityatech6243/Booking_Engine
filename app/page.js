@@ -118,7 +118,7 @@ setStayNights(diffDays);
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.33/index.php?ClientID=1")
+      fetch("//192.168.1.32/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -127,8 +127,8 @@ setStayNights(diffDays);
               ClientID: "1",
               ClientBusinessName: "River Orchid Resort",
               ClientName: "Sitaram Karande",
-              ClientEmail: "lk",
-              ClientPhone: "hh",
+              ClientEmail: "riverorchid1313@gmail.com",
+              ClientPhone: "+91-9405751313 / +91-9158785725 / +91-9403268501",
               ClientAddress: "Tapola",
             },
             rooms: [
@@ -141,18 +141,33 @@ setStayNights(diffDays);
                 RoomsClientID: "1",
                 RoomPhotos:
                   "http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg",
+                RoomsWithBreakFast: "3520",
+                RoomsWithAllMeals: "4950",
               },
               {
                 RoomID: "2",
-                RoomName: "Blue Bell cottage Family AC",
+                RoomName: "Blue Bell cottage couple AC",
                 Description:
                   "An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32\u201dLED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.",
                 PricePerNight: "3520",
                 RoomsClientID: "1",
                 RoomPhotos:
                   "http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg",
+                RoomsWithBreakFast: "4400",
+                RoomsWithAllMeals: "5500",
               },
             ],
+            policies: {
+              CheckIn: "12:00 PM",
+              CheckOut: "12:00 AM",
+              LateCheckOut: "Subject To Availability",
+              CancellationPolicies: [
+                " If cancelled before 15 days of Check In date refundable amount would Be 100% of total billing.",
+                "If cancelled before 7 days of Check In date refundable amount would Be 50% of total billing.",
+                "If cancelled before 6 days of Check In date booking will Be Non Refundable.",
+              ],
+              PolicyID: "1",
+            },
           });
           return "error";
         });

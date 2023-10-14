@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 09, 2023 at 01:51 PM
+-- Generation Time: Oct 13, 2023 at 01:55 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -57,7 +57,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`ClientID`, `ClientBusinessName`, `ClientName`, `ClientEmail`, `ClientPhone`, `ClientAddress`) VALUES
-(1, 'River Orchid Resort', 'Sitaram Karande', 'lk', 'hh', 'Tapola');
+(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9158785725 / +91-9403268501', 'Tapola');
 
 -- --------------------------------------------------------
 
@@ -77,6 +77,28 @@ CREATE TABLE `payments` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `policies`
+--
+
+CREATE TABLE `policies` (
+  `ClientID` text NOT NULL,
+  `CheckIn` text NOT NULL,
+  `CheckOut` text NOT NULL,
+  `LateCheckOut` text NOT NULL,
+  `CancellationPolicies` longtext NOT NULL,
+  `PolicyID` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `policies`
+--
+
+INSERT INTO `policies` (`ClientID`, `CheckIn`, `CheckOut`, `LateCheckOut`, `CancellationPolicies`, `PolicyID`) VALUES
+('1', '12:00 PM', '12:00 AM', 'Subject To Availability', '[\" If cancelled before 15 days of Check In date refundable amount would Be 100% of total billing.\", \"If cancelled before 7 days of Check In date refundable amount would Be 50% of total billing.\", \"If cancelled before 6 days of Check In date booking will Be Non Refundable.\"]', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rooms`
 --
 
@@ -86,16 +108,18 @@ CREATE TABLE `rooms` (
   `Description` text NOT NULL,
   `PricePerNight` int(11) NOT NULL,
   `RoomsClientID` int(11) NOT NULL,
-  `RoomPhotos` longtext NOT NULL
+  `RoomPhotos` longtext NOT NULL,
+  `RoomsWithBreakFast` text NOT NULL,
+  `RoomsWithAllMeals` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`RoomID`, `RoomName`, `Description`, `PricePerNight`, `RoomsClientID`, `RoomPhotos`) VALUES
-(1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 3190, 1, 'http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg'),
-(2, 'Blue Bell cottage couple AC', 'An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 3520, 1, 'http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg');
+INSERT INTO `rooms` (`RoomID`, `RoomName`, `Description`, `PricePerNight`, `RoomsClientID`, `RoomPhotos`, `RoomsWithBreakFast`, `RoomsWithAllMeals`) VALUES
+(1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 3190, 1, 'http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '3520', '4950'),
+(2, 'Blue Bell cottage couple AC', 'An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 3520, 1, 'http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg', '4400', '5500');
 
 -- --------------------------------------------------------
 
@@ -122,7 +146,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`UserID`, `UsersClientID`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`) VALUES
-(1, 1, '', '', '', '', '', '', '', '', '');
+(1, 1, '', '', '', '', '', '', '', '', ''),
+(4, 1, 'prathamesh', '997056524', 'awd@ad.com', 'awdawdawdawd', 'no', '', '', '', 'wsdsds'),
+(5, 1, 'prathamesh', '997056524', 'awd@ad.com', 'awdawdawdawd', 'no', '', '', '', 'wsdsds'),
+(6, 1, 'prathamesh', '', 'awd@ad.com', 'awdawdawdawd', 'yes', 'fgfdfgd', 'aadfsdgs', 'dfdgds', 'zdfdg');
 
 --
 -- Indexes for dumped tables
@@ -148,6 +175,12 @@ ALTER TABLE `clients`
 ALTER TABLE `payments`
   ADD PRIMARY KEY (`PaymentID`),
   ADD KEY `FK_BookingID` (`PaymentBookingID`);
+
+--
+-- Indexes for table `policies`
+--
+ALTER TABLE `policies`
+  ADD PRIMARY KEY (`PolicyID`);
 
 --
 -- Indexes for table `rooms`
@@ -186,6 +219,12 @@ ALTER TABLE `payments`
   MODIFY `PaymentID` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `policies`
+--
+ALTER TABLE `policies`
+  MODIFY `PolicyID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -195,7 +234,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `UserID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables
