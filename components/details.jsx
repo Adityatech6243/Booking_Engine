@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-
+import React from "react";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -41,6 +41,11 @@ const formSchema = z.object({
 
 export function Details(props) {
   const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
+  const [priviosdata, setpriviosdata] = useState(false);
+ 
+React.useEffect(() => {
+  setpriviosdata(props?.finaldata);
+}, [props.finaldata]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -64,7 +69,7 @@ export function Details(props) {
     async function sendData() {
       let tempSendData = await fetch("//192.168.1.22/index.php", {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...priviosdata, ...values }),
       })
         .then((response) => response.text())
         .then((json) => json)
@@ -98,7 +103,11 @@ export function Details(props) {
               <FormItem className="mt-5">
                 <FormLabel>Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Guest / Business Name" {...field} />
+                  <Input
+                    placeholder="Enter Guest / Business Name"
+                    {...field}
+                    required
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -113,7 +122,11 @@ export function Details(props) {
               <FormItem>
                 <FormLabel>Contact Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your Contact Number" {...field} />
+                  <Input
+                    placeholder="Enter Your Contact Number"
+                    {...field}
+                    required
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -128,7 +141,7 @@ export function Details(props) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your Email" {...field} />
+                  <Input placeholder="Enter Your Email" {...field} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -143,7 +156,7 @@ export function Details(props) {
               <FormItem>
                 <FormLabel>Address</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your Address" {...field} />
+                  <Input placeholder="Enter Your Address" {...field} required />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -186,7 +199,11 @@ export function Details(props) {
                   <FormItem>
                     <FormLabel>Company Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your Company Name" {...field} />
+                      <Input
+                        placeholder="Enter Your Company Name"
+                        {...field}
+                        required
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -203,7 +220,11 @@ export function Details(props) {
                   <FormItem>
                     <FormLabel>Company GST</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter Your Company GST" {...field} />
+                      <Input
+                        placeholder="Enter Your Company GST"
+                        {...field}
+                        required
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -223,6 +244,7 @@ export function Details(props) {
                       <Input
                         placeholder=" Enter Your Company Address"
                         {...field}
+                        required
                       />
                     </FormControl>
                     <FormMessage />
@@ -240,7 +262,10 @@ export function Details(props) {
               <FormItem>
                 <FormLabel>Special Request</FormLabel>
                 <FormControl>
-                  <Textarea {...field} />
+                  <Textarea
+                    {...field}
+                    placeholder="Let Us Know Your Special Request If Any."
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

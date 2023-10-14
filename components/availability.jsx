@@ -11,26 +11,38 @@ import { useState } from "react";
 
 
 
-export function Availability({setRoomId, room }) {
+export function Availability(props) {
+  const [roomdata, setroomdata] = useState();
+  const [RoomIdType, setRoomIdType] = useState({});
+// const setID=()=>{
+//   var arr={"RoomID":roomdata.RoomID}
+// props.setFinaldata(arr);
+// }  
+
+React.useEffect(() => props.setFinaldata(RoomIdType), [RoomIdType]);
+
+React.useEffect(()=>{
+setroomdata(props?.room);
+},[props])
 
   return (
     <div>
       <div className="flex flex-col lg:flex-row">
         <div className="lg:w-1/3 p-4">
-          <Slider images={room.RoomPhotos.split(",")} />
+          <Slider images={roomdata?.RoomPhotos.split(",")} />
         </div>
         <div className="lg:w-1/3 p-4">
           <p className="mb-1">
             <b>
-              {room.RoomName}
+              {roomdata?.RoomName}
               <sup> (Only 1 Room(s) left)</sup>
             </b>
           </p>
-          <p className="mb-4">{room.Description}</p>
+          <p className="mb-4">{roomdata?.Description}</p>
         </div>
         <div className="lg:w-1/3 p-4">
           {currency}
-          {room.PricePerNight}/-
+          {roomdata?.PricePerNight}/-
           <br />
           <span>Avg. Per Room/Night</span>
         </div>
@@ -40,10 +52,10 @@ export function Availability({setRoomId, room }) {
         <div className="w-1/3 p-4">
           {" "}
           {currency}
-          {room.PricePerNight}/- Price
+          {roomdata?.PricePerNight}/- Price
         </div>
         <div className="w-1/3 p-4">
-          <Button onClick={() => setRoomId(room.RoomID)}>Select</Button>
+          <Button onClick={()=>setRoomIdType({RoomID: roomdata?.RoomID, RoomType: "Room Only"})}>Select</Button>
         </div>
       </div>
       <div className="flex">
@@ -51,20 +63,20 @@ export function Availability({setRoomId, room }) {
         <div className="w-1/3 p-4">
           {" "}
           {currency}
-          {room.RoomsWithBreakFast} /- Price
+          {roomdata?.RoomsWithBreakFast} /- Price
         </div>
         <div className="w-1/3 p-4">
-          <Button onClick={() => setRoomId(room.RoomID)}>Select</Button>
+          <Button onClick={()=>setRoomIdType({RoomID: roomdata?.RoomID, RoomType: "With Breakfast"})}>Select</Button>
         </div>
       </div>
       <div className="flex">
         <div className="w-1/3 p-4">Rooms With All Meals</div>
         <div className="w-1/3 p-4">
           {" "}
-          {currency} {room.RoomsWithAllMeals}/- Price
+          {currency} {roomdata?.RoomsWithAllMeals}/- Price
         </div>
         <div className="w-1/3 p-4">
-          <Button onClick={() => setRoomId(room.RoomID)}>Select</Button>
+          <Button onClick={()=>setRoomIdType({RoomID: roomdata?.RoomID, RoomType: "All Inclusive"})}>Select</Button>
         </div>
       </div>
     </div>

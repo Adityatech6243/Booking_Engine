@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import { currency } from "@/lib/constant";
 import {
   Accordion,
   AccordionContent,
@@ -65,9 +66,9 @@ export default function Home() {
   const [roomid, setRoomId] = useState();
   const [stayNights, setStayNights] = useState();
 
-  const handleSetFinalData = (value) => {
-    const arr = { ...value };
-    setFinalData(value);
+  const handleSetFinalData = (x) => {
+    const arr = { ...finaldata, ...x };
+    setFinalData(arr);
   };
 
   const form = useForm({
@@ -84,22 +85,24 @@ export default function Home() {
     },
   });
   useEffect(() => {
-   if (searchdata?.CheckIn && searchdata?.CheckOut) {
-     const startDate = new Date(searchdata.CheckIn);
-     const endDate = new Date(searchdata.CheckOut);
+    if (searchdata?.CheckIn && searchdata?.CheckOut) {
+      const startDate = new Date(searchdata.CheckIn);
+      const endDate = new Date(searchdata.CheckOut);
 
-     const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
-     const diffDays = Math.round((endDate - startDate) / oneDay);
-setStayNights(diffDays);
-     console.log(
-       `The difference between check-in and check-out is ${diffDays} days.`
-     );
+      const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
+      const diffDays = Math.round((endDate - startDate) / oneDay);
+      setStayNights(diffDays);
+      console.log(
+        `The difference between check-in and check-out is ${diffDays} days.`
+      );
 
-     ///return diffDays;
-   }
-   //return null;
- }, [searchdata]);
+      ///return diffDays;
+    }
+    handleSetFinalData(searchdata);
 
+    console.log(searchdata);
+    //return null;
+  }, [searchdata]);
 
   useEffect(() => {
     if (childrensCount == 0) {
@@ -176,12 +179,12 @@ setStayNights(diffDays);
   }, []);
 
   function onSubmit(values) {
-    console.log(values);
     setSearchData(values);
-
   }
 
-  useEffect(() => console.log(searchdata), [searchdata]);
+  useEffect(() => {
+    console.log(finaldata);
+  }, [finaldata]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
@@ -368,14 +371,21 @@ setStayNights(diffDays);
               <AccordionContent>
                 {data &&
                   data?.rooms?.map((iteam, i) => (
-                    <Availability setRoomId={setRoomId} room={iteam} key={i} />
+                    <Availability
+                      room={iteam}
+                      key={i}
+                      setFinaldata={handleSetFinalData}
+                    />
                   ))}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4">
               <AccordionTrigger>Your Details</AccordionTrigger>
               <AccordionContent>
-                <Details setFinaldata={handleSetFinalData} />
+                <Details
+                  setFinaldata={handleSetFinalData}
+                  finaldata={finaldata}
+                />
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-5">
@@ -384,15 +394,17 @@ setStayNights(diffDays);
                 <div>
                   <h2 className="text-center font-bold">Your Details</h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row">
-                    <li className="p-5 lg:w-1/2">Name: {finaldata.UserName}</li>
-                    <li className="p-5 lg: w-1/2">
-                      Mobile: {finaldata.UserPhone}
+                    <li className="p-5 lg:w-1/2">
+                      Name: {finaldata?.UserName}
                     </li>
                     <li className="p-5 lg: w-1/2">
-                      Email: {finaldata.UserEmail}
+                      Mobile: {finaldata?.UserPhone}
                     </li>
                     <li className="p-5 lg: w-1/2">
-                      Address: {finaldata.UserAddress}
+                      Email: {finaldata?.UserEmail}
+                    </li>
+                    <li className="p-5 lg: w-1/2">
+                      Address: {finaldata?.UserAddress}
                     </li>
                     <li className="p-5 lg: w-1/2">
                       Special Request: {finaldata?.SpecialRequest}
@@ -458,9 +470,10 @@ setStayNights(diffDays);
                           <div>{searchdata?.Child2Age}</div>
                           <div>{searchdata?.Child3Age}</div>
                         </TableCell>
-                        <TableCell className="text-right">1000</TableCell>
+                        <TableCell className="text-right">
+                          {currency}1000/-
+                        </TableCell>
                         <TableCell className="font-medium">
-                          
                           {stayNights}
                         </TableCell>
                         <TableCell>0</TableCell>
@@ -483,7 +496,7 @@ setStayNights(diffDays);
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px]">Sub Total</TableHead>
-                        <TableHead>3500</TableHead>
+                        <TableHead>{currency}3500/-</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -491,7 +504,7 @@ setStayNights(diffDays);
                         <TableCell className="font-medium">
                           Grand Total
                         </TableCell>
-                        <TableCell>3500</TableCell>
+                        <TableCell>{currency}3500/-</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
