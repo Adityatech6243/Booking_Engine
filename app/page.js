@@ -121,7 +121,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.32/index.php?ClientID=1")
+      fetch("//192.168.1.13/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -186,12 +186,18 @@ export default function Home() {
     console.log(finaldata);
   }, [finaldata]);
 
+  const [activeItem, setActiveItem] = useState("item-1");
+
+  const handleSearch = (value) => {
+    setActiveItem(value);
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
       <div className="flex flex-col lg:flex-row w-full">
         <div className="lg:w-9/12 bg-gray-200 p-4">
           {" "}
-          <Accordion type="single" collapsible="true" defaultValue="item-1">
+          <Accordion type="single" collapsible="true" value={activeItem}>
             <AccordionItem value="item-1">
               <AccordionTrigger>Search For Availability</AccordionTrigger>
               <AccordionContent>
@@ -213,6 +219,7 @@ export default function Home() {
                                   name="CheckIn"
                                   form={form}
                                   fields={field}
+                                  placeholder="Select Check In Date" // Pass placeholder prop
                                 />
                               </FormControl>
                               <FormMessage />
@@ -232,6 +239,12 @@ export default function Home() {
                                   name="CheckOut"
                                   form={form}
                                   fields={field}
+                                  placeholder="Select Check Out Date" // Pass placeholder prop
+                                  minDate={
+                                    field.value
+                                      ? new Date(field.value) + 1
+                                      : new Date()
+                                  } // Set minDate based on the Check In date
                                 />
                               </FormControl>
                               <FormMessage />
@@ -361,7 +374,12 @@ export default function Home() {
                           </div>
                         ))}
                     </div>
-                    <Button type="submit">Search</Button>
+                    <Button
+                      type="submit"
+                      onClick={() => handleSearch("item-2")}
+                    >
+                      Search
+                    </Button>
                   </form>
                 </Form>
               </AccordionContent>
@@ -375,6 +393,7 @@ export default function Home() {
                       room={iteam}
                       key={i}
                       setFinaldata={handleSetFinalData}
+                      handleSearch={() => handleSearch("item-4")}
                     />
                   ))}
               </AccordionContent>
@@ -385,6 +404,7 @@ export default function Home() {
                 <Details
                   setFinaldata={handleSetFinalData}
                   finaldata={finaldata}
+                  handleSearch={() => handleSearch("item-5")}
                 />
               </AccordionContent>
             </AccordionItem>

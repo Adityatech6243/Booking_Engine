@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { FormField } from "./ui/form";
 
-export function DatePickerDemo({ name, form, fields }) {
+export function DatePickerDemo({ name, form, fields, placeholder}) {
   const [date, setDate] = React.useState();
 
   return (
@@ -22,7 +22,7 @@ export function DatePickerDemo({ name, form, fields }) {
       name={name}
       render={({ field }) => (
         <Popover>
-          <PopoverTrigger asChild >
+          <PopoverTrigger asChild>
             <Button
               variant={"outline"}
               className={cn(
@@ -34,7 +34,7 @@ export function DatePickerDemo({ name, form, fields }) {
               {field.value ? (
                 format(field.value, "PPP")
               ) : (
-                <span>Pick a date</span>
+                <span>{placeholder}</span>
               )}
             </Button>
           </PopoverTrigger>
@@ -43,6 +43,10 @@ export function DatePickerDemo({ name, form, fields }) {
               mode="single"
               selected={field.value}
               onSelect={field.onChange}
+              disabled={(date) =>
+                date < new Date() 
+              }
+              minDate={new Date()} // Set the minimum date to the current date
               initialFocus
             />
           </PopoverContent>

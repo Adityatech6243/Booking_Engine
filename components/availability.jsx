@@ -9,21 +9,19 @@ import Slider from "@/components/slider";
 import { currency } from "@/lib/constant";
 import { useState } from "react";
 
-
-
 export function Availability(props) {
   const [roomdata, setroomdata] = useState();
   const [RoomIdType, setRoomIdType] = useState({});
-// const setID=()=>{
-//   var arr={"RoomID":roomdata.RoomID}
-// props.setFinaldata(arr);
-// }  
+  // const setID=()=>{
+  //   var arr={"RoomID":roomdata.RoomID}
+  // props.setFinaldata(arr);
+  // }
 
-React.useEffect(() => props.setFinaldata(RoomIdType), [RoomIdType]);
+  React.useEffect(() => props.setFinaldata(RoomIdType), [RoomIdType]);
 
-React.useEffect(()=>{
-setroomdata(props?.room);
-},[props])
+  React.useEffect(() => {
+    setroomdata(props?.room);
+  }, [props]);
 
   return (
     <div>
@@ -55,7 +53,17 @@ setroomdata(props?.room);
           {roomdata?.PricePerNight}/- Price
         </div>
         <div className="w-1/3 p-4">
-          <Button onClick={()=>setRoomIdType({RoomID: roomdata?.RoomID, RoomType: "Room Only"})}>Select</Button>
+          <Button
+            onClick={() => {
+              setRoomIdType({
+                RoomID: roomdata?.RoomID,
+                RoomType: "Room Only",
+              });
+              props.handleSearch();
+            }}
+          >
+            Select
+          </Button>
         </div>
       </div>
       <div className="flex">
@@ -66,7 +74,17 @@ setroomdata(props?.room);
           {roomdata?.RoomsWithBreakFast} /- Price
         </div>
         <div className="w-1/3 p-4">
-          <Button onClick={()=>setRoomIdType({RoomID: roomdata?.RoomID, RoomType: "With Breakfast"})}>Select</Button>
+          <Button
+            onClick={() => {
+              setRoomIdType({
+                RoomID: roomdata?.RoomID,
+                RoomType: "With Breakfast",
+              });
+              props.handleSearch();
+            }}
+          >
+            Select
+          </Button>
         </div>
       </div>
       <div className="flex">
@@ -76,7 +94,17 @@ setroomdata(props?.room);
           {currency} {roomdata?.RoomsWithAllMeals}/- Price
         </div>
         <div className="w-1/3 p-4">
-          <Button onClick={()=>setRoomIdType({RoomID: roomdata?.RoomID, RoomType: "All Inclusive"})}>Select</Button>
+          <Button
+            onClick={() => {
+              setRoomIdType({
+                RoomID: roomdata?.RoomID,
+                RoomType: "All Inclusive",
+              });
+              props.handleSearch();
+            }}
+          >
+            Select
+          </Button>
         </div>
       </div>
     </div>

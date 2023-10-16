@@ -42,10 +42,10 @@ const formSchema = z.object({
 export function Details(props) {
   const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
   const [priviosdata, setpriviosdata] = useState(false);
- 
-React.useEffect(() => {
-  setpriviosdata(props?.finaldata);
-}, [props.finaldata]);
+
+  React.useEffect(() => {
+    setpriviosdata(props?.finaldata);
+  }, [props.finaldata]);
 
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -272,7 +272,9 @@ React.useEffect(() => {
             )}
           />
         </div>
-        <Button type="submit">Confirm</Button>
+        <Button type="submit" onClick={props.handleSearch}>
+          Confirm
+        </Button>
       </form>
     </Form>
   );
