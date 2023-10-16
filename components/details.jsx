@@ -67,7 +67,7 @@ export function Details(props) {
     props.setFinaldata(values);
     values.ClientID = "1";
     async function sendData() {
-      let tempSendData = await fetch("//192.168.1.22/index.php", {
+      let tempSendData = await fetch("//192.168.1.13/index.php", {
         method: "POST",
         body: JSON.stringify({ ...priviosdata, ...values }),
       })

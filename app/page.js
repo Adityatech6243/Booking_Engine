@@ -63,7 +63,6 @@ export default function Home() {
   const [searchdata, setSearchData] = useState();
   const [childrensCount, setChildrensCount] = useState(0);
   const [finaldata, setFinalData] = useState({});
-  const [roomid, setRoomId] = useState();
   const [stayNights, setStayNights] = useState();
 
   const handleSetFinalData = (x) => {
@@ -388,9 +387,9 @@ export default function Home() {
               <AccordionTrigger>Available Rooms</AccordionTrigger>
               <AccordionContent>
                 {data &&
-                  data?.rooms?.map((iteam, i) => (
+                  data?.rooms?.map((item, i) => (
                     <Availability
-                      room={iteam}
+                      room={item}
                       key={i}
                       setFinaldata={handleSetFinalData}
                       handleSearch={() => handleSearch("item-4")}
@@ -436,7 +435,7 @@ export default function Home() {
                   <ul className="flex flex-wrap flex-col lg:flex-row">
                     <li className="p-5 lg:w-1/2">
                       Check In Date:{" "}
-                      {searchdata?.CheckIn.toLocaleDateString("en-US", {
+                      {finaldata?.CheckIn?.toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
@@ -444,14 +443,14 @@ export default function Home() {
                     </li>
                     <li className="p-5 lg: w-1/2">
                       Check Out Date:{" "}
-                      {searchdata?.CheckOut.toLocaleDateString("en-US", {
+                      {finaldata?.CheckOut?.toLocaleDateString("en-US", {
                         year: "numeric",
                         month: "long",
                         day: "numeric",
                       })}
                     </li>
                     <li className="p-5 lg: w-1/2">
-                      No. Rooms: {searchdata?.Rooms}
+                      No. Rooms: {finaldata?.Rooms}
                     </li>
                     <li className="p-5 lg: w-1/2">MealPlan: Room Only(EP)</li>
                   </ul>
@@ -476,19 +475,19 @@ export default function Home() {
                         <TableCell className="font-medium">
                           {data?.rooms?.map(
                             (item, index) =>
-                              item.RoomID === roomid && (
+                              item.RoomID === finaldata.RoomID && (
                                 <span key={index}>{item.RoomName}</span>
                               )
                           )}
                         </TableCell>
-                        <TableCell>{searchdata?.Adults}</TableCell>
+                        <TableCell>{finaldata?.Adults}</TableCell>
                         <TableCell>
-                          <span>{searchdata?.Childrens}</span>
+                          <span>{finaldata?.Childrens}</span>
                         </TableCell>
                         <TableCell>
-                          <div>{searchdata?.Child1Age}</div>
-                          <div>{searchdata?.Child2Age}</div>
-                          <div>{searchdata?.Child3Age}</div>
+                          <div>{finaldata?.Child1Age}</div>
+                          <div>{finaldata?.Child2Age}</div>
+                          <div>{finaldata?.Child3Age}</div>
                         </TableCell>
                         <TableCell className="text-right">
                           {currency}1000/-
@@ -501,7 +500,7 @@ export default function Home() {
                         <TableCell>
                           {data?.rooms?.map(
                             (item, index) =>
-                              item.RoomID === roomid && (
+                              item.RoomID === finaldata.RoomID && (
                                 <span key={index}>{item.PricePerNight}</span>
                               )
                           )}
