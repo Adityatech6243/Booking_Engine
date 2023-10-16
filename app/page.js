@@ -190,6 +190,49 @@ export default function Home() {
   const handleSearch = (value) => {
     setActiveItem(value);
   };
+ let withbreakfastExtrabed;
+
+ switch (true) {
+   case finaldata?.Adults > 6:
+     withbreakfastExtrabed = 5;
+     break;
+   case finaldata?.Adults > 5:
+     withbreakfastExtrabed = 4;
+     break;
+   case finaldata?.Adults > 4:
+     withbreakfastExtrabed = 3;
+     break;
+   case finaldata?.Adults > 3:
+     withbreakfastExtrabed = 2;
+     break;
+   case finaldata?.Adults > 2:
+     withbreakfastExtrabed = 1;
+     break;
+   default:
+     withbreakfastExtrabed = null;
+ }
+  let withbreakfastExtrabedCharg;
+
+  switch (true) {
+    case finaldata?.Adults > 6:
+      withbreakfastExtrabedCharg = 9000;
+      break;
+    case finaldata?.Adults > 5:
+      withbreakfastExtrabedCharg = 7200;
+      break;
+    case finaldata?.Adults > 4:
+      withbreakfastExtrabedCharg = 5400;
+      break;
+    case finaldata?.Adults > 3:
+      withbreakfastExtrabedCharg = 3600;
+      break;
+    case finaldata?.Adults > 2:
+      withbreakfastExtrabedCharg = 1800;
+      break;
+    default:
+      withbreakfastExtrabedCharg = null;
+  }
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
@@ -485,9 +528,9 @@ export default function Home() {
                           <span>{finaldata?.Childrens}</span>
                         </TableCell>
                         <TableCell>
-                          <div>{finaldata?.Child1Age}</div>
-                          <div>{finaldata?.Child2Age}</div>
-                          <div>{finaldata?.Child3Age}</div>
+                          <span>{finaldata?.Child1Age}</span>,
+                          <span>{finaldata?.Child2Age}</span>,
+                          <span>{finaldata?.Child3Age}</span>
                         </TableCell>
                         <TableCell className="text-right">
                           {currency}1000/-
@@ -495,8 +538,11 @@ export default function Home() {
                         <TableCell className="font-medium">
                           {stayNights}
                         </TableCell>
-                        <TableCell>0</TableCell>
-                        <TableCell>0/-</TableCell>
+                        <TableCell> {withbreakfastExtrabed}</TableCell>
+                        <TableCell>
+                          {currency}
+                          {withbreakfastExtrabedCharg}/-
+                        </TableCell>
                         <TableCell>
                           {data?.rooms?.map(
                             (item, index) =>
