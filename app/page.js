@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { currency } from "@/lib/constant";
 import {
@@ -14,7 +13,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { DatePickerDemo } from "@/components/datepicker";
 import {
   Select,
   SelectContent,
@@ -25,15 +23,17 @@ import {
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { Calendar as CalendarIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { format } from "date-fns";
+
 import { Availability } from "@/components/availability";
 import { Details } from "@/components/details";
-import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -41,7 +41,6 @@ import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -64,6 +63,9 @@ export default function Home() {
   const [childrensCount, setChildrensCount] = useState(0);
   const [finaldata, setFinalData] = useState({});
   const [stayNights, setStayNights] = useState();
+  const [result, setResult] = useState(0);
+  const [withbreakfastExtrabed, setWithBreakFastExtraBed] = useState(0);
+  const [withbreakfastExtrabedCharg, setWithBreakFastExtraBedCharg] = useState(0);
 
   const handleSetFinalData = (x) => {
     const arr = { ...finaldata, ...x };
@@ -96,11 +98,31 @@ export default function Home() {
       );
 
       ///return diffDays;
-    }
-    handleSetFinalData(searchdata);
+      handleSetFinalData(searchdata);
 
-    console.log(searchdata);
-    //return null;
+      searchdata.ClientID = "1";
+      searchdata.searchAvailability = "true";
+      async function sendData() {
+        let tempSendData = await fetch("//192.168.1.13/index.php", {
+          method: "POST",
+          body: JSON.stringify(searchdata),
+        })
+          .then((response) => response.text())
+          .then((json) => json)
+          .catch((error) => {
+            return "error";
+          });
+        if (tempSendData === "success") {
+          alert("submited");
+        } else if (tempSendData === "alreadyExists") {
+          alert("exist");
+        } else {
+          console.log("php error");
+        }
+      }
+
+      sendData();
+    }
   }, [searchdata]);
 
   useEffect(() => {
@@ -183,6 +205,54 @@ export default function Home() {
 
   useEffect(() => {
     console.log(finaldata);
+
+    let withbreakfastExtrabed;
+
+    switch (true) {
+      case finaldata?.Adults > 6:
+        withbreakfastExtrabed = 5;
+        break;
+      case finaldata?.Adults > 5:
+        withbreakfastExtrabed = 4;
+        break;
+      case finaldata?.Adults > 4:
+        withbreakfastExtrabed = 3;
+        break;
+      case finaldata?.Adults > 3:
+        withbreakfastExtrabed = 2;
+        break;
+      case finaldata?.Adults > 2:
+        withbreakfastExtrabed = 1;
+        break;
+      default:
+        withbreakfastExtrabed = 0;
+    }
+    setWithBreakFastExtraBed(withbreakfastExtrabed);
+
+    let withbreakfastExtrabedCharg;
+
+    switch (true) {
+      case finaldata?.Adults > 6:
+        withbreakfastExtrabedCharg = 9000;
+        break;
+      case finaldata?.Adults > 5:
+        withbreakfastExtrabedCharg = 7200;
+        break;
+      case finaldata?.Adults > 4:
+        withbreakfastExtrabedCharg = 5400;
+        break;
+      case finaldata?.Adults > 3:
+        withbreakfastExtrabedCharg = 3600;
+        break;
+      case finaldata?.Adults > 2:
+        withbreakfastExtrabedCharg = 1800;
+        break;
+      default:
+        withbreakfastExtrabedCharg = 0;
+    }
+        setWithBreakFastExtraBedCharg(withbreakfastExtrabedCharg);
+
+    setResult(withbreakfastExtrabedCharg + Number(finaldata?.price));
   }, [finaldata]);
 
   const [activeItem, setActiveItem] = useState("item-1");
@@ -190,49 +260,6 @@ export default function Home() {
   const handleSearch = (value) => {
     setActiveItem(value);
   };
- let withbreakfastExtrabed;
-
- switch (true) {
-   case finaldata?.Adults > 6:
-     withbreakfastExtrabed = 5;
-     break;
-   case finaldata?.Adults > 5:
-     withbreakfastExtrabed = 4;
-     break;
-   case finaldata?.Adults > 4:
-     withbreakfastExtrabed = 3;
-     break;
-   case finaldata?.Adults > 3:
-     withbreakfastExtrabed = 2;
-     break;
-   case finaldata?.Adults > 2:
-     withbreakfastExtrabed = 1;
-     break;
-   default:
-     withbreakfastExtrabed = null;
- }
-  let withbreakfastExtrabedCharg;
-
-  switch (true) {
-    case finaldata?.Adults > 6:
-      withbreakfastExtrabedCharg = 9000;
-      break;
-    case finaldata?.Adults > 5:
-      withbreakfastExtrabedCharg = 7200;
-      break;
-    case finaldata?.Adults > 4:
-      withbreakfastExtrabedCharg = 5400;
-      break;
-    case finaldata?.Adults > 3:
-      withbreakfastExtrabedCharg = 3600;
-      break;
-    case finaldata?.Adults > 2:
-      withbreakfastExtrabedCharg = 1800;
-      break;
-    default:
-      withbreakfastExtrabedCharg = null;
-  }
-
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
@@ -254,17 +281,39 @@ export default function Home() {
                           control={form.control}
                           name="CheckIn"
                           render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Check In*</FormLabel>
-                              <FormControl>
-                                <DatePickerDemo
-                                  name="CheckIn"
-                                  form={form}
-                                  fields={field}
-                                  placeholder="Select Check In Date" // Pass placeholder prop
-                                />
-                              </FormControl>
-                              <FormMessage />
+                            <FormItem className="flex flex-col">
+                              <FormLabel>
+                                Check In Date
+                                <sup className="text-red-500">*</sup>
+                              </FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-[280px] justify-start text-left font-normal",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>Select Check In Date</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date()}
+                                    minDate={new Date()} // Set the minimum date to the current date
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
                             </FormItem>
                           )}
                         />
@@ -274,22 +323,39 @@ export default function Home() {
                           control={form.control}
                           name="CheckOut"
                           render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Check Out*</FormLabel>
-                              <FormControl>
-                                <DatePickerDemo
-                                  name="CheckOut"
-                                  form={form}
-                                  fields={field}
-                                  placeholder="Select Check Out Date" // Pass placeholder prop
-                                  minDate={
-                                    field.value
-                                      ? new Date(field.value) + 1
-                                      : new Date()
-                                  } // Set minDate based on the Check In date
-                                />
-                              </FormControl>
-                              <FormMessage />
+                            <FormItem className="flex flex-col">
+                              <FormLabel>
+                                Check In Date
+                                <sup className="text-red-500">*</sup>
+                              </FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-[280px] justify-start text-left font-normal",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>Select Check Out Date</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={field.onChange}
+                                    disabled={(date) => date < new Date()}
+                                    minDate={new Date()} // Set the minimum date to the current date
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
                             </FormItem>
                           )}
                         />
@@ -418,7 +484,11 @@ export default function Home() {
                     </div>
                     <Button
                       type="submit"
-                      onClick={() => handleSearch("item-2")}
+                      onClick={() =>
+                        form.control._formValues?.CheckIn &&
+                        form.control._formValues?.CheckOut &&
+                        handleSearch("item-2")
+                      }
                     >
                       Search
                     </Button>
@@ -502,20 +572,38 @@ export default function Home() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-[100px]">Room</TableHead>
-                        <TableHead>Guest</TableHead>
-                        <TableHead>Child</TableHead>
-                        <TableHead>Child Age</TableHead>
-                        <TableHead>Child Cost</TableHead>
-                        <TableHead>Nights</TableHead>
-                        <TableHead>Extrabed</TableHead>
-                        <TableHead>Extrabed Cost</TableHead>
-                        <TableHead>Room Cost</TableHead>
+                        <TableHead className="w-[100px] border-r border-2">
+                          Room
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Guest
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Child
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Child Age
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Child Cost
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Nights
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Extrabed
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Extrabed Cost
+                        </TableHead>
+                        <TableHead className="border-r border-2">
+                          Room Cost
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium border-r">
                           {data?.rooms?.map(
                             (item, index) =>
                               item.RoomID === finaldata.RoomID && (
@@ -523,33 +611,34 @@ export default function Home() {
                               )
                           )}
                         </TableCell>
-                        <TableCell>{finaldata?.Adults}</TableCell>
-                        <TableCell>
+                        <TableCell className="border-r border-2">
+                          {finaldata?.Adults}
+                        </TableCell>
+                        <TableCell className="border-r border-2">
                           <span>{finaldata?.Childrens}</span>
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="border-r border-2">
                           <span>{finaldata?.Child1Age}</span>,
                           <span>{finaldata?.Child2Age}</span>,
                           <span>{finaldata?.Child3Age}</span>
                         </TableCell>
-                        <TableCell className="text-right">
+                        <TableCell className="border-r border-2">
                           {currency}1000/-
                         </TableCell>
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium border-r border-2">
                           {stayNights}
                         </TableCell>
-                        <TableCell> {withbreakfastExtrabed}</TableCell>
-                        <TableCell>
+                        <TableCell className="border-r border-2">
+                          {" "}
+                          {withbreakfastExtrabed}
+                        </TableCell>
+                        <TableCell className="border-r border-2">
                           {currency}
                           {withbreakfastExtrabedCharg}/-
                         </TableCell>
-                        <TableCell>
-                          {data?.rooms?.map(
-                            (item, index) =>
-                              item.RoomID === finaldata.RoomID && (
-                                <span key={index}>{item.PricePerNight}</span>
-                              )
-                          )}
+                        <TableCell className="border-r border-2">
+                          {currency}
+                          {result}/-
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -561,7 +650,10 @@ export default function Home() {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px]">Sub Total</TableHead>
-                        <TableHead>{currency}3500/-</TableHead>
+                        <TableHead>
+                          {currency}
+                          {result}/-
+                        </TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -569,7 +661,10 @@ export default function Home() {
                         <TableCell className="font-medium">
                           Grand Total
                         </TableCell>
-                        <TableCell>{currency}3500/-</TableCell>
+                        <TableCell>
+                          {currency}
+                          {result}/-
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

@@ -1,9 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Slider from "@/components/slider";
 import { currency } from "@/lib/constant";
@@ -12,10 +10,6 @@ import { useState } from "react";
 export function Availability(props) {
   const [roomdata, setroomdata] = useState();
   const [RoomIdType, setRoomIdType] = useState({});
-  // const setID=()=>{
-  //   var arr={"RoomID":roomdata.RoomID}
-  // props.setFinaldata(arr);
-  // }
 
   React.useEffect(() => props.setFinaldata(RoomIdType), [RoomIdType]);
 
@@ -57,7 +51,9 @@ export function Availability(props) {
             onClick={() => {
               setRoomIdType({
                 RoomID: roomdata?.RoomID,
+                RoomName: roomdata?.RoomName,
                 RoomType: "Room Only",
+                price: roomdata?.PricePerNight,
               });
               props.handleSearch();
             }}
@@ -78,7 +74,9 @@ export function Availability(props) {
             onClick={() => {
               setRoomIdType({
                 RoomID: roomdata?.RoomID,
+                RoomName: roomdata?.RoomName,
                 RoomType: "With Breakfast",
+                price: roomdata?.RoomsWithBreakFast,
               });
               props.handleSearch();
             }}
@@ -98,7 +96,9 @@ export function Availability(props) {
             onClick={() => {
               setRoomIdType({
                 RoomID: roomdata?.RoomID,
+                RoomName: roomdata?.RoomName,
                 RoomType: "All Inclusive",
+                price: roomdata?.RoomsWithAllMeals,
               });
               props.handleSearch();
             }}

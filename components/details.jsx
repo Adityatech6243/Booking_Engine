@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -66,6 +65,7 @@ export function Details(props) {
     console.log(values);
     props.setFinaldata(values);
     values.ClientID = "1";
+    values.YourDetails = "true";
     async function sendData() {
       let tempSendData = await fetch("//192.168.1.13/index.php", {
         method: "POST",
@@ -101,7 +101,9 @@ export function Details(props) {
             name="UserName"
             render={({ field }) => (
               <FormItem className="mt-5">
-                <FormLabel>Name</FormLabel>
+                <FormLabel>
+                  Name<sup className="text-red-500">*</sup>
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter Guest / Business Name"
@@ -120,7 +122,9 @@ export function Details(props) {
             name="UserPhone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Contact Number</FormLabel>
+                <FormLabel>
+                  Contact Number<sup className="text-red-500">*</sup>
+                </FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Enter Your Contact Number"
@@ -139,7 +143,9 @@ export function Details(props) {
             name="UserEmail"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>
+                  Email<sup className="text-red-500">*</sup>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Your Email" {...field} required />
                 </FormControl>
@@ -272,7 +278,17 @@ export function Details(props) {
             )}
           />
         </div>
-        <Button type="submit" onClick={props.handleSearch}>
+        <Button
+          type="submit"
+          onClick={() => {
+            form.control._formValues?.UserName && props.handleSearch();
+            // form.control._formValues?.UserName &&
+            // form.control._formValues?.UserPhone &&
+            // form.control._formValues?.UserEmail &&
+            // form.control._formValues?.UserAddress &&
+            //  { handleSearch }
+          }}
+        >
           Confirm
         </Button>
       </form>
