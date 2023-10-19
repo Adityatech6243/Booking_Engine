@@ -9,66 +9,105 @@ $username = "root";
 $password = "";
 $database = "booking-engine";
 
-// Create a database connection
 $conn = new mysqli($servername, $username, $password, $database);
 
-
-
-// Check the connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
-
-
-  
-// Function to sanitize and validate input data
-function sanitizeInput($data) {
-    // Sanitize and validate data here (e.g., using mysqli_real_escape_string, filter_var, etc.)
-    // Return the sanitized data
+}  
+function sanitizeInput($data) {   
     return $data;
 } 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
-$data = json_decode($json);
-// if (!empty($data->formName=="user")) {
+    $data = json_decode($json);
+   if (isset($data->searchAvailability)) {
+   
+    echo "availability";
+        $checkInDate = sanitizeInput($data->CheckIn);
+      $checkOutDate = sanitizeInput($data->CheckOut);
 
-//     }
-    // Get and sanitize user input from the form
-    $clientID = sanitizeInput($data->ClientID);
-    $userName = sanitizeInput($data->UserName);
-    $userPhone = sanitizeInput($data->UserPhone);
-    $userEmail = sanitizeInput($data->UserEmail);
-    $userAddress = sanitizeInput($data->UserAddress);
-    $IsGST = sanitizeInput($data->IsGST);
-    $companyName = ($data->IsGST === 'yes') ? sanitizeInput($data->CompanyName) : '';
-    $companyGST = ($data->IsGST === 'yes') ? sanitizeInput($data->CompanyGST) : '';
-    $companyAddress = ($data->IsGST === 'yes') ? sanitizeInput($data->CompanyAddress) : '';
-    $specialRequest = sanitizeInput($data->SpecialRequest);
+       $sql = "SELECT * FROM rooms
+       WHERE RoomID NOT IN (
+           SELECT BookingRoomID FROM bookings
+           WHERE (
+               (checkInDate <= '$checkOutDate' AND checkOutDate >= '$checkInDate')
+               OR
+               (checkInDate <= '$checkInDate' AND checkOutDate >= '$checkInDate')
+               OR
+               (checkInDate >= '$checkInDate' AND checkOutDate <= '$checkOutDate')
+           )
+       )";
+$result = $conn->query($sql);
 
-    // Check if a user with the same information already exists
-    $userExistsSQL = "SELECT * FROM users WHERE UsersClientID = $clientID AND UserName = '$userName' AND UserPhone = '$userPhone' AND UserEmail = '$userEmail' AND UserAddress = '$userAddress'";
-    $userExistsResult = $conn->query($userExistsSQL);
+if ($result) {
+    $rooms = array(); // Initialize an array to store room data
+    
+    while ($row = mysqli_fetch_assoc($result)) {
+        $rooms[] = $row;
+    }
+    // Encode the array as a JSON object
+    $jsonObject = json_encode($rooms);
 
-    if ($userExistsResult->num_rows > 0) {
-        echo "alreadyExists";
-    } else {
-        // Client does not exist, insert user data into the users table
-        $insertUserSQL = "INSERT INTO users (UsersClientID, UserName, UserPhone, UserEmail, UserAddress, IsGST, CompanyName, CompanyGST, CompanyAddress, SpecialReq) VALUES ($clientID, '$userName', '$userPhone', '$userEmail', '$userAddress', '$IsGST', '$companyName', '$companyGST', '$companyAddress', '$specialReq')";
+    // Output the JSON object
+    echo $jsonObject;
+}
+}
+    if (isset($data->YourDetails)) {
+        $numAdults = sanitizeInput($data->Adults);
+        $checkInDate = sanitizeInput($data->CheckIn);
+        $checkOutDate = sanitizeInput($data->CheckOut);
+        $bookingRoomType = sanitizeInput($data->RoomType);
+        $clientID = sanitizeInput($data->ClientID);
+        $numChildren = sanitizeInput($data->Childrens);
+        $children1Ages = sanitizeInput($data->Child1Age);
+        $children2Ages = sanitizeInput($data->Child2Age);
+        $children3Ages = sanitizeInput($data->Child3Age);
+        $totalPrice = sanitizeInput($data->price);
+    
+        // Insert user data
+        $userName = sanitizeInput($data->UserName);
+        $userPhone = sanitizeInput($data->UserPhone);
+        $userEmail = sanitizeInput($data->UserEmail);
+        $userAddress = sanitizeInput($data->UserAddress);
+        $IsGST = sanitizeInput($data->IsGST);
+        $companyName = ($IsGST === 'yes') ? sanitizeInput($data->CompanyName) : '';
+        $companyGST = ($IsGST === 'yes') ? sanitizeInput($data->CompanyGST) : '';
+        $companyAddress = ($IsGST === 'yes') ? sanitizeInput($data->CompanyAddress) : '';
+        $specialRequest = sanitizeInput($data->SpecialRequest);
+    
+
+        
+        $insertUserSQL = "INSERT INTO users (UsersClientID, UserName, UserPhone, UserEmail, UserAddress, IsGST, CompanyName, CompanyGST, CompanyAddress, SpecialRequest) VALUES ($clientID, '$userName', '$userPhone', '$userEmail', '$userAddress', '$IsGST', '$companyName', '$companyGST', '$companyAddress', '$specialRequest')";
 
         if ($conn->query($insertUserSQL) === TRUE) {
-            echo "success";
+            $userClientID = $conn->insert_id; // Get the auto-generated user ID
+            // Next, insert booking data
+            $roomID = sanitizeInput($data->RoomID);
+ // Check if the room with the specified RoomID exists in the "rooms" table
+            $checkRoomSQL = "SELECT RoomID FROM rooms WHERE RoomID = '$roomID'";
+            $roomResult = $conn->query($checkRoomSQL);
+            if ($roomResult->num_rows > 0) {
+                // The room exists, so we can proceed with the booking
+                $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, BookingUserID, Adults, NumChildrens, Child1Age, Child2Age, Child3Age, CheckInDate, CheckOutDate, TotalPrice) VALUES ('$roomID', '$userClientID', '$numAdults', '$numChildren', '$children1Ages', '$children2Ages', '$children3Ages', '$checkInDate', '$checkOutDate', '$totalPrice')";
+    
+                if ($conn->query($insertBookingSQL) === TRUE) {
+                    echo "Success";
+                } else {
+                    echo "Error inserting booking data: " . $conn->error;
+                }
+            } else {
+                echo "Error: The specified room (RoomID) does not exist.";
+            }
         } else {
-            echo "Error";
+            echo "Error inserting user data: " . $conn->error;
         }
     }
-
 }
-
 if (isset($_GET['ClientID'])) {
     $clientID = $_GET['ClientID'];
 
-    $sql = "SELECT r.*, c.*, p.* FROM rooms r
+    $sql = "SELECT r., c., p.* FROM rooms r
             LEFT JOIN clients c ON r.RoomsClientID = c.ClientID
             LEFT JOIN policies p ON c.ClientID = p.ClientID
             WHERE r.RoomsClientID = $clientID";
@@ -114,9 +153,7 @@ if (isset($_GET['ClientID'])) {
                 }
             
                 $data['policies'] = $policiesData;
-            }
-            
-            
+            }            
         }
 
         echo json_encode($data);
@@ -124,10 +161,5 @@ if (isset($_GET['ClientID'])) {
         echo "Client or rooms not found.";
     }
 }
-
-
-
-
-
 $conn->close();
 ?>
