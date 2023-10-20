@@ -23,49 +23,116 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode($json);
    if (isset($data->searchAvailability)) {
    
-    echo "availability";
-        $checkInDate = sanitizeInput($data->CheckIn);
-      $checkOutDate = sanitizeInput($data->CheckOut);
-
-       $sql = "SELECT * FROM rooms
-       WHERE RoomID NOT IN (
-           SELECT BookingRoomID FROM bookings
-           WHERE (
-               (checkInDate <= '$checkOutDate' AND checkOutDate >= '$checkInDate')
-               OR
-               (checkInDate <= '$checkInDate' AND checkOutDate >= '$checkInDate')
-               OR
-               (checkInDate >= '$checkInDate' AND checkOutDate <= '$checkOutDate')
-           )
-       )";
-$result = $conn->query($sql);
-
-if ($result) {
-    $rooms = array(); // Initialize an array to store room data
     
-    while ($row = mysqli_fetch_assoc($result)) {
-        $rooms[] = $row;
-    }
-    // Encode the array as a JSON object
-    $jsonObject = json_encode($rooms);
+    $checkInDate = sanitizeInput($data->CheckIn);
+    $checkOutDate = sanitizeInput($data->CheckOut);
+    $checkInTimestamp = strtotime($checkInDate);
+    $checkOutTimestamp = strtotime($checkOutDate);
 
-    // Output the JSON object
-    echo $jsonObject;
-}
-}
+    $numAdults = sanitizeInput($data->Adults);
+    $numChildren = sanitizeInput($data->Childrens);
+    $children1Ages = sanitizeInput($data->Child1Age);
+    $children2Ages = sanitizeInput($data->Child2Age);
+    $children3Ages = sanitizeInput($data->Child3Age);
+    
+      if ($numChildren <= 3 && $numAdults <= 5 && $children1Ages <= 9 && $children2Ages <= 9 && $children3Ages <= 9 && strtotime($checkInDate) !== false && strtotime($checkOutDate) !== false) {
+        // Your code to execute when all conditions are met
+        $sql = "SELECT * FROM rooms
+        WHERE RoomID NOT IN (
+            SELECT BookingRoomID FROM bookings
+            WHERE (
+                (checkInDate <= '$checkOutDate' AND checkOutDate >= '$checkInDate')
+                OR
+                (checkInDate <= '$checkInDate' AND checkOutDate >= '$checkInDate')
+                OR
+                (checkInDate >= '$checkInDate' AND checkOutDate <= '$checkOutDate')
+            ) 
+            AND paymentStatus = 'paid'
+        )";
+
+
+        $result = $conn->query($sql);
+    
+        if ($result) {
+            $rooms = array(); // Initialize an array to store room data
+    
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Calculate the updated price per night based on the number of adults and children's ages
+                $RoomsWithAllMeals = $row['RoomsWithAllMeals'];          
+                $RoomsWithBreakFast = $row['RoomsWithBreakFast'];          
+                $ExtraBed = 0;
+               $ChildCost = 0;
+               $dateDifference = $checkOutTimestamp - $checkInTimestamp;
+               $numberOfNights = floor($dateDifference / (60 * 60 * 24)); // 60 seconds * 60 minutes * 24 hours
+
+            
+                if ($numAdults > 2) {
+                    $RoomsWithBreakFast += ($numAdults - 2) * 1200;
+                    $RoomsWithAllMeals += ($numAdults - 2) * 1500;
+                    $ExtraBed += $numAdults - 2;
+                }
+                if ($children1Ages > 5 && $children1Ages < 10) {
+                    $RoomsWithBreakFast += 800;
+                    $RoomsWithAllMeals += 1200;
+                    $ChildCost += 800;
+                }
+                if ($children2Ages > 5 && $children2Ages < 10) {
+                    $RoomsWithBreakFast += 800;
+                    $RoomsWithAllMeals += 1200;
+                    $ChildCost += 800;
+                }
+                if ($children3Ages > 5 && $children3Ages < 10) {
+                    $RoomsWithBreakFast += 800;
+                    $RoomsWithAllMeals += 1200;
+                    $ChildCost += 800;
+                }
+
+                // Update the price per night in the room data
+                $row['ChildCost'] = $ChildCost * $numberOfNights;
+                $row['ExtraBed'] = $ExtraBed;
+
+                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
+                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+                
+                $row['numberOfNights'] = $numberOfNights;
+
+
+
+    
+                // Add the room data to the array
+                $rooms[] = $row;
+            }
+    
+            // Encode the array as a JSON object
+            $jsonObject = json_encode($rooms);
+    
+            // Output the JSON object
+            echo $jsonObject;
+        }
+    } else {
+        // Your code to execute when one or more conditions are not met
+        echo "Information is invalid.";
+    }
+    }
     if (isset($data->YourDetails)) {
-        $numAdults = sanitizeInput($data->Adults);
+        
         $checkInDate = sanitizeInput($data->CheckIn);
         $checkOutDate = sanitizeInput($data->CheckOut);
         $bookingRoomType = sanitizeInput($data->RoomType);
         $clientID = sanitizeInput($data->ClientID);
+                $roomID = sanitizeInput($data->RoomID);
+                $numAdults = sanitizeInput($data->Adults);
         $numChildren = sanitizeInput($data->Childrens);
         $children1Ages = sanitizeInput($data->Child1Age);
         $children2Ages = sanitizeInput($data->Child2Age);
         $children3Ages = sanitizeInput($data->Child3Age);
-        $totalPrice = sanitizeInput($data->price);
-    
-        // Insert user data
+        $RoomName = sanitizeInput($data->RoomName);
+
+        $ChildCost = sanitizeInput($data->ChildCost);
+        $ExtraBed = sanitizeInput($data->ExtraBed);
+        $numberOfNights = sanitizeInput($data->numberOfNights);
+        $RoomsWithAllMeals=sanitizeInput($data->RoomsWithAllMeals);
+        $RoomsWithBreakFast=sanitizeInput($data->RoomsWithBreakFast);
         $userName = sanitizeInput($data->UserName);
         $userPhone = sanitizeInput($data->UserPhone);
         $userEmail = sanitizeInput($data->UserEmail);
@@ -74,36 +141,79 @@ if ($result) {
         $companyName = ($IsGST === 'yes') ? sanitizeInput($data->CompanyName) : '';
         $companyGST = ($IsGST === 'yes') ? sanitizeInput($data->CompanyGST) : '';
         $companyAddress = ($IsGST === 'yes') ? sanitizeInput($data->CompanyAddress) : '';
+        $totalPrice = ($bookingRoomType === 'All Inclusive') ? $RoomsWithAllMeals :$RoomsWithBreakFast ;
+        $ExtraBedCost=0;
         $specialRequest = sanitizeInput($data->SpecialRequest);
-    
+        if ($numAdults > 2) {
+            $ExtraBedCost = ($bookingRoomType === 'All Inclusive') ? ($numAdults - 2) * 1500 : ($numAdults - 2) * 1200 ;
+        }    
+                $BookingID=round(microtime(true) * 1000) . mt_rand(100, 999);
+             
+                    $insertBookingSQL = "INSERT INTO bookings ( UserName,
+                                                                UserPhone, 
+                                                                UserEmail, 
+                                                                UserAddress, 
+                                                                IsGST, 
+                                                                CompanyName, 
+                                                                CompanyGST, 
+                                                                CompanyAddress, 
+                                                                SpecialRequest,
+                                                                BookingID ,
+                                                                BookingRoomID, 
+                                                                RoomName,
+                                                                numberOfNights,
+                                                                Adults, 
+                                                                NumChildrens, 
+                                                                Child1Age, 
+                                                                Child2Age, 
+                                                                Child3Age, 
+                                                                CheckInDate, 
+                                                                CheckOutDate, 
+                                                                TotalPrice, 
+                                                                BookingRoomType, 
+                                                                ExtraBed, 
+                                                                ExtraBedCost, 
+                                                                ChildCost,
+                                                                PaymentStatus
+                                                            ) VALUES (
+                                                                '$userName', 
+                                                                '$userPhone', 
+                                                                '$userEmail', 
+                                                                '$userAddress', 
+                                                                '$IsGST', 
+                                                                '$companyName', 
+                                                                '$companyGST', 
+                                                                '$companyAddress', 
+                                                                '$specialRequest',
+                                                                '$BookingID',
+                                                                '$roomID', 
+                                                                '$RoomName',
+                                                                '$numberOfNights',
+                                                                '$numAdults', 
+                                                                '$numChildren', 
+                                                                '$children1Ages', 
+                                                                '$children2Ages', 
+                                                                '$children3Ages', 
+                                                                '$checkInDate', 
+                                                                '$checkOutDate', 
+                                                                '$totalPrice', 
+                                                                '$bookingRoomType', 
+                                                                '$ExtraBed', 
+                                                                '$ExtraBedCost', 
+                                                                '$ChildCost',
+                                                                'pending'
+                                                                )";
 
-        
-        $insertUserSQL = "INSERT INTO users (UsersClientID, UserName, UserPhone, UserEmail, UserAddress, IsGST, CompanyName, CompanyGST, CompanyAddress, SpecialRequest) VALUES ($clientID, '$userName', '$userPhone', '$userEmail', '$userAddress', '$IsGST', '$companyName', '$companyGST', '$companyAddress', '$specialRequest')";
-
-        if ($conn->query($insertUserSQL) === TRUE) {
-            $userClientID = $conn->insert_id; // Get the auto-generated user ID
-            // Next, insert booking data
-            $roomID = sanitizeInput($data->RoomID);
- // Check if the room with the specified RoomID exists in the "rooms" table
-            $checkRoomSQL = "SELECT RoomID FROM rooms WHERE RoomID = '$roomID'";
-            $roomResult = $conn->query($checkRoomSQL);
-            if ($roomResult->num_rows > 0) {
-                // The room exists, so we can proceed with the booking
-                $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, BookingUserID, Adults, NumChildrens, Child1Age, Child2Age, Child3Age, CheckInDate, CheckOutDate, TotalPrice) VALUES ('$roomID', '$userClientID', '$numAdults', '$numChildren', '$children1Ages', '$children2Ages', '$children3Ages', '$checkInDate', '$checkOutDate', '$totalPrice')";
-    
-                if ($conn->query($insertBookingSQL) === TRUE) {
-                    echo "Success";
-                } else {
-                    echo "Error inserting booking data: " . $conn->error;
-                }
-            } else {
-                echo "Error: The specified room (RoomID) does not exist.";
-            }
-        } else {
-            echo "Error inserting user data: " . $conn->error;
-        }
+                    if ($conn->query($insertBookingSQL) === TRUE) {
+                        $sql = "SELECT * FROM bookings WHERE BookingID=$BookingID";
+                        $result = $conn->query($sql);
+                        echo json_encode(mysqli_fetch_assoc($result));
+                    } else {
+                        echo "Error inserting booking data: " . $conn->error;
+                    }                  
     }
 }
+
 if (isset($_GET['ClientID'])) {
     $clientID = $_GET['ClientID'];
 
@@ -123,35 +233,19 @@ if (isset($_GET['ClientID'])) {
         while ($row = $result->fetch_assoc()) {
             if (empty($data['client'])) {
                 $clientData = array_filter($row, function ($key) {
-                    // Define an array of keys that are related to the 'client' object
                     $clientKeys = ['ClientID', 'ClientBusinessName', 'ClientName', 'ClientEmail', 'ClientPhone', 'ClientAddress'];
-            
-                    // Check if the key is in the 'clientKeys' array
                     return in_array($key, $clientKeys);
                 }, ARRAY_FILTER_USE_KEY);
-            
                 $data['client'] = $clientData;
-            }
-            
-            $includeKeys = ['RoomsClientID','RoomsWithAllMeals','RoomsWithBreakFast', 'RoomPhotos', 'RoomName', 'RoomID', 'PricePerNight', 'Description'];
-
-            $roomsData = array_filter($row, function ($key) use ($includeKeys) {
-                return in_array($key, $includeKeys);
-            }, ARRAY_FILTER_USE_KEY);
-            
-            $data['rooms'][] = $roomsData;
-            
+            }  
             if (empty($data['policies'])) {
                 $policiesData = array_filter($row, function ($key) {
                     $includeKeys = ['CheckIn', 'CheckOut', 'LateCheckOut', 'CancellationPolicies', 'PolicyID'];
                     return in_array($key, $includeKeys);
-                }, ARRAY_FILTER_USE_KEY);
-            
-                // Convert the CancellationPolicies string to an array
+                }, ARRAY_FILTER_USE_KEY);            
                 if (isset($policiesData['CancellationPolicies'])) {
                     $policiesData['CancellationPolicies'] = json_decode($policiesData['CancellationPolicies'], true);
-                }
-            
+                }           
                 $data['policies'] = $policiesData;
             }            
         }

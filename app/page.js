@@ -1,6 +1,7 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { currency } from "@/lib/constant";
+import React from "react";
 import {
   Accordion,
   AccordionContent,
@@ -58,14 +59,27 @@ const formSchema = z.object({
   Child3Age: z.string(),
 });
 export default function Home() {
+  const refreshPage = () => {
+    window.location.reload();
+  };
   const [data, setData] = useState({});
+  const [roomdata, setRoomData] = useState();
+
   const [searchdata, setSearchData] = useState();
   const [childrensCount, setChildrensCount] = useState(0);
   const [finaldata, setFinalData] = useState({});
   const [stayNights, setStayNights] = useState();
   const [result, setResult] = useState(0);
   const [withbreakfastExtrabed, setWithBreakFastExtraBed] = useState(0);
-  const [withbreakfastExtrabedCharg, setWithBreakFastExtraBedCharg] = useState(0);
+  const [withbreakfastExtrabedCharg, setWithBreakFastExtraBedCharg] =
+    useState(0);
+
+  const [activeItem, setActiveItem] = useState("item-1");
+  const [review, setReview] = useState();
+
+  const handleSearch = (value) => {
+    setActiveItem(value);
+  };
 
   const handleSetFinalData = (x) => {
     const arr = { ...finaldata, ...x };
@@ -85,6 +99,7 @@ export default function Home() {
       Child3Age: "",
     },
   });
+
   useEffect(() => {
     if (searchdata?.CheckIn && searchdata?.CheckOut) {
       const startDate = new Date(searchdata.CheckIn);
@@ -97,13 +112,12 @@ export default function Home() {
         `The difference between check-in and check-out is ${diffDays} days.`
       );
 
-      ///return diffDays;
       handleSetFinalData(searchdata);
 
       searchdata.ClientID = "1";
       searchdata.searchAvailability = "true";
       async function sendData() {
-        let tempSendData = await fetch("//192.168.1.13/index.php", {
+        let tempSendData = await fetch("//192.168.1.11/index.php", {
           method: "POST",
           body: JSON.stringify(searchdata),
         })
@@ -112,19 +126,18 @@ export default function Home() {
           .catch((error) => {
             return "error";
           });
-        if (tempSendData === "success") {
-          alert("submited");
+        if (tempSendData) {
+          setRoomData(JSON.parse(tempSendData));
         } else if (tempSendData === "alreadyExists") {
           alert("exist");
         } else {
           console.log("php error");
         }
       }
-
       sendData();
     }
   }, [searchdata]);
-
+  useEffect(() => console.log("dd", review), [review]);
   useEffect(() => {
     if (childrensCount == 0) {
       form.control._formValues.Child1Age = "";
@@ -142,7 +155,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.13/index.php?ClientID=1")
+      fetch("//192.168.1.11/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -204,68 +217,65 @@ export default function Home() {
   }
 
   useEffect(() => {
-    console.log(finaldata);
-
-    let withbreakfastExtrabed;
-
-    switch (true) {
-      case finaldata?.Adults > 6:
-        withbreakfastExtrabed = 5;
-        break;
-      case finaldata?.Adults > 5:
-        withbreakfastExtrabed = 4;
-        break;
-      case finaldata?.Adults > 4:
-        withbreakfastExtrabed = 3;
-        break;
-      case finaldata?.Adults > 3:
-        withbreakfastExtrabed = 2;
-        break;
-      case finaldata?.Adults > 2:
-        withbreakfastExtrabed = 1;
-        break;
-      default:
-        withbreakfastExtrabed = 0;
-    }
-    setWithBreakFastExtraBed(withbreakfastExtrabed);
-
-    let withbreakfastExtrabedCharg;
-
-    switch (true) {
-      case finaldata?.Adults > 6:
-        withbreakfastExtrabedCharg = 9000;
-        break;
-      case finaldata?.Adults > 5:
-        withbreakfastExtrabedCharg = 7200;
-        break;
-      case finaldata?.Adults > 4:
-        withbreakfastExtrabedCharg = 5400;
-        break;
-      case finaldata?.Adults > 3:
-        withbreakfastExtrabedCharg = 3600;
-        break;
-      case finaldata?.Adults > 2:
-        withbreakfastExtrabedCharg = 1800;
-        break;
-      default:
-        withbreakfastExtrabedCharg = 0;
-    }
-        setWithBreakFastExtraBedCharg(withbreakfastExtrabedCharg);
-
-    setResult(withbreakfastExtrabedCharg + Number(finaldata?.price));
+    console.log("finaldata: ", finaldata);
   }, [finaldata]);
 
-  const [activeItem, setActiveItem] = useState("item-1");
+  // useEffect(() => {
+  //   console.log(finaldata);
 
-  const handleSearch = (value) => {
-    setActiveItem(value);
-  };
+  //   let withbreakfastExtrabed;
+
+  //   // switch (true) {
+  //   //   case finaldata?.Adults > 6:
+  //   //     withbreakfastExtrabed = 5;
+  //   //     break;
+  //   //   case finaldata?.Adults > 5:
+  //   //     withbreakfastExtrabed = 4;
+  //   //     break;
+  //   //   case finaldata?.Adults > 4:
+  //   //     withbreakfastExtrabed = 3;
+  //   //     break;
+  //   //   case finaldata?.Adults > 3:
+  //   //     withbreakfastExtrabed = 2;
+  //   //     break;
+  //   //   case finaldata?.Adults > 2:
+  //   //     withbreakfastExtrabed = 1;
+  //   //     break;
+  //   //   default:
+  //   //     withbreakfastExtrabed = 0;
+  //   // }
+  //   // setWithBreakFastExtraBed(withbreakfastExtrabed);
+
+  //  // let withbreakfastExtrabedCharg;
+
+  //   // switch (true) {
+  //   //   case finaldata?.Adults > 6:
+  //   //     withbreakfastExtrabedCharg = 9000;
+  //   //     break;
+  //   //   case finaldata?.Adults > 5:
+  //   //     withbreakfastExtrabedCharg = 7200;
+  //   //     break;
+  //   //   case finaldata?.Adults > 4:
+  //   //     withbreakfastExtrabedCharg = 5400;
+  //   //     break;
+  //   //   case finaldata?.Adults > 3:
+  //   //     withbreakfastExtrabedCharg = 3600;
+  //   //     break;
+  //   //   case finaldata?.Adults > 2:
+  //   //     withbreakfastExtrabedCharg = 1800;
+  //   //     break;
+  //   //   default:
+  //   //     withbreakfastExtrabedCharg = 0;
+  //   // }
+  //      // setWithBreakFastExtraBedCharg(withbreakfastExtrabedCharg);
+
+  // ///  setResult(withbreakfastExtrabedCharg + Number(finaldata?.price));
+  // }, [finaldata]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
       <div className="flex flex-col lg:flex-row w-full">
         <div className="lg:w-9/12 bg-gray-200 p-4">
-          {" "}
           <Accordion type="single" collapsible="true" value={activeItem}>
             <AccordionItem value="item-1">
               <AccordionTrigger>Search For Availability</AccordionTrigger>
@@ -325,7 +335,7 @@ export default function Home() {
                           render={({ field }) => (
                             <FormItem className="flex flex-col">
                               <FormLabel>
-                                Check In Date
+                                Check Out Date
                                 <sup className="text-red-500">*</sup>
                               </FormLabel>
                               <Popover>
@@ -472,6 +482,10 @@ export default function Home() {
                                         <SelectItem value="3">3</SelectItem>
                                         <SelectItem value="4">4</SelectItem>
                                         <SelectItem value="5">5</SelectItem>
+                                        <SelectItem value="6">6</SelectItem>
+                                        <SelectItem value="7">7</SelectItem>
+                                        <SelectItem value="8">8</SelectItem>
+                                        <SelectItem value="9">9</SelectItem>
                                       </SelectContent>
                                     </Select>
                                   </FormControl>
@@ -499,21 +513,23 @@ export default function Home() {
             <AccordionItem value="item-2">
               <AccordionTrigger>Available Rooms</AccordionTrigger>
               <AccordionContent>
-                {data &&
-                  data?.rooms?.map((item, i) => (
-                    <Availability
-                      room={item}
-                      key={i}
-                      setFinaldata={handleSetFinalData}
-                      handleSearch={() => handleSearch("item-4")}
-                    />
-                  ))}
+                {roomdata
+                  ? roomdata?.map((item, i) => (
+                      <Availability
+                        room={item}
+                        key={i}
+                        setFinaldata={handleSetFinalData}
+                        handleSearch={() => handleSearch("item-4")}
+                      />
+                    ))
+                  : "All the rooms for these dates are booked, please select different dates."}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4">
               <AccordionTrigger>Your Details</AccordionTrigger>
               <AccordionContent>
                 <Details
+                  setReview={setReview}
                   setFinaldata={handleSetFinalData}
                   finaldata={finaldata}
                   handleSearch={() => handleSearch("item-5")}
@@ -526,20 +542,18 @@ export default function Home() {
                 <div>
                   <h2 className="text-center font-bold">Your Details</h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row">
-                    <li className="p-5 lg:w-1/2">
-                      Name: {finaldata?.UserName}
+                    <li className="p-5 lg:w-1/2">Name: {review?.UserName}</li>
+                    <li className="p-5 lg: w-1/2">
+                      Mobile: {review?.UserPhone}
                     </li>
                     <li className="p-5 lg: w-1/2">
-                      Mobile: {finaldata?.UserPhone}
+                      Email: {review?.UserEmail}
                     </li>
                     <li className="p-5 lg: w-1/2">
-                      Email: {finaldata?.UserEmail}
+                      Address: {review?.UserAddress}
                     </li>
                     <li className="p-5 lg: w-1/2">
-                      Address: {finaldata?.UserAddress}
-                    </li>
-                    <li className="p-5 lg: w-1/2">
-                      Special Request: {finaldata?.SpecialRequest}
+                      Special Request: {review?.SpecialRequest}
                     </li>
                   </ul>
                 </div>
@@ -548,24 +562,30 @@ export default function Home() {
                   <ul className="flex flex-wrap flex-col lg:flex-row">
                     <li className="p-5 lg:w-1/2">
                       Check In Date:{" "}
-                      {finaldata?.CheckIn?.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {new Date(review?.CheckInDate)?.toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )}
                     </li>
                     <li className="p-5 lg: w-1/2">
                       Check Out Date:{" "}
-                      {finaldata?.CheckOut?.toLocaleDateString("en-US", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
+                      {new Date(review?.CheckOutDate)?.toLocaleDateString(
+                        "en-US",
+                        {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        }
+                      )}
                     </li>
+                    {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
                     <li className="p-5 lg: w-1/2">
-                      No. Rooms: {finaldata?.Rooms}
+                      Room Type: {review?.BookingRoomType}
                     </li>
-                    <li className="p-5 lg: w-1/2">MealPlan: Room Only(EP)</li>
                   </ul>
                 </div>
                 <div>
@@ -573,7 +593,7 @@ export default function Home() {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px] border-r border-2">
-                          Room
+                          Room Name
                         </TableHead>
                         <TableHead className="border-r border-2">
                           Guest
@@ -604,41 +624,42 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-r">
-                          {data?.rooms?.map(
-                            (item, index) =>
-                              item.RoomID === finaldata.RoomID && (
-                                <span key={index}>{item.RoomName}</span>
+                          {review?.RoomName}
+                        </TableCell>
+                        <TableCell className="border-r border-2">
+                          {finaldata?.Adults} Adult(s)
+                        </TableCell>
+                        <TableCell className="border-r border-2">
+                          <span>{review?.NumChildrens} Child(s)</span>
+                        </TableCell>
+                        <TableCell className="border-r border-2">
+                          {Number(review?.NumChildrens) &&
+                            [...Array(Number(review?.NumChildrens))].map(
+                              (_, index) => (
+                                <div key={index}>
+                                  Child {index + 1}:{" "}
+                                  {review[`Child${index + 1}Age`]} Year(s)
+                                </div>
                               )
-                          )}
+                            )}
                         </TableCell>
                         <TableCell className="border-r border-2">
-                          {finaldata?.Adults}
-                        </TableCell>
-                        <TableCell className="border-r border-2">
-                          <span>{finaldata?.Childrens}</span>
-                        </TableCell>
-                        <TableCell className="border-r border-2">
-                          <span>{finaldata?.Child1Age}</span>,
-                          <span>{finaldata?.Child2Age}</span>,
-                          <span>{finaldata?.Child3Age}</span>
-                        </TableCell>
-                        <TableCell className="border-r border-2">
-                          {currency}1000/-
+                          {currency}
+                          {review?.ChildCost}/-
                         </TableCell>
                         <TableCell className="font-medium border-r border-2">
-                          {stayNights}
+                          {review?.numberOfNights}
                         </TableCell>
                         <TableCell className="border-r border-2">
-                          {" "}
-                          {withbreakfastExtrabed}
-                        </TableCell>
-                        <TableCell className="border-r border-2">
-                          {currency}
-                          {withbreakfastExtrabedCharg}/-
+                          {review?.ExtraBed}
                         </TableCell>
                         <TableCell className="border-r border-2">
                           {currency}
-                          {result}/-
+                          {review?.ExtraBedCost}/-
+                        </TableCell>
+                        <TableCell className="border-r border-2">
+                          {currency}
+                          {review?.TotalPrice}/-
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -652,7 +673,7 @@ export default function Home() {
                         <TableHead className="w-[100px]">Sub Total</TableHead>
                         <TableHead>
                           {currency}
-                          {result}/-
+                          {review?.TotalPrice}/-
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -663,14 +684,16 @@ export default function Home() {
                         </TableCell>
                         <TableCell>
                           {currency}
-                          {result}/-
+                          {review?.TotalPrice}/-
                         </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                 </div>
                 <div className="flex">
-                  <Button className="ml-5">Reset</Button>
+                  <Button className="ml-5" onClick={refreshPage}>
+                    Reset
+                  </Button>
                   <Button className="ml-5">Pay Now</Button>
                 </div>
               </AccordionContent>
@@ -728,7 +751,7 @@ export default function Home() {
                 <p className="mb-1">
                   <b>Late Check Out Allowed: </b>
                   <span>{data?.policies?.LateCheckOut}</span>
-                </p>{" "}
+                </p>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

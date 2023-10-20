@@ -41,6 +41,18 @@ const formSchema = z.object({
 export function Details(props) {
   const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
   const [priviosdata, setpriviosdata] = useState(false);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+
+    // Define a regular expression for a valid phone number
+    // You can customize this regex to match the phone number format you need
+    const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
+
+    setIsValidPhoneNumber(phoneNumberRegex.test(value));
+  };
 
   React.useEffect(() => {
     setpriviosdata(props?.finaldata);
@@ -67,7 +79,7 @@ export function Details(props) {
     values.ClientID = "1";
     values.YourDetails = "true";
     async function sendData() {
-      let tempSendData = await fetch("//192.168.1.13/index.php", {
+      let tempSendData = await fetch("//192.168.1.11/index.php", {
         method: "POST",
         body: JSON.stringify({ ...priviosdata, ...values }),
       })
@@ -76,14 +88,7 @@ export function Details(props) {
         .catch((error) => {
           return "error";
         });
-      if (tempSendData === "success") {
-        alert("submited");
-        setuseDetailsIsSuccess(true);
-      } else if (tempSendData === "alreadyExists") {
-        alert("exist");
-      } else {
-        console.log("php error");
-      }
+      props.setReview(JSON.parse(tempSendData));
     }
 
     sendData();
@@ -115,7 +120,7 @@ export function Details(props) {
               </FormItem>
             )}
           />
-        </div>{" "}
+        </div>
         <div className="md:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
@@ -125,8 +130,16 @@ export function Details(props) {
                 <FormLabel>
                   Contact Number<sup className="text-red-500">*</sup>
                 </FormLabel>
+                {!isValidPhoneNumber && (
+                  <p className="text-red-500">
+                    Please enter a valid phone number (e.g., 10 digits).
+                  </p>
+                )}
                 <FormControl>
                   <Input
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={handlePhoneNumberChange}
                     placeholder="Enter Your Contact Number"
                     {...field}
                     required
@@ -136,7 +149,7 @@ export function Details(props) {
               </FormItem>
             )}
           />
-        </div>{" "}
+        </div>
         <div className="md:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
@@ -147,7 +160,12 @@ export function Details(props) {
                   Email<sup className="text-red-500">*</sup>
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter Your Email" {...field} required />
+                  <Input
+                    type="email"
+                    placeholder="Enter Your Email"
+                    {...field}
+                    required
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,7 +178,9 @@ export function Details(props) {
             name="UserAddress"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel>
+                  Address<sup className="text-red-500">*</sup>
+                </FormLabel>
                 <FormControl>
                   <Input placeholder="Enter Your Address" {...field} required />
                 </FormControl>
@@ -281,12 +301,24 @@ export function Details(props) {
         <Button
           type="submit"
           onClick={() => {
-            form.control._formValues?.UserName && props.handleSearch();
-            // form.control._formValues?.UserName &&
-            // form.control._formValues?.UserPhone &&
-            // form.control._formValues?.UserEmail &&
-            // form.control._formValues?.UserAddress &&
-            //  { handleSearch }
+            if (
+              form.control._formValues?.UserName &&
+              form.control._formValues?.UserPhone &&
+              form.control._formValues?.UserEmail &&
+              form.control._formValues?.UserAddress
+            ) {
+              if (form.control._formValues.IsGST === "yes") {
+                if (
+                  form.control._formValues?.CompanyName &&
+                  form.control._formValues?.CompanyGST &&
+                  form.control._formValues?.CompanyAddress
+                ) {
+                  props.handleSearch();
+                }
+              } else if (form.control._formValues.IsGST === "no") {
+                props.handleSearch();
+              }
+            }
           }}
         >
           Confirm

@@ -34,15 +34,14 @@ export function Availability(props) {
         </div>
         <div className="lg:w-1/3 p-4">
           {currency}
-          {roomdata?.PricePerNight}/-
+          {roomdata?.RoomsWithBreakFast}/-
           <br />
           <span>Avg. Per Room/Night</span>
         </div>
       </div>
-      <div className="flex">
-        <div className="w-1/3 p-4">Room Only</div>
+      {/* <div className="flex">
+        <div className="w-1/3 p-4">Room with Breakfast</div>
         <div className="w-1/3 p-4">
-          {" "}
           {currency}
           {roomdata?.PricePerNight}/- Price
         </div>
@@ -50,10 +49,8 @@ export function Availability(props) {
           <Button
             onClick={() => {
               setRoomIdType({
-                RoomID: roomdata?.RoomID,
-                RoomName: roomdata?.RoomName,
                 RoomType: "Room Only",
-                price: roomdata?.PricePerNight,
+                ...roomdata,
               });
               props.handleSearch();
             }}
@@ -61,22 +58,19 @@ export function Availability(props) {
             Select
           </Button>
         </div>
-      </div>
+      </div> */}
       <div className="flex">
         <div className="w-1/3 p-4">Rooms with Breakfast</div>
         <div className="w-1/3 p-4">
-          {" "}
           {currency}
-          {roomdata?.RoomsWithBreakFast} /- Price
+          {roomdata?.RoomsWithBreakFast}/- Price
         </div>
         <div className="w-1/3 p-4">
           <Button
             onClick={() => {
               setRoomIdType({
-                RoomID: roomdata?.RoomID,
-                RoomName: roomdata?.RoomName,
                 RoomType: "With Breakfast",
-                price: roomdata?.RoomsWithBreakFast,
+                ...roomdata,
               });
               props.handleSearch();
             }}
@@ -85,20 +79,19 @@ export function Availability(props) {
           </Button>
         </div>
       </div>
+      <hr />
       <div className="flex">
         <div className="w-1/3 p-4">Rooms With All Meals</div>
         <div className="w-1/3 p-4">
-          {" "}
-          {currency} {roomdata?.RoomsWithAllMeals}/- Price
+          {currency}
+          {roomdata?.RoomsWithAllMeals}/- Price
         </div>
         <div className="w-1/3 p-4">
           <Button
             onClick={() => {
               setRoomIdType({
-                RoomID: roomdata?.RoomID,
-                RoomName: roomdata?.RoomName,
                 RoomType: "All Inclusive",
-                price: roomdata?.RoomsWithAllMeals,
+                ...roomdata,
               });
               props.handleSearch();
             }}
