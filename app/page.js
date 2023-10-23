@@ -76,6 +76,7 @@ export default function Home() {
 
   const [activeItem, setActiveItem] = useState("item-1");
   const [review, setReview] = useState();
+  const [checkIn, setCheckIn] = useState("abcd");
 
   const handleSearch = (value) => {
     setActiveItem(value);
@@ -271,7 +272,8 @@ export default function Home() {
 
   // ///  setResult(withbreakfastExtrabedCharg + Number(finaldata?.price));
   // }, [finaldata]);
-
+  // debugger;
+  console.log(checkIn, "checkIn");
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
       <div className="flex flex-col lg:flex-row w-full">
@@ -315,8 +317,17 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
+                                    className={field.value && "hidden"}
                                     mode="single"
-                                    selected={field.value}
+                                    selected={() => {
+                                      field.value;
+                                      const disableDate = new Date(
+                                        field.value
+                                      ).setDate(
+                                        new Date(field.value).getDate() + 1
+                                      );
+                                      setCheckIn(disableDate);
+                                    }}
                                     onSelect={field.onChange}
                                     disabled={(date) => date < new Date()}
                                     minDate={new Date()} // Set the minimum date to the current date
@@ -357,11 +368,14 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
+                                    className={field.value && "hidden"}
                                     mode="single"
                                     selected={field.value}
                                     onSelect={field.onChange}
-                                    disabled={(date) => date < new Date()}
-                                    minDate={new Date()} // Set the minimum date to the current date
+                                    disabled={(date) =>
+                                      date < new Date(checkIn)
+                                    }
+                                    minDate={new Date(checkIn)} // Set the minimum date to the current date
                                     initialFocus
                                   />
                                 </PopoverContent>
