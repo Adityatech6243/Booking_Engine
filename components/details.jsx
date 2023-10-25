@@ -79,7 +79,7 @@ export function Details(props) {
     values.ClientID = "1";
     values.YourDetails = "true";
     async function sendData() {
-      let tempSendData = await fetch("//192.168.1.11/index.php", {
+      let tempSendData = await fetch("//192.168.1.26/index.php", {
         method: "POST",
         body: JSON.stringify({ ...priviosdata, ...values }),
       })
@@ -299,6 +299,7 @@ export function Details(props) {
           />
         </div>
         <Button
+          className="bg-[#9f1f63] text-white hover:bg-[#9f1f63]"
           type="submit"
           onClick={() => {
             if (

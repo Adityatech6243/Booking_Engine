@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 20, 2023 at 02:59 PM
+-- Generation Time: Oct 25, 2023 at 09:05 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -78,15 +78,19 @@ CREATE TABLE `clients` (
   `ClientName` text NOT NULL,
   `ClientEmail` text NOT NULL,
   `ClientPhone` text NOT NULL,
-  `ClientAddress` text NOT NULL
+  `ClientAddress` text NOT NULL,
+  `ChildCostForBreakfast` text NOT NULL,
+  `ChildCostForAllMeals` text NOT NULL,
+  `AdultCostForBreakfast` text NOT NULL,
+  `AdultCostForAllMeals` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
 --
 
-INSERT INTO `clients` (`ClientID`, `ClientBusinessName`, `ClientName`, `ClientEmail`, `ClientPhone`, `ClientAddress`) VALUES
-(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9158785725 / +91-9403268501', 'Tapola');
+INSERT INTO `clients` (`ClientID`, `ClientBusinessName`, `ClientName`, `ClientEmail`, `ClientPhone`, `ClientAddress`, `ChildCostForBreakfast`, `ChildCostForAllMeals`, `AdultCostForBreakfast`, `AdultCostForAllMeals`) VALUES
+(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9158785725 / +91-9403268501', 'Tapola', '800', '1200', '1200', '1500');
 
 -- --------------------------------------------------------
 

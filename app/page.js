@@ -47,6 +47,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import MyNavbar from "@/components/header";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit } from "@fortawesome/free-solid-svg-icons";
 
 const formSchema = z.object({
   CheckIn: z.date(),
@@ -118,7 +121,7 @@ export default function Home() {
       searchdata.ClientID = "1";
       searchdata.searchAvailability = "true";
       async function sendData() {
-        let tempSendData = await fetch("//192.168.1.11/index.php", {
+        let tempSendData = await fetch("//192.168.1.26/index.php", {
           method: "POST",
           body: JSON.stringify(searchdata),
         })
@@ -156,7 +159,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.11/index.php?ClientID=1")
+      fetch("//192.168.1.26/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -169,32 +172,6 @@ export default function Home() {
               ClientPhone: "+91-9405751313 / +91-9158785725 / +91-9403268501",
               ClientAddress: "Tapola",
             },
-            rooms: [
-              {
-                RoomID: "1",
-                RoomName: "Blue Bell cottage couple AC",
-                Description:
-                  "An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32\u201d LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.",
-                PricePerNight: "3190",
-                RoomsClientID: "1",
-                RoomPhotos:
-                  "http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg",
-                RoomsWithBreakFast: "3520",
-                RoomsWithAllMeals: "4950",
-              },
-              {
-                RoomID: "2",
-                RoomName: "Blue Bell cottage couple AC",
-                Description:
-                  "An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32\u201dLED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.",
-                PricePerNight: "3520",
-                RoomsClientID: "1",
-                RoomPhotos:
-                  "http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg",
-                RoomsWithBreakFast: "4400",
-                RoomsWithAllMeals: "5500",
-              },
-            ],
             policies: {
               CheckIn: "12:00 PM",
               CheckOut: "12:00 AM",
@@ -275,12 +252,16 @@ export default function Home() {
   // debugger;
   console.log(checkIn, "checkIn");
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24">
-      <div className="flex flex-col lg:flex-row w-full">
-        <div className="lg:w-9/12 bg-gray-200 p-4">
+    <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24 bg-[#f9f9f9]">
+      <MyNavbar/>
+      <div className="flex flex-col lg:flex-row w-full ">
+        <div className="lg:w-9/12 p-4 bg-[#f9f9f9]">
           <Accordion type="single" collapsible="true" value={activeItem}>
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Search For Availability</AccordionTrigger>
+            <AccordionItem value="item-1" className="bg-[#ffffff]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+                Search For Availability
+              </AccordionTrigger>
+              {/* <FontAwesomeIcon icon={faEdit} /> */}
               <AccordionContent>
                 <Form {...form}>
                   <form
@@ -303,16 +284,16 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "w-[280px] justify-start text-left font-normal",
+                                      " w-[280px] justify-start text-left font-normal ",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
                                     {field.value ? (
                                       format(field.value, "PPP")
                                     ) : (
                                       <span>Select Check In Date</span>
                                     )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
@@ -358,12 +339,12 @@ export default function Home() {
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
                                     {field.value ? (
                                       format(field.value, "PPP")
                                     ) : (
                                       <span>Select Check Out Date</span>
                                     )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
@@ -511,6 +492,7 @@ export default function Home() {
                         ))}
                     </div>
                     <Button
+                      className="bg-[#9f1f63] text-white  ml-2 hover:bg-[#9f1f63]"
                       type="submit"
                       onClick={() =>
                         form.control._formValues?.CheckIn &&
@@ -524,12 +506,15 @@ export default function Home() {
                 </Form>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Available Rooms</AccordionTrigger>
+            <AccordionItem value="item-2" className="bg-[#ffffff]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:bg-[#9f1f63]">
+                Available Rooms
+              </AccordionTrigger>
               <AccordionContent>
                 {roomdata
                   ? roomdata?.map((item, i) => (
                       <Availability
+                        className="pt-2"
                         room={item}
                         key={i}
                         setFinaldata={handleSetFinalData}
@@ -539,8 +524,10 @@ export default function Home() {
                   : "All the rooms for these dates are booked, please select different dates."}
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-4">
-              <AccordionTrigger>Your Details</AccordionTrigger>
+            <AccordionItem value="item-4" className="bg-[#ffffff]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+                Your Details
+              </AccordionTrigger>
               <AccordionContent>
                 <Details
                   setReview={setReview}
@@ -550,32 +537,43 @@ export default function Home() {
                 />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-5">
-              <AccordionTrigger>Review Your Booking</AccordionTrigger>
+            <AccordionItem value="item-5" className="bg-[#ffffff]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+                Review Your Booking
+              </AccordionTrigger>
               <AccordionContent>
                 <div>
-                  <h2 className="text-center font-bold">Your Details</h2>
-                  <ul className="flex flex-wrap flex-col lg:flex-row">
-                    <li className="p-5 lg:w-1/2">Name: {review?.UserName}</li>
-                    <li className="p-5 lg: w-1/2">
-                      Mobile: {review?.UserPhone}
+                  <h2 className="text-center font-bold mt-3">Your Details</h2>
+                  <ul className="flex flex-wrap flex-col lg:flex-row border-b ">
+                    <li className="p-5 lg:w-1/2 border-b">
+                      <span className="font-semibold">Name:</span>{" "}
+                      {review?.UserName}
                     </li>
-                    <li className="p-5 lg: w-1/2">
-                      Email: {review?.UserEmail}
+                    <li className="p-5 lg: w-1/2 border-b">
+                      <span className="font-semibold">Mobile:</span>{" "}
+                      {review?.UserPhone}
                     </li>
-                    <li className="p-5 lg: w-1/2">
-                      Address: {review?.UserAddress}
+                    <li className="p-5 lg: w-1/2 border-b">
+                      <span className="font-semibold">Email:</span>
+                      {review?.UserEmail}
                     </li>
-                    <li className="p-5 lg: w-1/2">
-                      Special Request: {review?.SpecialRequest}
+                    <li className="p-5 lg: w-1/2 border-b">
+                      <span className="font-semibold">Address:</span>{" "}
+                      {review?.UserAddress}
+                    </li>
+                    <li className="p-5 lg: w-1/2 ">
+                      <span className="font-semibold">Special Request:</span>{" "}
+                      {review?.SpecialRequest}
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <h2 className="text-center font-bold">Booking Details</h2>
-                  <ul className="flex flex-wrap flex-col lg:flex-row">
-                    <li className="p-5 lg:w-1/2">
-                      Check In Date:{" "}
+                  <h2 className="text-center font-bold mt-3">
+                    Booking Details
+                  </h2>
+                  <ul className="flex flex-wrap flex-col lg:flex-row border-b">
+                    <li className="p-5 lg:w-1/2 border-b">
+                      <span className="font-semibold">Check In Date:</span>{" "}
                       {new Date(review?.CheckInDate)?.toLocaleDateString(
                         "en-US",
                         {
@@ -585,8 +583,8 @@ export default function Home() {
                         }
                       )}
                     </li>
-                    <li className="p-5 lg: w-1/2">
-                      Check Out Date:{" "}
+                    <li className="p-5 lg: w-1/2 border-b">
+                      <span className="font-semibold">Check Out Date:</span>{" "}
                       {new Date(review?.CheckOutDate)?.toLocaleDateString(
                         "en-US",
                         {
@@ -598,7 +596,8 @@ export default function Home() {
                     </li>
                     {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
                     <li className="p-5 lg: w-1/2">
-                      Room Type: {review?.BookingRoomType}
+                      <span className="font-semibold">Room Type:</span>{" "}
+                      {review?.BookingRoomType}
                     </li>
                   </ul>
                 </div>
@@ -637,7 +636,7 @@ export default function Home() {
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium border-r">
+                        <TableCell className="font-medium border-r border-2">
                           {review?.RoomName}
                         </TableCell>
                         <TableCell className="border-r border-2">
@@ -680,12 +679,14 @@ export default function Home() {
                   </Table>
                 </div>
                 <div>
-                  <h2 className="text-center font-bold">Summary</h2>
+                  <h2 className="text-center font-bold mt-3">Summary</h2>
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="w-[100px]">Sub Total</TableHead>
-                        <TableHead>
+                        <TableHead className="w-[100px] border-2">
+                          Sub Total
+                        </TableHead>
+                        <TableHead className="border-2">
                           {currency}
                           {review?.TotalPrice}/-
                         </TableHead>
@@ -693,10 +694,10 @@ export default function Home() {
                     </TableHeader>
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium">
+                        <TableCell className="font-medium border-2">
                           Grand Total
                         </TableCell>
-                        <TableCell>
+                        <TableCell className="border-2">
                           {currency}
                           {review?.TotalPrice}/-
                         </TableCell>
@@ -705,20 +706,27 @@ export default function Home() {
                   </Table>
                 </div>
                 <div className="flex">
-                  <Button className="ml-5" onClick={refreshPage}>
+                  <Button
+                    className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
+                    onClick={refreshPage}
+                  >
                     Reset
                   </Button>
-                  <Button className="ml-5">Pay Now</Button>
+                  <Button className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2">
+                    Pay Now
+                  </Button>
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
-        <div className="lg:w-3/12 bg-gray-300 p-4">
+        <div className="lg:w-3/12  p-4">
           <Accordion type="multiple" collapsible="true">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Hotel Details</AccordionTrigger>
-              <AccordionContent>
+            <AccordionItem value="item-1" className="bg-[#ffffff] ">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+                Hotel Details
+              </AccordionTrigger>
+              <AccordionContent className="pt-4 pl-3">
                 <p className="mb-1">
                   <b>Hotel Name: </b>
                   <br />
@@ -741,9 +749,11 @@ export default function Home() {
                 </p>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2">
-              <AccordionTrigger>Cancellation Policy</AccordionTrigger>
-              <AccordionContent>
+            <AccordionItem value="item-2" className="bg-[#ffffff]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+                Cancellation Policy
+              </AccordionTrigger>
+              <AccordionContent className="pt-4 pl-3">
                 <ul className="list-inside list-disc">
                   {data?.policies?.CancellationPolicies?.map((elem, ind) => (
                     <li key={ind}> {elem}</li>
@@ -751,9 +761,11 @@ export default function Home() {
                 </ul>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-3">
-              <AccordionTrigger>Check In/Out Policy</AccordionTrigger>
-              <AccordionContent>
+            <AccordionItem value="item-3" className="bg-[#ffffff]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+                Check In/Out Policy
+              </AccordionTrigger>
+              <AccordionContent className="pt-4 pl-3">
                 <p className="mb-1">
                   <b>Check In Time: </b>
                   <span>{data?.policies?.CheckIn}</span>

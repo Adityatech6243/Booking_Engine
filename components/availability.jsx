@@ -39,26 +39,6 @@ export function Availability(props) {
           <span>Avg. Per Room/Night</span>
         </div>
       </div>
-      {/* <div className="flex">
-        <div className="w-1/3 p-4">Room with Breakfast</div>
-        <div className="w-1/3 p-4">
-          {currency}
-          {roomdata?.PricePerNight}/- Price
-        </div>
-        <div className="w-1/3 p-4">
-          <Button
-            onClick={() => {
-              setRoomIdType({
-                RoomType: "Room Only",
-                ...roomdata,
-              });
-              props.handleSearch();
-            }}
-          >
-            Select
-          </Button>
-        </div>
-      </div> */}
       <div className="flex">
         <div className="w-1/3 p-4">Rooms with Breakfast</div>
         <div className="w-1/3 p-4">
@@ -67,6 +47,7 @@ export function Availability(props) {
         </div>
         <div className="w-1/3 p-4">
           <Button
+            className="bg-[#9f1f63] text-white hover:bg-[#9f1f63]"
             onClick={() => {
               setRoomIdType({
                 RoomType: "With Breakfast",
@@ -88,6 +69,7 @@ export function Availability(props) {
         </div>
         <div className="w-1/3 p-4">
           <Button
+            className="bg-[#9f1f63] text-white hover:bg-[#9f1f63]"
             onClick={() => {
               setRoomIdType({
                 RoomType: "All Inclusive",
