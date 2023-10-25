@@ -533,7 +533,9 @@ export default function Home() {
               </AccordionTrigger>
               <AccordionContent>
                 <div>
-                  <h2 className="text-center font-bold mt-3">Your Details</h2>
+                  <h2 className="text-center font-extrabold mt-3">
+                    Your Details
+                  </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b ">
                     <li className="p-5 lg:w-1/2 border-b">
                       <span className="font-semibold">Name:</span>{" "}
@@ -702,7 +704,10 @@ export default function Home() {
                   >
                     Reset
                   </Button>
-                  <Button onClick={PayNow} className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2">
+                  <Button
+                    onClick={PayNow}
+                    className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
+                  >
                     Pay Now
                   </Button>
                 </div>
