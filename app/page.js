@@ -48,6 +48,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MyNavbar from "@/components/header";
+import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
 import emailjs from "emailjs-com";
@@ -246,66 +247,23 @@ export default function Home() {
     console.log("finaldata: ", finaldata);
   }, [finaldata]);
 
-  // useEffect(() => {
-  //   console.log(finaldata);
-
-  //   let withbreakfastExtrabed;
-
-  //   // switch (true) {
-  //   //   case finaldata?.Adults > 6:
-  //   //     withbreakfastExtrabed = 5;
-  //   //     break;
-  //   //   case finaldata?.Adults > 5:
-  //   //     withbreakfastExtrabed = 4;
-  //   //     break;
-  //   //   case finaldata?.Adults > 4:
-  //   //     withbreakfastExtrabed = 3;
-  //   //     break;
-  //   //   case finaldata?.Adults > 3:
-  //   //     withbreakfastExtrabed = 2;
-  //   //     break;
-  //   //   case finaldata?.Adults > 2:
-  //   //     withbreakfastExtrabed = 1;
-  //   //     break;
-  //   //   default:
-  //   //     withbreakfastExtrabed = 0;
-  //   // }
-  //   // setWithBreakFastExtraBed(withbreakfastExtrabed);
-
-  //  // let withbreakfastExtrabedCharg;
-
-  //   // switch (true) {
-  //   //   case finaldata?.Adults > 6:
-  //   //     withbreakfastExtrabedCharg = 9000;
-  //   //     break;
-  //   //   case finaldata?.Adults > 5:
-  //   //     withbreakfastExtrabedCharg = 7200;
-  //   //     break;
-  //   //   case finaldata?.Adults > 4:
-  //   //     withbreakfastExtrabedCharg = 5400;
-  //   //     break;
-  //   //   case finaldata?.Adults > 3:
-  //   //     withbreakfastExtrabedCharg = 3600;
-  //   //     break;
-  //   //   case finaldata?.Adults > 2:
-  //   //     withbreakfastExtrabedCharg = 1800;
-  //   //     break;
-  //   //   default:
-  //   //     withbreakfastExtrabedCharg = 0;
-  //   // }
-  //      // setWithBreakFastExtraBedCharg(withbreakfastExtrabedCharg);
-
-  // ///  setResult(withbreakfastExtrabedCharg + Number(finaldata?.price));
-  // }, [finaldata]);
-  // debugger;
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24 bg-[#f9f9f9]">
-      <MyNavbar/>
-      <div className="flex flex-col lg:flex-row w-full ">
+    <main className="flex min-h-screen flex-col justify-between p-2 lg:p-24 lg:py-0 bg-[#f9f9f9]">
+      <MyNavbar />
+      <div
+        className="relative h-48"
+        style={{ backgroundImage: `url(/banner-img.jpeg)` }}
+      >
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-70 text-white p-4">
+          <h1 className="font-bold text-5xl">River Orchid Resort</h1>
+          <p>Pali ategaon Maharashtra 412806</p>
+        </div>
+      </div>
+      <div className="flex flex-col lg:flex-row w-full">
         <div className="lg:w-9/12 p-4 bg-[#f9f9f9]">
           <Accordion type="single" collapsible="true" value={activeItem}>
-            <AccordionItem value="item-1" className="bg-[#ffffff]">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+            <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 Search For Availability
               </AccordionTrigger>
               {/* <FontAwesomeIcon icon={faEdit} /> */}
@@ -553,8 +511,8 @@ export default function Home() {
                 </Form>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2" className="bg-[#ffffff]">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:bg-[#9f1f63]">
+            <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63]">
                 Available Rooms
               </AccordionTrigger>
               <AccordionContent>
@@ -571,8 +529,8 @@ export default function Home() {
                   : "All the rooms for these dates are booked, please select different dates."}
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-4" className="bg-[#ffffff]">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+            <AccordionItem value="item-4" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
                 Your Details
               </AccordionTrigger>
               <AccordionContent>
@@ -584,13 +542,15 @@ export default function Home() {
                 />
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-5" className="bg-[#ffffff]">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+            <AccordionItem value="item-5" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 Review Your Booking
               </AccordionTrigger>
               <AccordionContent>
                 <div>
-                  <h2 className="text-center font-bold mt-3">Your Details</h2>
+                  <h2 className="text-center font-extrabold mt-3">
+                    Your Details
+                  </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b ">
                     <li className="p-5 lg:w-1/2 border-b">
                       <span className="font-semibold">Name:</span>{" "}
@@ -759,7 +719,10 @@ export default function Home() {
                   >
                     Reset
                   </Button>
-                  <Button onClick={PayNow} className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2">
+                  <Button
+                    onClick={PayNow}
+                    className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
+                  >
                     Pay Now
                   </Button>
                 </div>
@@ -769,8 +732,8 @@ export default function Home() {
         </div>
         <div className="lg:w-3/12  p-4">
           <Accordion type="multiple" collapsible="true">
-            <AccordionItem value="item-1" className="bg-[#ffffff] ">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+            <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 Hotel Details
               </AccordionTrigger>
               <AccordionContent className="pt-4 pl-3">
@@ -796,8 +759,8 @@ export default function Home() {
                 </p>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-2" className="bg-[#ffffff]">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+            <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 Cancellation Policy
               </AccordionTrigger>
               <AccordionContent className="pt-4 pl-3">
@@ -808,8 +771,8 @@ export default function Home() {
                 </ul>
               </AccordionContent>
             </AccordionItem>
-            <AccordionItem value="item-3" className="bg-[#ffffff]">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2 mt-2 hover:no-underline">
+            <AccordionItem value="item-3" className="bg-[#ffffff] my-1">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
                 Check In/Out Policy
               </AccordionTrigger>
               <AccordionContent className="pt-4 pl-3">

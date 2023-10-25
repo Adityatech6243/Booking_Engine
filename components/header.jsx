@@ -2,10 +2,10 @@ import Link from "next/link";
 
 const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
   return (
-    <nav className="bg-light sticky top-0 shadow">
-      <div className="container mx-auto p-5">
+    <nav className="bg-[#ffffff] sticky top-0 shadow z-50">
+      <div className="container flex mx-auto space-x-4 justify-between">
         <Link href="/">
-          <img src="/img/Logo.png" width="170" alt="logo" />
+          <img src="./Logo.png" width="60" alt="logo" />
         </Link>
         <button
           onClick={handleToggle}
@@ -21,78 +21,15 @@ const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
           <ul className="lg:flex lg:space-x-2">
             <li>
               <Link
-                href="/"
+                href="https://www.riverorchidresort.com"
                 onClick={handleMenuItemClick}
                 className="hover:text-dark text-uppercase text-center mx-2"
               >
-                
+                {" "}
                 Home
               </Link>
             </li>
-            <li>
-              <Link
-                href="/about"
-                onClick={handleMenuItemClick}
-                className="hover:text-dark text-uppercase text-center mx-2"
-              >
-                About Us
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/gallery"
-                onClick={handleMenuItemClick}
-                className="hover:text-dark text-uppercase text-center mx-2"
-              >
-                Gallery
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/contact"
-                onClick={handleMenuItemClick}
-                className="hover:text-dark text-uppercase text-center mx-2"
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/facilities"
-                onClick={handleMenuItemClick}
-                className="hover:text-dark text-uppercase text-center mx-2"
-              >
-                Facilities
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/packages"
-                onClick={handleMenuItemClick}
-                className="hover:text-dark text-uppercase text-center mx-2"
-              >
-                Rooms & Packages
-              </Link>
-            </li>
-            <li>
-              <a
-                href="https://www.google.com/maps/place/River+Orchid+Resort+Tapola..."
-                target="_blank"
-                className="hover:text-dark text-uppercase text-center mx-2"
-              >
-                Show On Map
-              </a>
-            </li>
           </ul>
-          <div className="lg:ml-4">
-            <a
-              href="https://asiatech.in/booking_engine/index3?token=MzU0NQ=="
-              target="_blank"
-              className="bg-pink-500 text-white text-uppercase py-2 px-4 rounded-md text-center mx-2"
-            >
-              Book Now
-            </a>
-          </div>
         </div>
       </div>
     </nav>
