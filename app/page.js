@@ -51,6 +51,7 @@ import MyNavbar from "@/components/header";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import emailjs from "emailjs-com";
 
 const formSchema = z.object({
   CheckIn: z.date(),
@@ -142,7 +143,7 @@ export default function Home() {
       sendData();
     }
   }, [searchdata]);
-  useEffect(() => console.log("dd", review), [review]);
+  // useEffect(() => console.log("dd", review), [review]);
   useEffect(() => {
     if (childrensCount == 0) {
       form.control._formValues.Child1Age = "";
@@ -193,6 +194,37 @@ export default function Home() {
 
   function onSubmit(values) {
     setSearchData(values);
+  }
+  // emailjs code here to send mail
+  emailjs.init("dVPPPyRhEoB6ft-B_");
+
+
+  const PayNow=()=>{
+    const emailData = {
+      // service_id: "RiverOrchidResortBooking",
+      // template_id: "template_t9zwh3u",
+      // user_id: "dVPPPyRhEoB6ft-B_",
+      
+        // to_name: review?.UserName,
+        // from_name: "River Orchid Resort Booking",
+       ...review,
+        'reply_to': review?.UserEmail
+      
+    };
+
+    // Send the email
+    emailjs
+      .send("RiverOrchidResortBooking",
+      "template_t9zwh3u",
+      emailData,
+      "dVPPPyRhEoB6ft-B_")
+      .then((response) => {
+        console.log("Email sent successfully", response);
+      })
+      .catch((error) => {
+        console.error("Email send failed", error);
+      });
+
   }
 
   useEffect(() => {
@@ -670,7 +702,7 @@ export default function Home() {
                   >
                     Reset
                   </Button>
-                  <Button className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2">
+                  <Button onClick={PayNow} className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2">
                     Pay Now
                   </Button>
                 </div>
