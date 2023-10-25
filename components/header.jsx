@@ -7,23 +7,20 @@ const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
         <Link href="/">
           <img src="./Logo.png" width="60" alt="logo" />
         </Link>
-        <button
+        {/* <button
           onClick={handleToggle}
           className="text-dark lg:hidden block float-right"
         >
           ☰
-        </button>
-        <div
-          className={`${
-            expanded ? "block" : "hidden"
-          } lg:flex lg:items-center lg:w-auto justify-end`}
-        >
-          <ul className="lg:flex lg:space-x-2">
+        </button> */}
+        <div className="lg:flex lg:items-center lg:w-auto justify-end">
+          <ul className="bg-[#9f1f63] lg:flex lg:space-x-2 lg:mt-0 mt-4 text-white p-2 rounded-md">
             <li>
               <Link
                 href="https://www.riverorchidresort.com"
                 onClick={handleMenuItemClick}
-                className="hover:text-dark text-uppercase text-center mx-2"
+                className="hover:text-[#ffffff] text-uppercase text-center mx-2"
+                target="_blank"
               >
                 {" "}
                 Home

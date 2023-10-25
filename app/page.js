@@ -240,8 +240,12 @@ export default function Home() {
         style={{ backgroundImage: `url(/banner-img.jpeg)` }}
       >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-70 text-white p-4">
-          <h1 className="font-bold text-5xl">River Orchid Resort</h1>
-          <p>Pali ategaon Maharashtra 412806</p>
+          <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+            River Orchid Resort
+          </h1>
+          <p className="text-base sm:text-lg md:text-xl lg:text-1xl xl:text-2xl">
+            Pali Ategaon Maharashtra 412806
+          </p>
         </div>
       </div>
       <div className="flex flex-col lg:flex-row w-full">
