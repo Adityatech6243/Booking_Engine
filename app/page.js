@@ -207,7 +207,23 @@ export default function Home() {
         // to_name: review?.UserName,
         // from_name: "River Orchid Resort Booking",
        ...review,
-        'reply_to': review?.UserEmail
+        'reply_to': review?.UserEmail,
+        'CheckInDate': new Date(review?.CheckInDate)?.toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+        ),
+        'CheckOutDate':new Date(review?.CheckOutDate)?.toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+        )
       
     };
 
@@ -282,7 +298,6 @@ export default function Home() {
   // ///  setResult(withbreakfastExtrabedCharg + Number(finaldata?.price));
   // }, [finaldata]);
   // debugger;
-  console.log(checkIn, "checkIn");
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-2 lg:p-24 bg-[#f9f9f9]">
       <MyNavbar/>
