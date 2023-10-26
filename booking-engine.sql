@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 25, 2023 at 09:05 AM
+-- Generation Time: Oct 26, 2023 at 02:01 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -53,18 +53,39 @@ CREATE TABLE `bookings` (
   `CompanyAddress` text NOT NULL,
   `SpecialRequest` text NOT NULL,
   `RoomName` text NOT NULL,
-  `numberOfNights` int(11) NOT NULL
+  `numberOfNights` int(11) NOT NULL,
+  `AmtToPaid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `numberOfNights`) VALUES
-(1697805793117568, 1, '2023-10-20T18:30:00.000Z', '2023-10-21T18:30:00.000Z', 3520, 'paid', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0),
-(1697806126035842, 1, '2023-10-24T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 18450, 'pending', 'All Inclusive', '2', '2', '3', '9', '', '0', '0', '2400', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'a', 'b', 'c', 'wwwwww', 'Blue Bell cottage couple AC', 3),
-(1697806284164476, 1, '2023-10-27T18:30:00.000Z', '2023-10-30T18:30:00.000Z', 35550, 'pending', 'All Inclusive', '5', '3', '9', '5', '2', '9', '4500', '4800', 'prathamesh', '997056524', 'awd@ad.com', 'awdawd', 'no', '', '', '', 'a', 'Blue Bell cottage couple AC', 3),
-(1697806577186152, 1, '2023-10-27T18:30:00.000Z', '2023-10-30T18:30:00.000Z', 23760, 'pending', 'With Breakfast', '5', '3', '3', '5', '9', '3', '3600', '2400', 'suraj', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', 'aa', 'Blue Bell cottage couple AC', 3);
+INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `numberOfNights`, `AmtToPaid`) VALUES
+(1697805793117568, 1, '2023-10-20T18:30:00.000Z', '2023-10-21T18:30:00.000Z', 3520, 'paid', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0, 0),
+(1697806126035842, 1, '2023-10-24T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 18450, 'pending', 'All Inclusive', '2', '2', '3', '9', '', '0', '0', '2400', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'a', 'b', 'c', 'wwwwww', 'Blue Bell cottage couple AC', 3, 0),
+(1697806284164476, 1, '2023-10-27T18:30:00.000Z', '2023-10-30T18:30:00.000Z', 35550, 'pending', 'All Inclusive', '5', '3', '9', '5', '2', '9', '4500', '4800', 'prathamesh', '997056524', 'awd@ad.com', 'awdawd', 'no', '', '', '', 'a', 'Blue Bell cottage couple AC', 3, 0),
+(1697806577186152, 1, '2023-10-27T18:30:00.000Z', '2023-10-30T18:30:00.000Z', 23760, 'pending', 'With Breakfast', '5', '3', '3', '5', '9', '3', '3600', '2400', 'suraj', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', 'aa', 'Blue Bell cottage couple AC', 3, 0),
+(1698217545666209, 2, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 7600, 'pending', 'With Breakfast', '4', '2', '5', '7', '', '2', '2400', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'sdwewe hh', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 0),
+(1698218295808896, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 4950, 'pending', 'All Inclusive', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awd@ad.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 0),
+(1698218638843500, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 0),
+(1698219138115269, 1, '2023-10-25T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 7040, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'suraj', '997056524', 'awd@ad.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 0),
+(1698219749967906, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 0),
+(1698219848453489, 1, '2023-11-13T18:30:00.000Z', '2023-11-14T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 0),
+(1698220115837683, 2, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 4400, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 0),
+(1698222086926651, 1, '2023-10-27T18:30:00.000Z', '2023-10-30T18:30:00.000Z', 10560, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'mayur@gmail.com', 'satara', 'no', '', '', '', 'M', 'Blue Bell cottage couple AC', 3, 0),
+(1698222886257667, 1, '2023-10-27T18:30:00.000Z', '2023-10-30T18:30:00.000Z', 10560, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'mayur@gmail.com', 'satara', 'no', '', '', '', 'aa', 'Blue Bell cottage couple AC', 3, 0),
+(1698223511950240, 1, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'masyur@gmail.com', 'satara', 'no', '', '', '', 'ssss', 'Blue Bell cottage couple AC', 1, 0),
+(1698227678606236, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', 'nn', 'Blue Bell cottage couple AC', 1, 0),
+(1698228250667475, 1, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', ';;', 'Blue Bell cottage couple AC', 1, 0),
+(1698228475355879, 1, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', 'hh', 'Blue Bell cottage couple AC', 1, 0),
+(1698228803235460, 1, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'masyur@gmail.com', 'satara', 'no', '', '', '', 'jj', 'Blue Bell cottage couple AC', 1, 0),
+(1698230215898149, 1, '2023-10-25T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 7040, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'suraj', 'awd', 'awdawdw@gail.com', 'awdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 0),
+(1698230649673100, 1, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'mayur@gmail.com', 'satara', 'no', '', '', '', 'ss', 'Blue Bell cottage couple AC', 1, 0),
+(1698234566931801, 1, '2023-10-25T18:30:00.000Z', '2023-10-26T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', 'heloo ', 'Blue Bell cottage couple AC', 1, 0),
+(1698314163238434, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', 'ss', 'Blue Bell cottage couple AC', 1, 10),
+(1698315018481732, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', 'mm', 'Blue Bell cottage couple AC', 1, 10),
+(1698315976202133, 1, '2023-10-26T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 3520, 'pending', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'mayur', '08421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', 'jj', 'Blue Bell cottage couple AC', 1, 1056);
 
 -- --------------------------------------------------------
 
@@ -136,7 +157,13 @@ CREATE TABLE `rooms` (
 
 INSERT INTO `rooms` (`RoomID`, `RoomName`, `Description`, `RoomsClientID`, `RoomPhotos`, `RoomsWithBreakFast`, `RoomsWithAllMeals`) VALUES
 (1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '3520', '4950'),
-(2, 'Blue Bell cottage couple AC', 'An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg', '4400', '5500');
+(2, 'Blue Bell cottage couple AC', 'An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'http://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg, http://riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg', '4400', '5500'),
+(3, 'Mango cottage Room AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/mango.jpg,https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '\r\n 7200 ', ' 10000'),
+(14, 'Jasmanium Cottage 1 - Couple Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20couple.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20washroom.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20balcony.jpg', '', ''),
+(15, 'Jasmanium Cottage 2 - Family Room With Breakfast', 'n exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with two kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20couple.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20washroom.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20balcony.jpg', '', ''),
+(16, 'Iris Family Cottage - Family Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/iris%20family%201.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20family.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20balcony.jpg', '', ''),
+(17, 'Lilium Twin Rooms - Family Room with Breakfast', 'An exclusive Family cottage with private sit out facing lawn n lake, the cottage is equipped with Two kingsize bed sleeping accommodation, and two bed rooms among which one is master bedroom with attached bathroom,blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/lilium%202.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium%20balcony.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium.jpg', '', ''),
+(18, 'Blue Bell Cottage 2 - Family Room with Breakfast', 'An exclusive cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/bluebell%20family.jpg, https://riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg', '', '');
 
 -- --------------------------------------------------------
 
@@ -254,7 +281,7 @@ ALTER TABLE `policies`
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `RoomID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `users`

@@ -197,16 +197,9 @@ export default function Home() {
   }
   // emailjs code here to send mail
   emailjs.init("dVPPPyRhEoB6ft-B_");
-
-
   const PayNow=()=>{
     const emailData = {
-      // service_id: "RiverOrchidResortBooking",
-      // template_id: "template_t9zwh3u",
-      // user_id: "dVPPPyRhEoB6ft-B_",
-      
-        // to_name: review?.UserName,
-        // from_name: "River Orchid Resort Booking",
+  
        ...review,
         'reply_to': review?.UserEmail,
         'CheckInDate': new Date(review?.CheckInDate)?.toLocaleDateString(
@@ -695,7 +688,7 @@ export default function Home() {
                     <TableHeader>
                       <TableRow>
                         <TableHead className="w-[100px] border-2">
-                          Sub Total
+                          Grand Total
                         </TableHead>
                         <TableHead className="border-2">
                           {currency}
@@ -706,11 +699,11 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-2">
-                          Grand Total
+                          Amount to be Paid
                         </TableCell>
                         <TableCell className="border-2">
                           {currency}
-                          {review?.TotalPrice}/-
+                          {review?.AmtToPaid}/-
                         </TableCell>
                       </TableRow>
                     </TableBody>

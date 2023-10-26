@@ -160,7 +160,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ChildCost = ($bookingRoomType === 'All Inclusive') ? sanitizeInput($data->ChildCostForAllMeals) : sanitizeInput($data->ChildCostForBreakfast);
 
                 $BookingID=round(microtime(true) * 1000) . mt_rand(100, 999);
-             
+                $AmtToPaid = $totalPrice * 0.30;
+
                     $insertBookingSQL = "INSERT INTO bookings ( UserName,
                                                                 UserPhone, 
                                                                 UserEmail, 
@@ -186,7 +187,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 ExtraBed, 
                                                                 ExtraBedCost, 
                                                                 ChildCost,
-                                                                PaymentStatus
+                                                                PaymentStatus,
+                                                                AmtToPaid
                                                             ) VALUES (
                                                                 '$userName', 
                                                                 '$userPhone', 
@@ -213,7 +215,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 '$ExtraBed', 
                                                                 '$ExtraBedCost', 
                                                                 '$ChildCost',
-                                                                'pending'
+                                                                'pending',
+                                                                '$AmtToPaid'
+                                                                
                                                                 )";
 
                     if ($conn->query($insertBookingSQL) === TRUE) {
@@ -229,7 +233,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 if (isset($_GET['ClientID'])) {
     $clientID = $_GET['ClientID'];
 
-    $sql = "SELECT r., c., p.* FROM rooms r
+    $sql = "SELECT r.*, c.*, p.* FROM rooms r
             LEFT JOIN clients c ON r.RoomsClientID = c.ClientID
             LEFT JOIN policies p ON c.ClientID = p.ClientID
             WHERE r.RoomsClientID = $clientID";
@@ -268,3 +272,4 @@ if (isset($_GET['ClientID'])) {
 }
 $conn->close();
 ?>
+
