@@ -309,9 +309,9 @@ export default function Home() {
                                     //   setCheckIn(disableDate);
                                     // }}
                                     onSelect={field.onChange}
-                                    // disabled={(date) => date < new Date()}
+                                    disabled={(date) => date < new Date()}
                                     // minDate={new Date()} // Set the minimum date to the current date
-                                    // initialFocus
+                                    initialFocus
                                   />
                                 </PopoverContent>
                               </Popover>
