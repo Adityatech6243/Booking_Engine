@@ -101,8 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $row['ChildCostForAllMeals'] = $ChildCost * $numberOfNights;
                 $row['ExtraBed'] = $ExtraBed;
 
-                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
-                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+                $row['RoomsWithAllMeals'] = floatval($RoomsWithAllMeals) * floatval($numberOfNights);
+                $row['RoomsWithBreakFast'] = floatval($RoomsWithBreakFast) * floatval($numberOfNights);
                 
                 $row['numberOfNights'] = $numberOfNights;
 

@@ -123,7 +123,7 @@ export default function Home() {
       searchdata.ClientID = "1";
       searchdata.searchAvailability = "true";
       async function sendData() {
-        let tempSendData = await fetch("//192.168.1.26/index.php", {
+        let tempSendData = await fetch("//localhost/index.php", {
           method: "POST",
           body: JSON.stringify(searchdata),
         })
@@ -161,7 +161,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.26/index.php?ClientID=1")
+      fetch("//localhost/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -197,44 +197,40 @@ export default function Home() {
   }
   // emailjs code here to send mail
   emailjs.init("dVPPPyRhEoB6ft-B_");
-  const PayNow=()=>{
+  const PayNow = () => {
     const emailData = {
-  
-       ...review,
-        'reply_to': review?.UserEmail,
-        'CheckInDate': new Date(review?.CheckInDate)?.toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        ),
-        'CheckOutDate':new Date(review?.CheckOutDate)?.toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        )
-      
+      ...review,
+      reply_to: review?.UserEmail,
+      CheckInDate: new Date(review?.CheckInDate)?.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      CheckOutDate: new Date(review?.CheckOutDate)?.toLocaleDateString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }
+      ),
     };
 
     // Send the email
     emailjs
-      .send("RiverOrchidResortBooking",
-      "template_t9zwh3u",
-      emailData,
-      "dVPPPyRhEoB6ft-B_")
+      .send(
+        "RiverOrchidResortBooking",
+        "template_t9zwh3u",
+        emailData,
+        "dVPPPyRhEoB6ft-B_"
+      )
       .then((response) => {
         console.log("Email sent successfully", response);
       })
       .catch((error) => {
         console.error("Email send failed", error);
       });
-
-  }
+  };
 
   useEffect(() => {
     console.log("finaldata: ", finaldata);
@@ -509,7 +505,7 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63] hover:no-underline">
                 Available Rooms
               </AccordionTrigger>
               <AccordionContent>

@@ -79,7 +79,7 @@ export function Details(props) {
     values.ClientID = "1";
     values.YourDetails = "true";
     async function sendData() {
-      let tempSendData = await fetch("//192.168.1.26/index.php", {
+      let tempSendData = await fetch("//localhost/index.php", {
         method: "POST",
         body: JSON.stringify({ ...priviosdata, ...values }),
       })
