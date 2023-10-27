@@ -309,7 +309,7 @@ export default function Home() {
                                     //   setCheckIn(disableDate);
                                     // }}
                                     onSelect={field.onChange}
-                                    disabled={(date) => date < new Date()}
+                                    // disabled={(date) => date < new Date()}
                                     // minDate={new Date()} // Set the minimum date to the current date
                                     initialFocus
                                   />
@@ -348,7 +348,7 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
-                                    className={field.value && "hidden"}
+                                    // className={field.value && "hidden"}
                                     mode="single"
                                     selected={field.value}
                                     onSelect={field.onChange}
