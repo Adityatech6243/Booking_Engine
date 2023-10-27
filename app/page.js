@@ -266,8 +266,8 @@ export default function Home() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                   >
-                    <div className="flex flex-wrap flex-col lg:flex-row">
-                      <div className="w-1/3 p-4">
+                    <div className="flex flex-wrap flex-col md:flex-row">
+                      <div className="sm:1 md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="CheckIn"
@@ -282,7 +282,7 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      " w-[280px] justify-start text-left font-normal ",
+                                      "sm:w-full md:w-70 lg:w-full xl:w-120 justify-start text-left font-normal",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -296,21 +296,22 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
-                                    className={field.value && "hidden"}
+                                    // className={field.value && "hidden"}
                                     mode="single"
-                                    selected={() => {
-                                      field.value;
-                                      const disableDate = new Date(
-                                        field.value
-                                      ).setDate(
-                                        new Date(field.value).getDate() + 1
-                                      );
-                                      setCheckIn(disableDate);
-                                    }}
+                                    selected={field.value}
+                                    // {() => {
+                                    //   field.value;
+                                    //   const disableDate = new Date(
+                                    //     field.value
+                                    //   ).setDate(
+                                    //     new Date(field.value).getDate() + 1
+                                    //   );
+                                    //   setCheckIn(disableDate);
+                                    // }}
                                     onSelect={field.onChange}
-                                    disabled={(date) => date < new Date()}
-                                    minDate={new Date()} // Set the minimum date to the current date
-                                    initialFocus
+                                    // disabled={(date) => date < new Date()}
+                                    // minDate={new Date()} // Set the minimum date to the current date
+                                    // initialFocus
                                   />
                                 </PopoverContent>
                               </Popover>
@@ -318,7 +319,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="w-1/3 p-4">
+                      <div className="md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="CheckOut"
@@ -333,7 +334,7 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "w-[280px] justify-start text-left font-normal",
+                                      "sm:w-full md:w-70 lg:w-full xl:w-120 justify-start text-left font-normal",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -363,8 +364,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-
-                      <div className="w-1/3 p-4">
+                      <div className="md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="Rooms"
@@ -376,7 +376,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger className="sm:w-full md:w-70 lg:w-full xl:w-120">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -389,7 +389,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="w-1/3 p-4">
+                      <div className="md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="Adults"
@@ -401,7 +401,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger className="sm:w-full md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -418,7 +418,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="w-1/3 p-4">
+                      <div className="md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="Childrens"
@@ -433,7 +433,7 @@ export default function Home() {
                                   }}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger className="sm:w-full md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="0" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -454,7 +454,7 @@ export default function Home() {
                         Array.from({
                           length: parseInt(childrensCount),
                         }).map((_, index) => (
-                          <div key={index} className="w-1/3 p-4">
+                          <div key={index} className="md:w-1/3 w-[100%] p-4">
                             <FormField
                               control={form.control}
                               name={`Child${index + 1}Age`} // Use an array to differentiate between child ages
@@ -466,7 +466,7 @@ export default function Home() {
                                       onValueChange={field.onChange}
                                       defaultValue={field.value}
                                     >
-                                      <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                      <SelectTrigger className="sm:w-full md:w-70 lg:w-100 xl:w-120">
                                         <SelectValue placeholder="0" />
                                       </SelectTrigger>
                                       <SelectContent>

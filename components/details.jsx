@@ -100,7 +100,7 @@ export function Details(props) {
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-8 flex flex-wrap"
       >
-        <div className="md:w-1/3 w-[100%] p-2 mt-3">
+        <div className="sm:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserName"
@@ -121,7 +121,7 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="md:w-1/3 w-[100%] p-2 mt-3">
+        <div className="sm:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserPhone"
@@ -130,11 +130,7 @@ export function Details(props) {
                 <FormLabel>
                   Contact Number<sup className="text-red-500">*</sup>
                 </FormLabel>
-                {!isValidPhoneNumber && (
-                  <p className="text-red-500">
-                    Please enter a valid phone number (e.g., 10 digits).
-                  </p>
-                )}
+
                 <FormControl>
                   <Input
                     type="tel"
@@ -143,6 +139,7 @@ export function Details(props) {
                     placeholder="Enter Your Contact Number"
                     {...field}
                     required
+                    pattern="\d{10}"
                   />
                 </FormControl>
                 <FormMessage />
@@ -150,7 +147,7 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="md:w-1/3 w-[100%] p-2 mt-3">
+        <div className="sm:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserEmail"
@@ -172,7 +169,7 @@ export function Details(props) {
             )}
           />
         </div>
-        <div className="md:w-1/3 w-[100%] p-2 mt-3">
+        <div className="sm:w-1/3 w-[100%] p-2 mt-3">
           <FormField
             control={form.control}
             name="UserAddress"
