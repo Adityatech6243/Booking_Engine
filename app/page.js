@@ -51,6 +51,8 @@ import MyNavbar from "@/components/header";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+
 import emailjs from "emailjs-com";
 
 const formSchema = z.object({
@@ -81,7 +83,9 @@ export default function Home() {
 
   const [activeItem, setActiveItem] = useState("item-1");
   const [review, setReview] = useState();
-  const [checkIn, setCheckIn] = useState("abcd");
+  // const [checkIn, setCheckIn] = useState("abcd");
+  const [checkIn, setCheckIn] = useState(null);
+  const [checkOut, setCheckOut] = useState(null);
 
   const handleSearch = (value) => {
     setActiveItem(value);
@@ -257,7 +261,16 @@ export default function Home() {
           <Accordion type="single" collapsible="true" value={activeItem}>
             <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
-                Search For Availability
+                <div className="flex justify-between w-full">
+                  <span>Search For Availability</span>
+                  <span id="edit-1" className="px-4 hidden hover:bg-black">
+                    <FontAwesomeIcon
+                      icon={faPencilAlt}
+                      className="w-4 h-4 mr-2"
+                    />
+                    Edit
+                  </span>
+                </div>
               </AccordionTrigger>
               {/* <FontAwesomeIcon icon={faEdit} /> */}
               <AccordionContent>
@@ -296,21 +309,14 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
-                                    // className={field.value && "hidden"}
                                     mode="single"
                                     selected={field.value}
-                                    // {() => {
-                                    //   field.value;
-                                    //   const disableDate = new Date(
-                                    //     field.value
-                                    //   ).setDate(
-                                    //     new Date(field.value).getDate() + 1
-                                    //   );
-                                    //   setCheckIn(disableDate);
-                                    // }}
-                                    onSelect={field.onChange}
-                                    // disabled={(date) => date < new Date()}
-                                    // minDate={new Date()} // Set the minimum date to the current date
+                                    onSelect={(date) => {
+                                      field.onChange(date);
+                                      setCheckIn(date);
+                                    }}
+                                    disabled={(date) => date < new Date()}
+                                    minDate={new Date()} // Set the minimum date to the current date
                                     initialFocus
                                   />
                                 </PopoverContent>
@@ -340,6 +346,8 @@ export default function Home() {
                                   >
                                     {field.value ? (
                                       format(field.value, "PPP")
+                                    ) : checkOut ? (
+                                      format(checkOut, "PPP") // Show selected check-out date
                                     ) : (
                                       <span>Select Check Out Date</span>
                                     )}
@@ -352,10 +360,8 @@ export default function Home() {
                                     mode="single"
                                     selected={field.value}
                                     onSelect={field.onChange}
-                                    disabled={(date) =>
-                                      date < new Date(checkIn)
-                                    }
-                                    minDate={new Date(checkIn)} // Set the minimum date to the current date
+                                    disabled={(date) => date <= checkIn} // Check-out date should be at least one day after check-in
+                                    minDate={new Date(checkIn)} // Set the minimum date to the check-in date
                                     initialFocus
                                   />
                                 </PopoverContent>
@@ -492,11 +498,25 @@ export default function Home() {
                     <Button
                       className="bg-[#9f1f63] text-white  ml-2 hover:bg-[#9f1f63]"
                       type="submit"
-                      onClick={() =>
-                        form.control._formValues?.CheckIn &&
-                        form.control._formValues?.CheckOut &&
-                        handleSearch("item-2")
-                      }
+                      onClick={() => {
+                        if (
+                          form.control._formValues?.CheckIn &&
+                          form.control._formValues?.CheckOut
+                        ) {
+                          handleSearch("item-2");
+                          const element = document.getElementById("edit-1");
+
+                          if (element) {
+                            element.classList.remove("hidden");
+                            element.classList.add("block"); 
+                          }
+                        }
+                      }}
+                      // {() =>
+                      //   form.control._formValues?.CheckIn &&
+                      //   form.control._formValues?.CheckOut &&
+                      //   handleSearch("item-2")
+                      // }
                     >
                       Search
                     </Button>
@@ -506,7 +526,17 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63] hover:no-underline">
-                Available Rooms
+                <div className="flex justify-between w-full">
+                  <span>Available Rooms</span>
+                  <span className="px-4  hover:bg-black">
+                    {" "}
+                    <FontAwesomeIcon
+                      icon={faPencilAlt}
+                      className="w-4 h-4 mr-2"
+                    />
+                    Edit
+                  </span>
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 {roomdata
@@ -524,7 +554,16 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-4" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
-                Your Details
+                <div className="flex justify-between w-full">
+                  <span>Your Details</span>
+                  <span className="px-4  hover:bg-black">
+                    <FontAwesomeIcon
+                      icon={faPencilAlt}
+                      className="w-4 h-4 mr-2"
+                    />
+                    Edit
+                  </span>
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 <Details
@@ -537,7 +576,16 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-5" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
-                Review Your Booking
+                <div className="flex justify-between w-full">
+                  <span>Review Your Booking</span>
+                  <span className="px-4 hover:bg-black">
+                    <FontAwesomeIcon
+                      icon={faPencilAlt}
+                      className="w-4 h-4 mr-2"
+                    />
+                    Edit
+                  </span>
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 <div>
@@ -545,23 +593,23 @@ export default function Home() {
                     Your Details
                   </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b ">
-                    <li className="p-5 lg:w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Name:</span>{" "}
                       {review?.UserName}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Mobile:</span>{" "}
                       {review?.UserPhone}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Email:</span>
                       {review?.UserEmail}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Address:</span>{" "}
                       {review?.UserAddress}
                     </li>
-                    <li className="p-5 lg: w-1/2 ">
+                    <li className="p-5 w:1 lg:w-1/2 ">
                       <span className="font-semibold">Special Request:</span>{" "}
                       {review?.SpecialRequest}
                     </li>
@@ -572,7 +620,7 @@ export default function Home() {
                     Booking Details
                   </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b">
-                    <li className="p-5 lg:w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check In Date:</span>{" "}
                       {new Date(review?.CheckInDate)?.toLocaleDateString(
                         "en-US",
@@ -583,7 +631,7 @@ export default function Home() {
                         }
                       )}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check Out Date:</span>{" "}
                       {new Date(review?.CheckOutDate)?.toLocaleDateString(
                         "en-US",
@@ -595,7 +643,7 @@ export default function Home() {
                       )}
                     </li>
                     {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
-                    <li className="p-5 lg: w-1/2">
+                    <li className="p-5 w:1lg:w-1/2">
                       <span className="font-semibold">Room Type:</span>{" "}
                       {review?.BookingRoomType}
                     </li>

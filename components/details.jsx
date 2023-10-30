@@ -42,16 +42,40 @@ export function Details(props) {
   const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
   const [priviosdata, setpriviosdata] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
+  const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
   const handlePhoneNumberChange = (e) => {
     const value = e.target.value;
     setPhoneNumber(value);
 
     // Define a regular expression for a valid phone number
     // You can customize this regex to match the phone number format you need
-    const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
 
     setIsValidPhoneNumber(phoneNumberRegex.test(value));
+  };
+  const [gstNumber, setGstNumber] = useState("");
+  const [isValidGstNumber, setIsValidGstNumber] = useState(true);
+  const gstNumberRegex =
+    /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}/; // This example assumes a 10-digit number
+  const handleGstNumberChange = (e) => {
+    const value = e.target.value;
+    setGstNumber(value);
+
+    // Define a regular expression for a valid phone number
+    // You can customize this regex to match the phone number format you need
+
+    setIsValidGstNumber(gstNumberRegex.test(value));
+  };
+   const [emailId, setEmailId] = useState("");
+  const [isValidEmailId, setIsValidEmailId] = useState(true);
+  const emailIdRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/; // This example assumes a 10-digit number
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setEmailId(value);
+
+    // Define a regular expression for a valid phone number
+    // You can customize this regex to match the phone number format you need
+
+    setEmailId(emailIdRegex.test(value));
   };
 
   React.useEffect(() => {
@@ -86,7 +110,7 @@ export function Details(props) {
         .then((response) => response.text())
         .then((json) => json)
         .catch((error) => {
-          return "error";
+          return "{}";
         });
       props.setReview(JSON.parse(tempSendData));
     }
@@ -159,6 +183,7 @@ export function Details(props) {
                 <FormControl>
                   <Input
                     type="email"
+                    onChange={handleEmailChange}
                     placeholder="Enter Your Email"
                     {...field}
                     required
@@ -220,7 +245,9 @@ export function Details(props) {
                 name="CompanyName"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company Name</FormLabel>
+                    <FormLabel>
+                      Company Name<sup className="text-red-500">*</sup>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder="Enter Your Company Name"
@@ -241,12 +268,17 @@ export function Details(props) {
                 name="CompanyGST"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company GST</FormLabel>
+                    <FormLabel>
+                      Company GST<sup className="text-red-500">*</sup>
+                    </FormLabel>
                     <FormControl>
                       <Input
+                        type="text"
+                        onChange={handleGstNumberChange}
                         placeholder="Enter Your Company GST"
                         {...field}
                         required
+                        pattern="[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9A-Z]{1}[Z]{1}[0-9A-Z]{1}"
                       />
                     </FormControl>
                     <FormMessage />
@@ -262,7 +294,9 @@ export function Details(props) {
                 name="CompanyAddress"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Company Address</FormLabel>
+                    <FormLabel>
+                      Company Address<sup className="text-red-500">*</sup>
+                    </FormLabel>
                     <FormControl>
                       <Input
                         placeholder=" Enter Your Company Address"
@@ -301,14 +335,14 @@ export function Details(props) {
           onClick={() => {
             if (
               form.control._formValues?.UserName &&
-              form.control._formValues?.UserPhone &&
-              form.control._formValues?.UserEmail &&
+              phoneNumberRegex.test(form.control._formValues?.UserPhone) &&
+              emailIdRegex.test(form.control._formValues?.UserEmail) &&
               form.control._formValues?.UserAddress
             ) {
               if (form.control._formValues.IsGST === "yes") {
                 if (
                   form.control._formValues?.CompanyName &&
-                  form.control._formValues?.CompanyGST &&
+                  gstNumberRegex.test(form.control._formValues?.CompanyGST) &&
                   form.control._formValues?.CompanyAddress
                 ) {
                   props.handleSearch();
