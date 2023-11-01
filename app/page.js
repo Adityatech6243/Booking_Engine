@@ -136,7 +136,7 @@ export default function Home() {
             return "error";
           });
         if (tempSendData) {
-          // setRoomData(JSON.parse(tempSendData));
+          setRoomData(JSON.parse(tempSendData));
         } else if (tempSendData === "alreadyExists") {
           alert("exist");
         } else {
