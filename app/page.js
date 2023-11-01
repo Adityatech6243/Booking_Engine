@@ -201,7 +201,10 @@ export default function Home() {
     const emailData = {
   
        ...review,
-        'reply_to': review?.UserEmail,
+        subject:"New Booking Confirmed For River Orchid",
+       to:"riverorchid1313@gmail.com",
+       clientName:"River Orchid Resort",
+        'replyTo': review?.UserEmail,
         'CheckInDate': new Date(review?.CheckInDate)?.toLocaleDateString(
           "en-US",
           {
@@ -223,7 +226,7 @@ export default function Home() {
 
     // Send the email
     emailjs
-      .send("RiverOrchidResortBooking",
+      .send("BookingReceipt",
       "template_t9zwh3u",
       emailData,
       "dVPPPyRhEoB6ft-B_")
