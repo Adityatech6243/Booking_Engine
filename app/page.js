@@ -109,7 +109,6 @@ export default function Home() {
       Child3Age: "",
     },
   });
-
   useEffect(() => {
     if (searchdata?.CheckIn && searchdata?.CheckOut) {
       const startDate = new Date(searchdata.CheckIn);
@@ -430,7 +429,7 @@ export default function Home() {
                           name="Childrens"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Childrens</FormLabel>
+                              <FormLabel>Number Of Childrens</FormLabel>
                               <FormControl>
                                 <Select
                                   onValueChange={(event) => {
@@ -466,7 +465,7 @@ export default function Home() {
                               name={`Child${index + 1}Age`} // Use an array to differentiate between child ages
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Child {index + 1} age</FormLabel>
+                                  <FormLabel>Child {index + 1} Age</FormLabel>
                                   <FormControl>
                                     <Select
                                       onValueChange={field.onChange}
@@ -508,7 +507,7 @@ export default function Home() {
 
                           if (element) {
                             element.classList.remove("hidden");
-                            element.classList.add("block"); 
+                            element.classList.add("block");
                           }
                         }
                       }}
@@ -528,7 +527,7 @@ export default function Home() {
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63] hover:no-underline">
                 <div className="flex justify-between w-full">
                   <span>Available Rooms</span>
-                  <span className="px-4  hover:bg-black">
+                  <span id="edit-2" className="px-4  hover:bg-black hidden">
                     {" "}
                     <FontAwesomeIcon
                       icon={faPencilAlt}
@@ -556,7 +555,7 @@ export default function Home() {
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
                 <div className="flex justify-between w-full">
                   <span>Your Details</span>
-                  <span className="px-4  hover:bg-black">
+                  <span id="edit-3" className="px-4  hover:bg-black hidden">
                     <FontAwesomeIcon
                       icon={faPencilAlt}
                       className="w-4 h-4 mr-2"
@@ -578,13 +577,6 @@ export default function Home() {
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 <div className="flex justify-between w-full">
                   <span>Review Your Booking</span>
-                  <span className="px-4 hover:bg-black">
-                    <FontAwesomeIcon
-                      icon={faPencilAlt}
-                      className="w-4 h-4 mr-2"
-                    />
-                    Edit
-                  </span>
                 </div>
               </AccordionTrigger>
               <AccordionContent>

@@ -65,7 +65,7 @@ export function Details(props) {
 
     setIsValidGstNumber(gstNumberRegex.test(value));
   };
-   const [emailId, setEmailId] = useState("");
+  const [emailId, setEmailId] = useState("");
   const [isValidEmailId, setIsValidEmailId] = useState(true);
   const emailIdRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/; // This example assumes a 10-digit number
   const handleEmailChange = (e) => {
@@ -311,7 +311,7 @@ export function Details(props) {
             </div>
           )}
         </div>
-        <div className="w-full mt-3">
+        <div className="w-full p-2 mt-3">
           <FormField
             control={form.control}
             name="SpecialRequest"
@@ -330,7 +330,7 @@ export function Details(props) {
           />
         </div>
         <Button
-          className="bg-[#9f1f63] text-white hover:bg-[#9f1f63]"
+          className="bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-4 ml-2"
           type="submit"
           onClick={() => {
             if (
@@ -350,6 +350,15 @@ export function Details(props) {
               } else if (form.control._formValues.IsGST === "no") {
                 props.handleSearch();
               }
+            }
+            {
+              const element = document.getElementById("edit-3");
+
+              if (element) {
+                element.classList.remove("hidden");
+                element.classList.add("block");
+              }
+              props.handleSearch();
             }
           }}
         >

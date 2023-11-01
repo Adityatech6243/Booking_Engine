@@ -54,6 +54,15 @@ export function Availability(props) {
                 ...roomdata,
               });
               props.handleSearch();
+              {
+                const element = document.getElementById("edit-2");
+
+                if (element) {
+                  element.classList.remove("hidden");
+                  element.classList.add("block");
+                }
+                props.handleSearch();
+              }
             }}
           >
             Select
@@ -76,6 +85,15 @@ export function Availability(props) {
                 ...roomdata,
               });
               props.handleSearch();
+              {
+                const element = document.getElementById("edit-2");
+
+                if (element) {
+                  element.classList.remove("hidden");
+                  element.classList.add("block");
+                }
+                props.handleSearch();
+              }
             }}
           >
             Select
