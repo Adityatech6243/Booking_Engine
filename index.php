@@ -60,8 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
             while ($row = mysqli_fetch_assoc($result)) {
                 // Calculate the updated price per night based on the number of adults and children's ages
-                $RoomsWithAllMeals = $row['RoomsWithAllMeals'];          
-                $RoomsWithBreakFast = $row['RoomsWithBreakFast'];          
+                $RoomsWithAllMeals = floatval($row['RoomsWithAllMeals']);          
+                $RoomsWithBreakFast = floatval($row['RoomsWithBreakFast']);          
                 $ChildCostForBreakfast = $row['ChildCostForBreakfast'];          
                 $ChildCostForAllMeals = $row['ChildCostForAllMeals'];          
                 $AdultCostForBreakfast = $row['AdultCostForBreakfast'];          

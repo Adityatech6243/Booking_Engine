@@ -338,7 +338,8 @@ export function Details(props) {
               phoneNumberRegex.test(form.control._formValues?.UserPhone) &&
               emailIdRegex.test(form.control._formValues?.UserEmail) &&
               form.control._formValues?.UserAddress
-            ) {
+            )
+            {
               if (form.control._formValues.IsGST === "yes") {
                 if (
                   form.control._formValues?.CompanyName &&
@@ -349,17 +350,14 @@ export function Details(props) {
                 }
               } else if (form.control._formValues.IsGST === "no") {
                 props.handleSearch();
-              }
-            }
-            {
-              const element = document.getElementById("edit-3");
+                 const element = document.getElementById("edit-3");
 
-              if (element) {
-                element.classList.remove("hidden");
-                element.classList.add("block");
-              }
-              props.handleSearch();
+                 if (element) {
+                   element.classList.remove("hidden");
+                   element.classList.add("block");
+                 }
             }
+            } 
           }}
         >
           Confirm
