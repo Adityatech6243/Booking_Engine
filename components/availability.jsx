@@ -62,6 +62,7 @@ export function Availability(props) {
                   element.classList.add("block");
                 }
                 props.handleSearch();
+                props.enableEdit2();
               }
             }}
           >
@@ -86,13 +87,8 @@ export function Availability(props) {
               });
               props.handleSearch();
               {
-                const element = document.getElementById("edit-2");
-
-                if (element) {
-                  element.classList.remove("hidden");
-                  element.classList.add("block");
-                }
                 props.handleSearch();
+                props.enableEdit2();
               }
             }}
           >

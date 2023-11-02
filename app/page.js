@@ -84,7 +84,9 @@ export default function Home() {
   // const [checkIn, setCheckIn] = useState("abcd");
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
-  const [edit, enableEdit] = useState();
+  const [edit1, enableEdit1] = useState();
+  const [edit2, enableEdit2] = useState();
+  const [edit4, enableEdit4] = useState();
 
   const handleSearch = (value) => {
     setActiveItem(value);
@@ -262,7 +264,7 @@ export default function Home() {
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 <div className="flex justify-between w-full">
                   <span>Search For Availability</span>
-                  {edit == "item-1" && (
+                  {edit1 == "item-1" && (
                     <span
                       className="px-4 hover:bg-black"
                       onClick={() => handleSearch("item-1")}
@@ -299,7 +301,7 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      " w-[280px] justify-start text-left font-normal ",
+                                      "justify-start text-left font-normal ",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -341,7 +343,7 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "w-[280px] justify-start text-left font-normal",
+                                      "justify-start text-left font-normal",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -518,7 +520,7 @@ export default function Home() {
                           form.control._formValues?.CheckOut
                         ) {
                           handleSearch("item-2");
-                          enableEdit("item-1");
+                          enableEdit1("item-1");
                         }
                       }}
                     >
@@ -530,7 +532,21 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63]">
-                Available Rooms
+                <div className="flex justify-between w-full">
+                  <span>Available Rooms</span>
+                  {edit2 == "item-2" && (
+                    <span
+                      className="px-4 hover:bg-black"
+                      onClick={() => handleSearch("item-2")}
+                    >
+                      <FontAwesomeIcon
+                        icon={faPencilAlt}
+                        className="w-4 h-4 mr-2"
+                      />
+                      Edit
+                    </span>
+                  )}
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 {roomdata
@@ -541,6 +557,7 @@ export default function Home() {
                         key={i}
                         setFinaldata={handleSetFinalData}
                         handleSearch={() => handleSearch("item-4")}
+                        enableEdit2={() => enableEdit2("item-2")}
                       />
                     ))
                   : "All the rooms for these dates are booked, please select different dates."}
@@ -548,7 +565,22 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-4" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
-                Your Details
+                {" "}
+                <div className="flex justify-between w-full">
+                  <span>Your Details</span>
+                  {edit4 == "item-4" && (
+                    <span
+                      className="px-4 hover:bg-black"
+                      onClick={() => handleSearch("item-4")}
+                    >
+                      <FontAwesomeIcon
+                        icon={faPencilAlt}
+                        className="w-4 h-4 mr-2"
+                      />
+                      Edit
+                    </span>
+                  )}
+                </div>
               </AccordionTrigger>
               <AccordionContent>
                 <Details
@@ -556,6 +588,7 @@ export default function Home() {
                   setFinaldata={handleSetFinalData}
                   finaldata={finaldata}
                   handleSearch={() => handleSearch("item-5")}
+                  enableEdit4={() => enableEdit4("item-4")}
                 />
               </AccordionContent>
             </AccordionItem>
@@ -719,7 +752,7 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-2">
-                          (30%)Amount to be Paid(30%)
+                          (30%)Amount to be Paid
                         </TableCell>
                         <TableCell className="border-2">
                           {currency}
