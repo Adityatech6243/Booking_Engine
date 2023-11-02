@@ -50,7 +50,7 @@ import {
 import MyNavbar from "@/components/header";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import emailjs from "emailjs-com";
 
 const formSchema = z.object({
@@ -126,14 +126,14 @@ export default function Home() {
       searchdata.ClientID = "1";
       searchdata.searchAvailability = "true";
       async function sendData() {
-        let tempSendData = await fetch("//192.168.1.26/index.php", {
+        let tempSendData = await fetch("//localhost/index.php", {
           method: "POST",
           body: JSON.stringify(searchdata),
         })
           .then((response) => response.text())
           .then((json) => json)
           .catch((error) => {
-            return "error";
+            return "[]";
           });
         if (tempSendData) {
           setRoomData(JSON.parse(tempSendData));
@@ -164,7 +164,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//192.168.1.26/index.php?ClientID=1")
+      fetch("//localhost/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -200,47 +200,43 @@ export default function Home() {
   }
   // emailjs code here to send mail
   emailjs.init("dVPPPyRhEoB6ft-B_");
-  const PayNow=()=>{
+  const PayNow = () => {
     const emailData = {
-  
-       ...review,
-        subject:"Test: New Booking Confirmed For River Orchid Resort",
-       to:"riverorchid1313@gmail.com",
-       clientName:"River Orchid Resort",
-        'replyTo': review?.UserEmail,
-        'CheckInDate': new Date(review?.CheckInDate)?.toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        ),
-        'CheckOutDate':new Date(review?.CheckOutDate)?.toLocaleDateString(
-          "en-US",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        )
-      
+      ...review,
+      subject: "Test: New Booking Confirmed For River Orchid Resort",
+      to: "riverorchid1313@gmail.com",
+      clientName: "River Orchid Resort",
+      replyTo: review?.UserEmail,
+      CheckInDate: new Date(review?.CheckInDate)?.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }),
+      CheckOutDate: new Date(review?.CheckOutDate)?.toLocaleDateString(
+        "en-US",
+        {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        }
+      ),
     };
 
     // Send the email
     emailjs
-      .send("BookingReceipt",
-      "template_t9zwh3u",
-      emailData,
-      "dVPPPyRhEoB6ft-B_")
+      .send(
+        "BookingReceipt",
+        "template_t9zwh3u",
+        emailData,
+        "dVPPPyRhEoB6ft-B_"
+      )
       .then((response) => {
         console.log("Email sent successfully", response);
       })
       .catch((error) => {
         console.error("Email send failed", error);
       });
-
-  }
+  };
 
   useEffect(() => {
     console.log("finaldata: ", finaldata);
@@ -317,17 +313,8 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
-                                    className={field.value && "hidden"}
+                                    selected={field.value}
                                     mode="single"
-                                    selected={() => {
-                                      field.value;
-                                      const disableDate = new Date(
-                                        field.value
-                                      ).setDate(
-                                        new Date(field.value).getDate() + 1
-                                      );
-                                      setCheckIn(disableDate);
-                                    }}
                                     onSelect={field.onChange}
                                     disabled={(date) => date < new Date()}
                                     minDate={new Date()} // Set the minimum date to the current date
@@ -368,14 +355,26 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
-                                    className={field.value && "hidden"}
                                     mode="single"
                                     selected={field.value}
                                     onSelect={field.onChange}
                                     disabled={(date) =>
-                                      date < new Date(checkIn)
+                                      date <
+                                      new Date(
+                                        form.control._formValues?.CheckIn
+                                      ).setDate(
+                                        new Date(
+                                          form.control._formValues?.CheckIn
+                                        ).getDate() + 1
+                                      )
                                     }
-                                    minDate={new Date(checkIn)} // Set the minimum date to the current date
+                                    minDate={new Date(
+                                      form.control._formValues?.CheckIn
+                                    ).setDate(
+                                      new Date(
+                                        form.control._formValues?.CheckIn
+                                      ).getDate() + 1
+                                    )} // Set the minimum date to the current date
                                     initialFocus
                                   />
                                 </PopoverContent>

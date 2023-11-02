@@ -11,6 +11,7 @@ const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
             width="60"
             height="60"
             alt="logo"
+            style={{width: "auto", height: "auto" }}
           />
         </Link>
         {/* <button
