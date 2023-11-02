@@ -86,6 +86,7 @@ export default function Home() {
   // const [checkIn, setCheckIn] = useState("abcd");
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
+  const [edit, enableEdit] = useState();
 
   const handleSearch = (value) => {
     setActiveItem(value);
@@ -240,18 +241,15 @@ export default function Home() {
   }, [finaldata]);
 
   return (
-    <main className="flex min-h-screen flex-col justify-between p-2 lg:p-24 lg:py-0 bg-[#f9f9f9]">
+    <main className="flex min-h-screen flex-col justify-between lg:p-24 lg:py-0 bg-[#f9f9f9]">
       <MyNavbar />
-      <div
-        className="relative h-48"
-        style={{ backgroundImage: `url(/banner-img.jpeg)` }}
-      >
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-70 text-white p-4">
+      <div className="relative h-48" style={{ backgroundImage: `url(/1.jpg)` }}>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-70 text-white p-4  bg-gray-400 rounded-lg">
           <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
             River Orchid Resort
           </h1>
           <p className="text-base sm:text-lg md:text-xl lg:text-1xl xl:text-2xl">
-            Pali Ategaon Maharashtra 412806
+            Tapola, Maharashtra 412806
           </p>
         </div>
       </div>
@@ -262,13 +260,18 @@ export default function Home() {
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
                 <div className="flex justify-between w-full">
                   <span>Search For Availability</span>
-                  <span id="edit-1" className="px-4 hidden hover:bg-black">
-                    <FontAwesomeIcon
-                      icon={faPencilAlt}
-                      className="w-4 h-4 mr-2"
-                    />
-                    Edit
-                  </span>
+                  {edit == "item-1" && (
+                    <span
+                      className="px-4 hover:bg-black"
+                      onClick={() => handleSearch("item-1")}
+                    >
+                      <FontAwesomeIcon
+                        icon={faPencilAlt}
+                        className="w-4 h-4 mr-2"
+                      />
+                      Edit
+                    </span>
+                  )}
                 </div>
               </AccordionTrigger>
               {/* <FontAwesomeIcon icon={faEdit} /> */}
@@ -278,7 +281,7 @@ export default function Home() {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                   >
-                    <div className="flex flex-wrap flex-col md:flex-row">
+                    <div className="flex flex-wrap flex-col md:flex-row items-center">
                       <div className="sm:1 md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
@@ -374,7 +377,7 @@ export default function Home() {
                           control={form.control}
                           name="Rooms"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="flex flex-col">
                               <FormLabel>Rooms</FormLabel>
                               <FormControl>
                                 <Select
@@ -503,19 +506,9 @@ export default function Home() {
                           form.control._formValues?.CheckOut
                         ) {
                           handleSearch("item-2");
-                          const element = document.getElementById("edit-1");
-
-                          if (element) {
-                            element.classList.remove("hidden");
-                            element.classList.add("block");
-                          }
+                          enableEdit("item-1");
                         }
                       }}
-                      // {() =>
-                      //   form.control._formValues?.CheckIn &&
-                      //   form.control._formValues?.CheckOut &&
-                      //   handleSearch("item-2")
-                      // }
                     >
                       Search
                     </Button>
@@ -594,7 +587,7 @@ export default function Home() {
                       {review?.UserPhone}
                     </li>
                     <li className="p-5 w:1 lg:w-1/2 border-b">
-                      <span className="font-semibold">Email:</span>
+                      <span className="font-semibold">Email: </span>
                       {review?.UserEmail}
                     </li>
                     <li className="p-5 w:1 lg:w-1/2 border-b">
@@ -735,7 +728,7 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-2">
-                          Amount to be Paid
+                          (30%)Amount to be Paid(30%)
                         </TableCell>
                         <TableCell className="border-2">
                           {currency}

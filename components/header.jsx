@@ -1,11 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
   return (
     <nav className="bg-[#ffffff] sticky top-0 shadow z-50">
       <div className="container flex mx-auto space-x-4 justify-between">
         <Link href="/">
-          <img src="./Logo.png" width="60" alt="logo" />
+          <Image
+            src="/Logo.png"
+            width="60"
+            height="60"
+            alt="logo"
+          />
         </Link>
         {/* <button
           onClick={handleToggle}
