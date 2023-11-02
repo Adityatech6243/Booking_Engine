@@ -51,8 +51,6 @@ import MyNavbar from "@/components/header";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit } from "@fortawesome/free-solid-svg-icons";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
-
 import emailjs from "emailjs-com";
 
 const formSchema = z.object({
@@ -110,6 +108,7 @@ export default function Home() {
       Child3Age: "",
     },
   });
+
   useEffect(() => {
     if (searchdata?.CheckIn && searchdata?.CheckOut) {
       const startDate = new Date(searchdata.CheckIn);
@@ -127,7 +126,7 @@ export default function Home() {
       searchdata.ClientID = "1";
       searchdata.searchAvailability = "true";
       async function sendData() {
-        let tempSendData = await fetch("//localhost/index.php", {
+        let tempSendData = await fetch("//192.168.1.26/index.php", {
           method: "POST",
           body: JSON.stringify(searchdata),
         })
@@ -165,7 +164,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//localhost/index.php?ClientID=1")
+      fetch("//192.168.1.26/index.php?ClientID=1")
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
@@ -201,40 +200,47 @@ export default function Home() {
   }
   // emailjs code here to send mail
   emailjs.init("dVPPPyRhEoB6ft-B_");
-  const PayNow = () => {
+  const PayNow=()=>{
     const emailData = {
-      ...review,
-      reply_to: review?.UserEmail,
-      CheckInDate: new Date(review?.CheckInDate)?.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      CheckOutDate: new Date(review?.CheckOutDate)?.toLocaleDateString(
-        "en-US",
-        {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }
-      ),
+  
+       ...review,
+        subject:"Test: New Booking Confirmed For River Orchid Resort",
+       to:"riverorchid1313@gmail.com",
+       clientName:"River Orchid Resort",
+        'replyTo': review?.UserEmail,
+        'CheckInDate': new Date(review?.CheckInDate)?.toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+        ),
+        'CheckOutDate':new Date(review?.CheckOutDate)?.toLocaleDateString(
+          "en-US",
+          {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          }
+        )
+      
     };
 
     // Send the email
     emailjs
-      .send(
-        "RiverOrchidResortBooking",
-        "template_t9zwh3u",
-        emailData,
-        "dVPPPyRhEoB6ft-B_"
-      )
+      .send("BookingReceipt",
+      "template_t9zwh3u",
+      emailData,
+      "dVPPPyRhEoB6ft-B_")
       .then((response) => {
         console.log("Email sent successfully", response);
       })
       .catch((error) => {
         console.error("Email send failed", error);
       });
-  };
+
+  }
 
   useEffect(() => {
     console.log("finaldata: ", finaldata);
@@ -297,7 +303,7 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "sm:w-full md:w-70 lg:w-full xl:w-120 justify-start text-left font-normal",
+                                      " w-[280px] justify-start text-left font-normal ",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -311,12 +317,18 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
+                                    className={field.value && "hidden"}
                                     mode="single"
-                                    selected={field.value}
-                                    onSelect={(date) => {
-                                      field.onChange(date);
-                                      setCheckIn(date);
+                                    selected={() => {
+                                      field.value;
+                                      const disableDate = new Date(
+                                        field.value
+                                      ).setDate(
+                                        new Date(field.value).getDate() + 1
+                                      );
+                                      setCheckIn(disableDate);
                                     }}
+                                    onSelect={field.onChange}
                                     disabled={(date) => date < new Date()}
                                     minDate={new Date()} // Set the minimum date to the current date
                                     initialFocus
@@ -327,7 +339,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="md:w-1/3 w-[100%] p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="CheckOut"
@@ -342,14 +354,12 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "sm:w-full md:w-70 lg:w-full xl:w-120 justify-start text-left font-normal",
+                                      "w-[280px] justify-start text-left font-normal",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
                                     {field.value ? (
                                       format(field.value, "PPP")
-                                    ) : checkOut ? (
-                                      format(checkOut, "PPP") // Show selected check-out date
                                     ) : (
                                       <span>Select Check Out Date</span>
                                     )}
@@ -358,12 +368,14 @@ export default function Home() {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-auto p-0">
                                   <Calendar
-                                    // className={field.value && "hidden"}
+                                    className={field.value && "hidden"}
                                     mode="single"
                                     selected={field.value}
                                     onSelect={field.onChange}
-                                    disabled={(date) => date <= checkIn} // Check-out date should be at least one day after check-in
-                                    minDate={new Date(checkIn)} // Set the minimum date to the check-in date
+                                    disabled={(date) =>
+                                      date < new Date(checkIn)
+                                    }
+                                    minDate={new Date(checkIn)} // Set the minimum date to the current date
                                     initialFocus
                                   />
                                 </PopoverContent>
@@ -372,7 +384,8 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="md:w-1/3 w-[100%] p-4">
+
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="Rooms"
@@ -384,7 +397,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-full md:w-70 lg:w-full xl:w-120">
+                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -397,7 +410,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="md:w-1/3 w-[100%] p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="Adults"
@@ -409,7 +422,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-full md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -426,13 +439,13 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="md:w-1/3 w-[100%] p-4">
+                      <div className="w-1/3 p-4">
                         <FormField
                           control={form.control}
                           name="Childrens"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Number Of Childrens</FormLabel>
+                              <FormLabel>Childrens</FormLabel>
                               <FormControl>
                                 <Select
                                   onValueChange={(event) => {
@@ -441,7 +454,7 @@ export default function Home() {
                                   }}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-full md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                     <SelectValue placeholder="0" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -462,19 +475,19 @@ export default function Home() {
                         Array.from({
                           length: parseInt(childrensCount),
                         }).map((_, index) => (
-                          <div key={index} className="md:w-1/3 w-[100%] p-4">
+                          <div key={index} className="w-1/3 p-4">
                             <FormField
                               control={form.control}
                               name={`Child${index + 1}Age`} // Use an array to differentiate between child ages
                               render={({ field }) => (
                                 <FormItem>
-                                  <FormLabel>Child {index + 1} Age</FormLabel>
+                                  <FormLabel>Child {index + 1} age</FormLabel>
                                   <FormControl>
                                     <Select
                                       onValueChange={field.onChange}
                                       defaultValue={field.value}
                                     >
-                                      <SelectTrigger className="sm:w-full md:w-70 lg:w-100 xl:w-120">
+                                      <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
                                         <SelectValue placeholder="0" />
                                       </SelectTrigger>
                                       <SelectContent>
@@ -517,18 +530,8 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63] hover:no-underline">
-                <div className="flex justify-between w-full">
-                  <span>Available Rooms</span>
-                  <span id="edit-2" className="px-4  hover:bg-black hidden">
-                    {" "}
-                    <FontAwesomeIcon
-                      icon={faPencilAlt}
-                      className="w-4 h-4 mr-2"
-                    />
-                    Edit
-                  </span>
-                </div>
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63]">
+                Available Rooms
               </AccordionTrigger>
               <AccordionContent>
                 {roomdata
@@ -546,16 +549,7 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-4" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
-                <div className="flex justify-between w-full">
-                  <span>Your Details</span>
-                  <span id="edit-3" className="px-4  hover:bg-black hidden">
-                    <FontAwesomeIcon
-                      icon={faPencilAlt}
-                      className="w-4 h-4 mr-2"
-                    />
-                    Edit
-                  </span>
-                </div>
+                Your Details
               </AccordionTrigger>
               <AccordionContent>
                 <Details
@@ -568,9 +562,7 @@ export default function Home() {
             </AccordionItem>
             <AccordionItem value="item-5" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
-                <div className="flex justify-between w-full">
-                  <span>Review Your Booking</span>
-                </div>
+                Review Your Booking
               </AccordionTrigger>
               <AccordionContent>
                 <div>
@@ -578,11 +570,11 @@ export default function Home() {
                     Your Details
                   </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b ">
-                    <li className="p-5 w:1 lg:w-1/2 border-b">
+                    <li className="p-5 lg:w-1/2 border-b">
                       <span className="font-semibold">Name:</span>{" "}
                       {review?.UserName}
                     </li>
-                    <li className="p-5 w:1 lg:w-1/2 border-b">
+                    <li className="p-5 lg: w-1/2 border-b">
                       <span className="font-semibold">Mobile:</span>{" "}
                       {review?.UserPhone}
                     </li>
@@ -590,11 +582,11 @@ export default function Home() {
                       <span className="font-semibold">Email: </span>
                       {review?.UserEmail}
                     </li>
-                    <li className="p-5 w:1 lg:w-1/2 border-b">
+                    <li className="p-5 lg: w-1/2 border-b">
                       <span className="font-semibold">Address:</span>{" "}
                       {review?.UserAddress}
                     </li>
-                    <li className="p-5 w:1 lg:w-1/2 ">
+                    <li className="p-5 lg: w-1/2 ">
                       <span className="font-semibold">Special Request:</span>{" "}
                       {review?.SpecialRequest}
                     </li>
@@ -605,7 +597,7 @@ export default function Home() {
                     Booking Details
                   </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b">
-                    <li className="p-5 w:1 lg:w-1/2 border-b">
+                    <li className="p-5 lg:w-1/2 border-b">
                       <span className="font-semibold">Check In Date:</span>{" "}
                       {new Date(review?.CheckInDate)?.toLocaleDateString(
                         "en-US",
@@ -616,7 +608,7 @@ export default function Home() {
                         }
                       )}
                     </li>
-                    <li className="p-5 w:1 lg:w-1/2 border-b">
+                    <li className="p-5 lg: w-1/2 border-b">
                       <span className="font-semibold">Check Out Date:</span>{" "}
                       {new Date(review?.CheckOutDate)?.toLocaleDateString(
                         "en-US",
@@ -628,7 +620,7 @@ export default function Home() {
                       )}
                     </li>
                     {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
-                    <li className="p-5 w:1lg:w-1/2">
+                    <li className="p-5 lg: w-1/2">
                       <span className="font-semibold">Room Type:</span>{" "}
                       {review?.BookingRoomType}
                     </li>
