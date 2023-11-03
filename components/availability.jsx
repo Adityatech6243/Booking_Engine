@@ -20,27 +20,21 @@ export function Availability(props) {
   return (
     <div>
       <div className="flex flex-col lg:flex-row">
-        <div className="lg:w-1/3 p-4">
+        <div className="lg:w-1/2 p-4">
           <Slider images={roomdata?.RoomPhotos.split(",")} />
         </div>
-        <div className="lg:w-1/3 p-4">
+        <div className="lg:w-1/2 p-4">
           <p className="mb-1">
-            <b>
-              {roomdata?.RoomName}
-              <sup> (Only 1 Room(s) left)</sup>
-            </b>
+            <b>{roomdata?.RoomName}</b>
           </p>
           <p className="mb-4">{roomdata?.Description}</p>
         </div>
-        <div className="lg:w-1/3 p-4">
-          {currency}
-          {roomdata?.RoomsWithBreakFast}/-
-          <br />
-          <span>Avg. Per Room/Night</span>
-        </div>
       </div>
+      <hr />
       <div className="flex">
-        <div className="w-1/3 p-4">Rooms with Breakfast</div>
+        <div className="w-1/3 p-4">
+          <b>Rooms with Breakfast</b>
+        </div>
         <div className="w-1/3 p-4">
           {currency}
           {roomdata?.RoomsWithBreakFast}/- Price
@@ -72,7 +66,9 @@ export function Availability(props) {
       </div>
       <hr />
       <div className="flex">
-        <div className="w-1/3 p-4">Rooms With All Meals</div>
+        <div className="w-1/3 p-4">
+          <b>Rooms With All Meals</b>
+        </div>
         <div className="w-1/3 p-4">
           {currency}
           {roomdata?.RoomsWithAllMeals}/- Price
@@ -96,6 +92,7 @@ export function Availability(props) {
           </Button>
         </div>
       </div>
+      <hr/>
     </div>
   );
 }

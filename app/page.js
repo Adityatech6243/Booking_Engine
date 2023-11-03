@@ -248,11 +248,11 @@ export default function Home() {
     <main className="flex min-h-screen flex-col justify-between lg:p-24 lg:py-0 bg-[#f9f9f9]">
       <MyNavbar />
       <div className="relative h-48" style={{ backgroundImage: `url(/1.jpg)` }}>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-70 text-white p-4  bg-gray-400 rounded-lg">
-          <h1 className="font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-5xl">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-60 text-white p-4  bg-gray-400 rounded-lg">
+          <h1 className="font-bold text-2xl md:text-4xl">
             River Orchid Resort
           </h1>
-          <p className="text-base sm:text-lg md:text-xl lg:text-1xl xl:text-2xl">
+          <p className="text-base sm:text-2xl md:text-xl lg:text-1xl xl:text-2xl">
             Tapola, Maharashtra 412806
           </p>
         </div>
@@ -266,7 +266,7 @@ export default function Home() {
                   <span>Search For Availability</span>
                   {edit1 == "item-1" && (
                     <span
-                      className="px-4 hover:bg-black"
+                      className="px-4 py-1 hover:bg-[#a0a1a4] rounded-lg"
                       onClick={() => handleSearch("item-1")}
                     >
                       <FontAwesomeIcon
@@ -534,12 +534,12 @@ export default function Home() {
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-2" className="bg-[#ffffff] my-1">
-              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:bg-[#9f1f63]">
+              <AccordionTrigger className="bg-[#9f1f63] text-white p-2  hover:no-underline">
                 <div className="flex justify-between w-full">
                   <span>Available Rooms</span>
                   {edit2 == "item-2" && (
                     <span
-                      className="px-4 hover:bg-black"
+                      className="px-4 py-1 hover:bg-[#a0a1a4] rounded-lg"
                       onClick={() => handleSearch("item-2")}
                     >
                       <FontAwesomeIcon
@@ -573,7 +573,7 @@ export default function Home() {
                   <span>Your Details</span>
                   {edit4 == "item-4" && (
                     <span
-                      className="px-4 hover:bg-black"
+                      className="px-4 py-1 hover:bg-[#a0a1a4] rounded-lg"
                       onClick={() => handleSearch("item-4")}
                     >
                       <FontAwesomeIcon
@@ -601,15 +601,18 @@ export default function Home() {
               </AccordionTrigger>
               <AccordionContent>
                 <div>
-                  <h2 className="text-center font-extrabold mt-3">
+                  <h2
+                    className="text-center font-extrabold mt-3"
+                    style={{ color: "#9f1f63" }}
+                  >
                     Your Details
                   </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b ">
-                    <li className="p-5 lg:w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Name:</span>{" "}
                       {review?.UserName}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Mobile:</span>{" "}
                       {review?.UserPhone}
                     </li>
@@ -617,22 +620,25 @@ export default function Home() {
                       <span className="font-semibold">Email: </span>
                       {review?.UserEmail}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 before:w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Address:</span>{" "}
                       {review?.UserAddress}
                     </li>
-                    <li className="p-5 lg: w-1/2 ">
+                    <li className="p-5 w:1 lg:w-1/2 ">
                       <span className="font-semibold">Special Request:</span>{" "}
                       {review?.SpecialRequest}
                     </li>
                   </ul>
                 </div>
                 <div>
-                  <h2 className="text-center font-bold mt-3">
+                  <h2
+                    className="text-center font-bold mt-3"
+                    style={{color:"#9f1f63"}}
+                  >
                     Booking Details
                   </h2>
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b">
-                    <li className="p-5 lg:w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check In Date:</span>{" "}
                       {new Date(review?.CheckInDate)?.toLocaleDateString(
                         "en-US",
@@ -643,7 +649,7 @@ export default function Home() {
                         }
                       )}
                     </li>
-                    <li className="p-5 lg: w-1/2 border-b">
+                    <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check Out Date:</span>{" "}
                       {new Date(review?.CheckOutDate)?.toLocaleDateString(
                         "en-US",
@@ -655,7 +661,7 @@ export default function Home() {
                       )}
                     </li>
                     {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
-                    <li className="p-5 lg: w-1/2">
+                    <li className="p-5 w:1 lg:w-1/2">
                       <span className="font-semibold">Room Type:</span>{" "}
                       {review?.BookingRoomType}
                     </li>
@@ -739,7 +745,7 @@ export default function Home() {
                   </Table>
                 </div>
                 <div>
-                  <h2 className="text-center font-bold mt-3">Summary</h2>
+                  <h2 className="text-center font-bold mt-3"  style={{color:"#9f1f63"}}>Summary</h2>
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -755,7 +761,7 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-2">
-                          (30%)Amount to be Paid
+                          (30%) Amount to be Paid
                         </TableCell>
                         <TableCell className="border-2">
                           {currency}
