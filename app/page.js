@@ -328,7 +328,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="w-1/3 p-4">
+                      <div className="sm:1 md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="CheckOut"
@@ -386,7 +386,7 @@ export default function Home() {
                         />
                       </div>
 
-                      <div className="w-1/3 p-4">
+                      <div className="sm:1 md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="Rooms"
@@ -398,7 +398,7 @@ export default function Home() {
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger>
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -411,19 +411,19 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="w-1/3 p-4">
+                      <div className="sm:1 md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="Adults"
                           render={({ field }) => (
-                            <FormItem>
+                            <FormItem className="flex flex-col">
                               <FormLabel>Adults</FormLabel>
                               <FormControl>
                                 <Select
                                   onValueChange={field.onChange}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger>
                                     <SelectValue placeholder="1" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -440,7 +440,7 @@ export default function Home() {
                           )}
                         />
                       </div>
-                      <div className="w-1/3 p-4">
+                      <div className="sm:1 md:w-1/3 w-[100%] p-4">
                         <FormField
                           control={form.control}
                           name="Childrens"
@@ -455,7 +455,7 @@ export default function Home() {
                                   }}
                                   defaultValue={field.value}
                                 >
-                                  <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                  <SelectTrigger>
                                     <SelectValue placeholder="0" />
                                   </SelectTrigger>
                                   <SelectContent>
@@ -476,7 +476,10 @@ export default function Home() {
                         Array.from({
                           length: parseInt(childrensCount),
                         }).map((_, index) => (
-                          <div key={index} className="w-1/3 p-4">
+                          <div
+                            key={index}
+                            className="sm:1 md:w-1/3 w-[100%] p-4"
+                          >
                             <FormField
                               control={form.control}
                               name={`Child${index + 1}Age`} // Use an array to differentiate between child ages
@@ -488,7 +491,7 @@ export default function Home() {
                                       onValueChange={field.onChange}
                                       defaultValue={field.value}
                                     >
-                                      <SelectTrigger className="sm:w-60 md:w-70 lg:w-100 xl:w-120">
+                                      <SelectTrigger>
                                         <SelectValue placeholder="0" />
                                       </SelectTrigger>
                                       <SelectContent>
