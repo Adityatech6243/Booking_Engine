@@ -35,6 +35,7 @@ import { format } from "date-fns";
 
 import { Availability } from "@/components/availability";
 import { Details } from "@/components/details";
+import { Footer} from "@/components/footer";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -633,7 +634,7 @@ export default function Home() {
                 <div>
                   <h2
                     className="text-center font-bold mt-3"
-                    style={{color:"#9f1f63"}}
+                    style={{ color: "#9f1f63" }}
                   >
                     Booking Details
                   </h2>
@@ -745,7 +746,12 @@ export default function Home() {
                   </Table>
                 </div>
                 <div>
-                  <h2 className="text-center font-bold mt-3"  style={{color:"#9f1f63"}}>Summary</h2>
+                  <h2
+                    className="text-center font-bold mt-3"
+                    style={{ color: "#9f1f63" }}
+                  >
+                    Summary
+                  </h2>
                   <Table>
                     <TableHeader>
                       <TableRow>
@@ -852,6 +858,8 @@ export default function Home() {
           </Accordion>
         </div>
       </div>
+      <hr/>
+      <Footer/>
     </main>
   );
 }
