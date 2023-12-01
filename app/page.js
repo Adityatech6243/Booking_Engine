@@ -129,7 +129,7 @@ export default function Home() {
       searchdata.ClientID = "1";
       searchdata.searchAvailability = "true";
       async function sendData() {
-        let tempSendData = await fetch("//localhost/index.php", {
+        let tempSendData = await fetch(`//${basepath}/index.php`, {
           method: "POST",
           body: JSON.stringify(searchdata),
         })
@@ -167,7 +167,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      fetch("//localhost/index.php?ClientID=1")
+      fetch(`//${basepath}/index.php?ClientID=1`)
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {

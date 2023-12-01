@@ -23,7 +23,7 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
-
+import { basepath } from "@/lib/constant"
 const formSchema = z.object({
   UserName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
@@ -103,7 +103,7 @@ export function Details(props) {
     values.ClientID = "1";
     values.YourDetails = "true";
     async function sendData() {
-      let tempSendData = await fetch("//localhost/index.php", {
+      let tempSendData = await fetch(`//${basepath}/index.php`, {
         method: "POST",
         body: JSON.stringify({ ...priviosdata, ...values }),
       })
