@@ -35,7 +35,7 @@ import { format } from "date-fns";
 
 import { Availability } from "@/components/availability";
 import { Details } from "@/components/details";
-import { Footer} from "@/components/footer";
+import { Footer } from "@/components/footer";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -49,7 +49,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import MyNavbar from "@/components/header";
-import Image from "next/image";
+import { basepath } from "@/lib/constant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import emailjs from "emailjs-com";
@@ -858,8 +858,8 @@ export default function Home() {
           </Accordion>
         </div>
       </div>
-      <hr/>
-      <Footer/>
+      <hr />
+      <Footer />
     </main>
   );
 }
