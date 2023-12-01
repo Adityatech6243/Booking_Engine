@@ -22,6 +22,15 @@ function sanitizeInput($data)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json);
+
+    if (isset($data->username) && isset($data->password)) {
+        if ($data->username == "sitaram" && $data->password == "karande") {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+
     if (isset($data->searchAvailability)) {
 
 
