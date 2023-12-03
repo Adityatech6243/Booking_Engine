@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 19, 2023 at 10:13 AM
+-- Generation Time: Dec 03, 2023 at 11:37 AM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.2.4
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -62,6 +62,7 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `numberOfNights`, `AmtToPaid`) VALUES
+(16978057931324, 1, '2023-10-20T18:30:00.000Z', '2023-10-21T18:30:00.000Z', 3520, 'paid', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0, 0),
 (1697805793117568, 1, '2023-10-20T18:30:00.000Z', '2023-10-21T18:30:00.000Z', 3520, 'paid', 'With Breakfast', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0, 0),
 (1697806126035842, 1, '2023-10-24T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 18450, 'pending', 'All Inclusive', '2', '2', '3', '9', '', '0', '0', '2400', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'a', 'b', 'c', 'wwwwww', 'Blue Bell cottage couple AC', 3, 0);
 

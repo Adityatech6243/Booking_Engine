@@ -31,6 +31,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
+
+    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate)) {
+        echo "ok ki r" . $data->bookingRoomId . $data->checkInDate . $data->checkOutDate;
+    }
+
     if (isset($data->searchAvailability)) {
 
 
@@ -558,6 +563,29 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+if (isset($_GET['getAllBookings'])) {
+    $sql = "SELECT BookingRoomID, CheckInDate, CheckOutDate FROM bookings
+            WHERE PaymentStatus = 'paid'";
+    $result = $conn->query($sql);
+    $data = array(); // Create an array to store the combined data
+
+    while ($row = $result->fetch_assoc()) {
+        // Create an associative array with booking details
+        $bookingDetails = array(
+            'BookingRoomID' => $row['BookingRoomID'],
+            'CheckInDate' => $row['CheckInDate'],
+            'CheckOutDate' => $row['CheckOutDate']
+        );
+
+        // Push the booking details array into the $data array
+        $data[] = $bookingDetails;
+    }
+
+    // Output the $data array as JSON
+    echo json_encode($data);
+}
+
 
 if (isset($_GET['ClientID'])) {
     $clientID = $_GET['ClientID'];
