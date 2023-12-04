@@ -146,6 +146,30 @@ function Adminpanel(props) {
     sendData();
     //  setLoggedIn(true);
   };
+   const handlebookingdel = (bookingRoomId, checkIn, checkOut) => {
+     event.preventDefault();
+     console.log("click kel re");
+     async function sendData() {
+       let tempSendData = await fetch(`//${basepath}/index.php`, {
+         method: "POST",
+         body: JSON.stringify({
+           bookingRoomId: bookingRoomId,
+           checkInDate: checkIn,
+           checkOutDate: checkOut,
+         }),
+       })
+         .then((response) => response.json())
+         .then((json) => json)
+         .catch((error) => {
+           return "[]";
+         });
+       console.log("del array ala re", tempSendData);
+       setBookingDelArray(tempSendData);
+     }
+
+     sendData();
+     //  setLoggedIn(true);
+   };
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -172,15 +196,17 @@ function Adminpanel(props) {
                       <td>{room.RoomName}</td>
                       <td>
                         {roomsAndBookings?.bookings?.map(
-                          (booking) =>
+                          (booking, index) =>
                             room.RoomID == booking.BookingRoomID && (
                               <span
                                 className="m-2 inline-block"
-                                key={booking.BookingRoomID}
+                                key={index}
                                 style={{
                                   backgroundColor: "green",
-                                  padding: "2px",
+                                  padding: "4px 14px",
                                   color: "white",
+                                  borderRadius: "10px",
+                                  position: "relative",
                                 }}
                               >
                                 {`${new Date(
@@ -196,6 +222,29 @@ function Adminpanel(props) {
                                   month: "short",
                                   year: "numeric",
                                 })}`}
+                                <button
+                                  onClick={() =>
+                                    handlebookingdel(
+                                      booking.BookingRoomID,
+                                      booking.CheckInDate,
+                                      booking.CheckOutDate
+                                    )
+                                  }
+                                  className="bg-white-500 text-white rounded fas fa-times"
+                                  style={{
+                                    borderRadius: "50%",
+                                    margin: "-2px -6px",
+                                    padding: "2px 6px 0px 6px",
+                                    backgroundColor: "#030303",
+                                    position: "absolute",
+                                    top: "-2px",
+                                    right: "2px",
+                                    fontSize: "10px",
+                                  }}
+                                >
+                                  {" "}
+                                  X
+                                </button>
                               </span>
                             )
                         )}
