@@ -23,11 +23,53 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json);
 
+    if (isset($data->bookingID) && isset($data->delete) && $data->delete == "true") {
+
+        $sql = "DELETE FROM bookings WHERE BookingID = $data->bookingID";
+        $result = $conn->query($sql);
+
+        if ($result) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+
     if (isset($data->username) && isset($data->password)) {
         if ($data->username == "sitaram" && $data->password == "karande") {
             echo "true";
         } else {
             echo "false";
+        }
+    }
+
+
+    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->newBooking) && $data->newBooking == "true") {
+        $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, CheckInDate, CheckOutDate, PaymentStatus) VALUES (
+                                                                '$data->bookingRoomId', 
+                                                                '$data->checkInDate', 
+                                                                '$data->checkOutDate', 
+                                                                'paid')";
+        if ($conn->query($insertBookingSQL) === TRUE) {
+
+            // Fetch booking details
+            $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate FROM bookings WHERE PaymentStatus = 'paid'";
+            $result = $conn->query($sql);
+
+            $bookingsData = array(); // Create an array to store booking details
+            while ($row = $result->fetch_assoc()) {
+                $bookingDetails = array(
+                    'BookingID' => $row['BookingID'],
+                    'BookingRoomID' => $row['BookingRoomID'],
+                    'CheckInDate' => $row['CheckInDate'],
+                    'CheckOutDate' => $row['CheckOutDate']
+                );
+                $bookingsData[] = $bookingDetails; // Append booking details to the bookingsData array
+            }
+
+            // Output the $data array as JSON
+            echo json_encode($bookingsData);
+            //echo "ok ki r" . $data->bookingRoomId . $data->checkInDate . $data->checkOutDate;
         }
     }
 
@@ -558,6 +600,45 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+if (isset($_GET['getAllBookings'])) {
+    $data = array(); // Create an array to store the combined data
+
+    // Fetch room details
+    $roomsSql = "SELECT RoomID, RoomName FROM rooms";
+    $roomsSqlresult = $conn->query($roomsSql);
+
+    $roomsData = array(); // Create an array to store room details
+    while ($row = $roomsSqlresult->fetch_assoc()) {
+        $rooms = array(
+            'RoomID' => $row['RoomID'],
+            'RoomName' => $row['RoomName'],
+        );
+        $roomsData[] = $rooms; // Append room details to the roomsData array
+    }
+    $data["rooms"] = $roomsData; // Assign roomsData array to 'rooms' key in $data
+
+    // Fetch booking details
+    $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate FROM bookings WHERE PaymentStatus = 'paid'";
+    $result = $conn->query($sql);
+
+    $bookingsData = array(); // Create an array to store booking details
+    while ($row = $result->fetch_assoc()) {
+        $bookingDetails = array(
+            'BookingID' => $row['BookingID'],
+            'BookingRoomID' => $row['BookingRoomID'],
+            'CheckInDate' => $row['CheckInDate'],
+            'CheckOutDate' => $row['CheckOutDate']
+        );
+        $bookingsData[] = $bookingDetails; // Append booking details to the bookingsData array
+    }
+    $data["bookings"] = $bookingsData; // Assign bookingsData array to 'bookings' key in $data
+
+    // Output the $data array as JSON
+    echo json_encode($data);
+}
+
+
 
 if (isset($_GET['ClientID'])) {
     $clientID = $_GET['ClientID'];
