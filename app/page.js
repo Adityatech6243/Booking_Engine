@@ -210,19 +210,8 @@ export default function Home() {
       to: "riverorchid1313@gmail.com",
       clientName: "River Orchid Resort",
       replyTo: review?.UserEmail,
-      CheckInDate: new Date(review?.CheckInDate)?.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      }),
-      CheckOutDate: new Date(review?.CheckOutDate)?.toLocaleDateString(
-        "en-US",
-        {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }
-      ),
+      CheckInDate: toIST(review?.CheckInDate),
+      CheckOutDate: toIST(review?.CheckOutDate),
     };
 
     // Send the email
@@ -641,25 +630,11 @@ export default function Home() {
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b">
                     <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check In Date:</span>{" "}
-                      {new Date(review?.CheckInDate)?.toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )}
+                      {review?.CheckInDate?.toISOString().split("T")[0]}
                     </li>
                     <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check Out Date:</span>{" "}
-                      {new Date(review?.CheckOutDate)?.toLocaleDateString(
-                        "en-US",
-                        {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        }
-                      )}
+                      {review?.CheckOutDate?.toISOString().split("T")[0]}
                     </li>
                     {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
                     <li className="p-5 w:1 lg:w-1/2">

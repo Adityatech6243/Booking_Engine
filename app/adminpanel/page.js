@@ -24,6 +24,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { toIST } from "@/lib/utils";
 
 const formSchema = z.object({
   CheckIn: z.date(),
@@ -132,6 +133,7 @@ function Adminpanel(props) {
           bookingRoomId: bookingRoomId,
           checkInDate: checkIn,
           checkOutDate: checkOut,
+          newBooking: true,
         }),
       })
         .then((response) => response.json())
@@ -139,37 +141,45 @@ function Adminpanel(props) {
         .catch((error) => {
           return "[]";
         });
-      console.log("array ala re", tempSendData);
-      setBookingArray(tempSendData);
+
+      setRoomsAndBookings({
+        ...roomsAndBookings,
+        bookings: tempSendData,
+      });
     }
 
     sendData();
     //  setLoggedIn(true);
   };
-   const handlebookingdel = (bookingRoomId, checkIn, checkOut) => {
-     event.preventDefault();
-     console.log("click kel re");
-     async function sendData() {
-       let tempSendData = await fetch(`//${basepath}/index.php`, {
-         method: "POST",
-         body: JSON.stringify({
-           bookingRoomId: bookingRoomId,
-           checkInDate: checkIn,
-           checkOutDate: checkOut,
-         }),
-       })
-         .then((response) => response.json())
-         .then((json) => json)
-         .catch((error) => {
-           return "[]";
-         });
-       console.log("del array ala re", tempSendData);
-       setBookingDelArray(tempSendData);
-     }
+  const handlebookingdel = (bookingID) => {
+    event.preventDefault();
+    console.log("click kel re");
+    async function sendData() {
+      let tempSendData = await fetch(`//${basepath}/index.php`, {
+        method: "POST",
+        body: JSON.stringify({
+          bookingID: bookingID,
+          delete: true,
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => json)
+        .catch((error) => {
+          return "[]";
+        });
+      if (tempSendData == true) {
+        setRoomsAndBookings({
+          ...roomsAndBookings,
+          bookings: roomsAndBookings.bookings.filter(
+            (item) => item.BookingID !== bookingID
+          ),
+        });
+      }
+    }
 
-     sendData();
-     //  setLoggedIn(true);
-   };
+    sendData();
+    //  setLoggedIn(true);
+  };
 
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
@@ -209,26 +219,12 @@ function Adminpanel(props) {
                                   position: "relative",
                                 }}
                               >
-                                {`${new Date(
-                                  booking.CheckInDate
-                                ).toLocaleDateString("en-US", {
-                                  day: "numeric",
-                                  month: "short",
-                                  year: "numeric",
-                                })} to ${new Date(
+                                {`${toIST(booking.CheckInDate)} to ${toIST(
                                   booking.CheckOutDate
-                                ).toLocaleDateString("en-US", {
-                                  day: "numeric",
-                                  month: "short",
-                                  year: "numeric",
-                                })}`}
+                                )}`}
                                 <button
                                   onClick={() =>
-                                    handlebookingdel(
-                                      booking.BookingRoomID,
-                                      booking.CheckInDate,
-                                      booking.CheckOutDate
-                                    )
+                                    handlebookingdel(booking.BookingID)
                                   }
                                   className="bg-white-500 text-white rounded fas fa-times"
                                   style={{
@@ -383,9 +379,7 @@ function Adminpanel(props) {
                                   onSelect={(e) => {
                                     field.onChange(e);
                                     setCheckIn(
-                                      JSON.stringify(
-                                        form.control._formValues.CheckIn
-                                      )
+                                      form.control._formValues.CheckIn
                                     );
                                   }}
                                   disabled={(date) => date < new Date()}
@@ -431,9 +425,7 @@ function Adminpanel(props) {
                                   onSelect={(e) => {
                                     field.onChange(e);
                                     setCheckOut(
-                                      JSON.stringify(
-                                        form.control._formValues.CheckOut
-                                      )
+                                      form.control._formValues.CheckOut
                                     );
                                   }}
                                   disabled={(date) =>
