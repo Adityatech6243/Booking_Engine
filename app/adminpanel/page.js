@@ -47,6 +47,9 @@ function Adminpanel(props) {
   const [checkIn, setCheckIn] = useState("");
   const [checkOut, setCheckOut] = useState("");
   const [roomsAndBookings, setRoomsAndBookings] = useState({});
+  const [roomId, setRoomId] = useState("");
+  const [priceWithBreakfast, setPriceWithBreakfast] = useState("");
+  const [priceWithAllMeals, setPriceWithAllMeals] = useState("");
 
   useEffect(() => {
     async function fetchData() {
@@ -181,6 +184,31 @@ function Adminpanel(props) {
     //  setLoggedIn(true);
   };
 
+  const handlePricechange = (event) => {
+    event.preventDefault();
+    console.log("price re", roomId, priceWithAllMeals, priceWithBreakfast);
+    async function sendData() {
+      let tempSendData = await fetch(`//${basepath}/index.php`, {
+        method: "POST",
+        body: JSON.stringify({
+          roomId: roomId,
+          priceWithBreakfast: priceWithBreakfast,
+          priceWithAllMeals: priceWithAllMeals,
+          changePrice: true,
+        }),
+      })
+        .then((response) => response.json())
+        .then((json) => json)
+        .catch((error) => {
+          return "[]";
+        });
+      if (tempSendData == true) {
+        alert("Price Updated, Reloading Page");
+        setTimeout(() => window.location.reload(), 2000);
+      }
+    }
+    sendData();
+  };
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center  mx-auto md:h-screen">
@@ -261,7 +289,7 @@ function Adminpanel(props) {
                     <h3 className="text-center">Edit Prices</h3>
                     <form
                       className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:w-full"
-                      onSubmit={handleSubmit}
+                      onSubmit={handlePricechange}
                     >
                       <div className="md:w-full">
                         <label htmlFor="option" className="text-gray-600 block">
@@ -269,8 +297,8 @@ function Adminpanel(props) {
                         </label>
                         <select
                           id="option"
-                          value={selectedOption}
-                          onChange={(e) => setSelectedOption(e.target.value)}
+                          value={roomId}
+                          onChange={(e) => setRoomId(e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                         >
                           {roomsAndBookings?.rooms?.map((item) => (
@@ -285,10 +313,12 @@ function Adminpanel(props) {
                           <b>With Breakfast:</b>
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           id="input1"
-                          value={input1}
-                          onChange={handleInput1Change}
+                          value={priceWithBreakfast}
+                          onChange={(e) =>
+                            setPriceWithBreakfast(e.target.value)
+                          }
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                           placeholder="Enter Price With Breakfast Here"
                           min="0"
@@ -300,10 +330,10 @@ function Adminpanel(props) {
                           <b>With All Meals:</b>
                         </label>
                         <input
-                          type="text"
+                          type="number"
                           id="input2"
-                          value={input2}
-                          onChange={handleInput2Change}
+                          value={priceWithAllMeals}
+                          onChange={(e) => setPriceWithAllMeals(e.target.value)}
                           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                           placeholder="Enter Price With All Meal Here"
                           min="0"
