@@ -11,32 +11,41 @@ $database = "booking-engine";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if($conn->connect_error) {
+    die("Connection failed: ".$conn->connect_error);
 }
-function sanitizeInput($data)
-{
+function sanitizeInput($data) {
     return $data;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if($_SERVER['REQUEST_METHOD'] === 'POST') {
     $json = file_get_contents('php://input');
     $data = json_decode($json);
 
-    if (isset($data->bookingID) && isset($data->delete) && $data->delete == "true") {
+
+    if(isset($data->roomId) && isset($data->priceWithBreakfast) && isset($data->priceWithBreakfast) && isset($data->priceWithAllMeals) && isset($data->priceWithAllMeals) && isset($data->changePrice) && $data->changePrice == "true") {
+        $updateRoomPriceSQL = "UPDATE rooms SET RoomsWithBreakfast='$data->priceWithBreakfast', RoomsWithAllMeals='$data->priceWithAllMeals' WHERE RoomID='$data->roomId'";
+        if($conn->query($updateRoomPriceSQL) === TRUE) {
+            echo "true";
+        } else {
+            echo "false";
+        }
+    }
+
+    if(isset($data->bookingID) && isset($data->delete) && $data->delete == "true") {
 
         $sql = "DELETE FROM bookings WHERE BookingID = $data->bookingID";
         $result = $conn->query($sql);
 
-        if ($result) {
+        if($result) {
             echo "true";
         } else {
             echo "false";
         }
     }
 
-    if (isset($data->username) && isset($data->password)) {
-        if ($data->username == "sitaram" && $data->password == "karande") {
+    if(isset($data->username) && isset($data->password)) {
+        if($data->username == "sitaram" && $data->password == "karande") {
             echo "true";
         } else {
             echo "false";
@@ -44,20 +53,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->newBooking) && $data->newBooking == "true") {
+    if(isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->newBooking) && $data->newBooking == "true") {
         $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, CheckInDate, CheckOutDate, PaymentStatus) VALUES (
                                                                 '$data->bookingRoomId', 
                                                                 '$data->checkInDate', 
                                                                 '$data->checkOutDate', 
                                                                 'paid')";
-        if ($conn->query($insertBookingSQL) === TRUE) {
+        if($conn->query($insertBookingSQL) === TRUE) {
 
             // Fetch booking details
             $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate FROM bookings WHERE PaymentStatus = 'paid'";
             $result = $conn->query($sql);
 
             $bookingsData = array(); // Create an array to store booking details
-            while ($row = $result->fetch_assoc()) {
+            while($row = $result->fetch_assoc()) {
                 $bookingDetails = array(
                     'BookingID' => $row['BookingID'],
                     'BookingRoomID' => $row['BookingRoomID'],
@@ -73,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 
-    if (isset($data->searchAvailability)) {
+    if(isset($data->searchAvailability)) {
 
 
         $checkInDate = sanitizeInput($data->CheckIn);
@@ -87,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $children2Ages = sanitizeInput($data->Child2Age);
         $children3Ages = sanitizeInput($data->Child3Age);
 
-        if ($numChildren <= 3 && $numAdults <= 5 && $children1Ages <= 9 && $children2Ages <= 9 && $children3Ages <= 9 && strtotime($checkInDate) !== false && strtotime($checkOutDate) !== false) {
+        if($numChildren <= 3 && $numAdults <= 5 && $children1Ages <= 9 && $children2Ages <= 9 && $children3Ages <= 9 && strtotime($checkInDate) !== false && strtotime($checkOutDate) !== false) {
             // Your code to execute when all conditions are met
             $sql = "SELECT r.*, c.ChildCostForBreakfast, c.ChildCostForAllMeals, c.AdultCostForBreakfast, c.AdultCostForAllMeals
         FROM rooms r
@@ -107,11 +116,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $result = $conn->query($sql);
 
-            if ($result) {
+            if($result) {
                 $rooms = array(); // Initialize an array to store room data
 
-                while ($row = mysqli_fetch_assoc($result)) {
-                    if ($numAdults <= $row['capacity']) {
+                while($row = mysqli_fetch_assoc($result)) {
+                    if($numAdults <= $row['capacity']) {
                         // Calculate the updated price per night based on the number of adults and children's ages
                         $RoomsWithAllMeals = floatval($row['RoomsWithAllMeals']);
                         $RoomsWithBreakFast = floatval($row['RoomsWithBreakFast']);
@@ -128,8 +137,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-                        if ($row['RoomName'] == "Mango cottage Room AC") {
-                            if ($numAdults == 1 && $numChildren == 1) {
+                        if($row['RoomName'] == "Mango cottage Room AC") {
+                            if($numAdults == 1 && $numChildren == 1) {
 
                                 $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
                                 $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
@@ -144,16 +153,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             // adult = adult+child
                             // adult == capacity ==  regular p[rice]
 
-                            if ($numAdults == 1 && $numChildren > 1) {
-                                if (($numAdults + $numChildren - 2) == 1) {
-                                    if ($children2Ages > 5 && $children2Ages < 10) {
+                            if($numAdults == 1 && $numChildren > 1) {
+                                if(($numAdults + $numChildren - 2) == 1) {
+                                    if($children2Ages > 5 && $children2Ages < 10) {
 
                                         $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                         $ChildCostForAllMeals += $rateChildCostForAllMeals;
                                     }
                                 }
-                                if (($numAdults + $numChildren - 2) == 2) {
-                                    if ($children3Ages > 5 && $children3Ages < 10) {
+                                if(($numAdults + $numChildren - 2) == 2) {
+                                    if($children3Ages > 5 && $children3Ages < 10) {
 
                                         $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                         $ChildCostForAllMeals += $rateChildCostForAllMeals;
@@ -175,18 +184,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             //  3 - ca[acity = 1
                             // regular + extra for 1 child
 
-                            if ($numAdults == 2 && $numChildren >= 1) {
-                                if ($children1Ages > 5 && $children1Ages < 10) {
+                            if($numAdults == 2 && $numChildren >= 1) {
+                                if($children1Ages > 5 && $children1Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
                                 }
-                                if ($children2Ages > 5 && $children2Ages < 10) {
+                                if($children2Ages > 5 && $children2Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
                                 }
-                                if ($children3Ages > 5 && $children3Ages < 10) {
+                                if($children3Ages > 5 && $children3Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
@@ -207,7 +216,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             // adult + child (2) = 4
                             //  4 - ca[acity = 2
                             // regular + extra for 2 child
-                            if ($numAdults == 2 && $numChildren == 0) {
+                            if($numAdults == 2 && $numChildren == 0) {
 
                                 $row['ChildCostForBreakfast'] = 0;
                                 $row['ChildCostForAllMeals'] = 0;
@@ -251,8 +260,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                         }
 
-                        if ($row['RoomName'] !== "Mango cottage Room AC") {
-                            if ($numAdults + $numChildren <= 4) {
+                        if($row['RoomName'] !== "Mango cottage Room AC") {
+                            if($numAdults + $numChildren <= 4) {
                                 $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
                                 $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
                                 $row['numberOfNights'] = $numberOfNights;
@@ -262,13 +271,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             // adult = adult+child
                             // adult == capacity ==  regular p[rice]
 
-                            if ($numAdults == 3 && $numChildren > 1) {
-                                if ($children2Ages > 5 && $children2Ages < 10) {
+                            if($numAdults == 3 && $numChildren > 1) {
+                                if($children2Ages > 5 && $children2Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
                                 }
-                                if ($children3Ages > 5 && $children3Ages < 10) {
+                                if($children3Ages > 5 && $children3Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
@@ -287,9 +296,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $row['where'] = "0";
                             }
 
-                            if ($numAdults == 2 && $numChildren == 3) {
+                            if($numAdults == 2 && $numChildren == 3) {
 
-                                if ($children3Ages > 5 && $children3Ages < 10) {
+                                if($children3Ages > 5 && $children3Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
@@ -307,22 +316,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $row['where'] = "30";
                             }
 
-                            if ($numAdults >= 4 && $numChildren >= 1) {
+                            if($numAdults >= 4 && $numChildren >= 1) {
                                 $RoomsWithBreakFast += ($numAdults - 4) * $AdultCostForBreakfast;
                                 $RoomsWithAllMeals += ($numAdults - 4) * $AdultCostForAllMeals;
                                 $ExtraBed += $numAdults - 4;
 
-                                if ($children1Ages > 5 && $children1Ages < 10) {
+                                if($children1Ages > 5 && $children1Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
                                 }
-                                if ($children2Ages > 5 && $children2Ages < 10) {
+                                if($children2Ages > 5 && $children2Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
                                 }
-                                if ($children3Ages > 5 && $children3Ages < 10) {
+                                if($children3Ages > 5 && $children3Ages < 10) {
 
                                     $ChildCostForBreakfast += $rateChildCostForBreakfast;
                                     $ChildCostForAllMeals += $rateChildCostForAllMeals;
@@ -391,7 +400,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             //     $row['numberOfNights'] = $numberOfNights;
                             //     $row['where'] = "2";
                             //    }
-                            if ($numAdults > 4 && $numChildren == 0) {
+                            if($numAdults > 4 && $numChildren == 0) {
                                 $RoomsWithBreakFast += ($numAdults - 4) * $AdultCostForBreakfast;
                                 $RoomsWithAllMeals += ($numAdults - 4) * $AdultCostForAllMeals;
                                 $ExtraBed += $numAdults - 4;
@@ -488,7 +497,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Information is invalid.";
         }
     }
-    if (isset($data->YourDetails)) {
+    if(isset($data->YourDetails)) {
 
         $checkInDate = sanitizeInput($data->CheckIn);
         $checkOutDate = sanitizeInput($data->CheckOut);
@@ -518,12 +527,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $totalPrice = ($bookingRoomType === 'All Inclusive') ? $RoomsWithAllMeals : $RoomsWithBreakFast;
         $ExtraBedCost = 0;
         $specialRequest = sanitizeInput($data->SpecialRequest);
-        if ($numAdults > 2) {
+        if($numAdults > 2) {
             $ExtraBedCost = ($bookingRoomType === 'All Inclusive') ? ($numAdults - 2) * 1500 : ($numAdults - 2) * 1200;
         }
         $ChildCost = ($bookingRoomType === 'All Inclusive') ? sanitizeInput($data->ChildCostForAllMeals) : sanitizeInput($data->ChildCostForBreakfast);
 
-        $BookingID = round(microtime(true) * 1000) . mt_rand(100, 999);
+        $BookingID = round(microtime(true) * 1000).mt_rand(100, 999);
         $AmtToPaid = $totalPrice * 0.30;
 
         $insertBookingSQL = "INSERT INTO bookings ( UserName,
@@ -584,8 +593,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 
                                                                 )";
 
-        if ($conn->query($insertBookingSQL) === TRUE) {
-            if ($numAdults <= 2) {
+        if($conn->query($insertBookingSQL) === TRUE) {
+            if($numAdults <= 2) {
                 $sql = "SELECT * FROM bookings WHERE BookingID=$BookingID";
                 $result = $conn->query($sql);
                 echo json_encode(mysqli_fetch_assoc($result));
@@ -596,12 +605,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
         } else {
-            echo "Error inserting booking data: " . $conn->error;
+            echo "Error inserting booking data: ".$conn->error;
         }
     }
 }
 
-if (isset($_GET['getAllBookings'])) {
+if(isset($_GET['getAllBookings'])) {
     $data = array(); // Create an array to store the combined data
 
     // Fetch room details
@@ -609,7 +618,7 @@ if (isset($_GET['getAllBookings'])) {
     $roomsSqlresult = $conn->query($roomsSql);
 
     $roomsData = array(); // Create an array to store room details
-    while ($row = $roomsSqlresult->fetch_assoc()) {
+    while($row = $roomsSqlresult->fetch_assoc()) {
         $rooms = array(
             'RoomID' => $row['RoomID'],
             'RoomName' => $row['RoomName'],
@@ -623,7 +632,7 @@ if (isset($_GET['getAllBookings'])) {
     $result = $conn->query($sql);
 
     $bookingsData = array(); // Create an array to store booking details
-    while ($row = $result->fetch_assoc()) {
+    while($row = $result->fetch_assoc()) {
         $bookingDetails = array(
             'BookingID' => $row['BookingID'],
             'BookingRoomID' => $row['BookingRoomID'],
@@ -640,7 +649,7 @@ if (isset($_GET['getAllBookings'])) {
 
 
 
-if (isset($_GET['ClientID'])) {
+if(isset($_GET['ClientID'])) {
     $clientID = $_GET['ClientID'];
 
     $sql = "SELECT r.*, c.*, p.* FROM rooms r
@@ -650,25 +659,25 @@ if (isset($_GET['ClientID'])) {
 
     $result = $conn->query($sql);
 
-    if ($result->num_rows > 0) {
+    if($result->num_rows > 0) {
         $data = array(); // Create an array to store the combined data
         $data['client'] = array(); // Initialize the client data as an object
         $data['policies'] = array(); // Initialize the rooms data as an array
 
-        while ($row = $result->fetch_assoc()) {
-            if (empty($data['client'])) {
+        while($row = $result->fetch_assoc()) {
+            if(empty($data['client'])) {
                 $clientData = array_filter($row, function ($key) {
                     $clientKeys = ['ClientID', 'ClientBusinessName', 'ClientName', 'ClientEmail', 'ClientPhone', 'ClientAddress'];
                     return in_array($key, $clientKeys);
                 }, ARRAY_FILTER_USE_KEY);
                 $data['client'] = $clientData;
             }
-            if (empty($data['policies'])) {
+            if(empty($data['policies'])) {
                 $policiesData = array_filter($row, function ($key) {
                     $includeKeys = ['CheckIn', 'CheckOut', 'LateCheckOut', 'CancellationPolicies', 'PolicyID'];
                     return in_array($key, $includeKeys);
                 }, ARRAY_FILTER_USE_KEY);
-                if (isset($policiesData['CancellationPolicies'])) {
+                if(isset($policiesData['CancellationPolicies'])) {
                     $policiesData['CancellationPolicies'] = json_decode($policiesData['CancellationPolicies'], true);
                 }
                 $data['policies'] = $policiesData;
