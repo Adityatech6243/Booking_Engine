@@ -25,6 +25,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toIST } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
 const formSchema = z.object({
   CheckIn: z.date(),
@@ -50,6 +51,11 @@ function Adminpanel(props) {
   const [roomId, setRoomId] = useState("");
   const [priceWithBreakfast, setPriceWithBreakfast] = useState("");
   const [priceWithAllMeals, setPriceWithAllMeals] = useState("");
+
+  useEffect(() => {
+    setBookingRoomId(roomsAndBookings?.rooms?.[0].RoomID);
+    setRoomId(roomsAndBookings?.rooms?.[0].RoomID);
+  }, [roomsAndBookings]);
 
   useEffect(() => {
     async function fetchData() {
@@ -87,6 +93,8 @@ function Adminpanel(props) {
     defaultValues: {
       CheckIn: "",
       CheckOut: "",
+      priceWithAllMeals: "",
+      priceWithBreakfast: "",
     },
   });
   // const handleSubmit(event) {
@@ -277,81 +285,7 @@ function Adminpanel(props) {
                   ))}
                 </tbody>
               </table>
-              <div className="p-2">
-                <button
-                  onClick={handleToggle}
-                  className="bg-blue-500 text-white p-2 rounded"
-                >
-                  Edit Prices
-                </button>
-                {showDiv && (
-                  <div>
-                    <h3 className="text-center">Edit Prices</h3>
-                    <form
-                      className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:w-full"
-                      onSubmit={handlePricechange}
-                    >
-                      <div className="md:w-full">
-                        <label htmlFor="option" className="text-gray-600 block">
-                          <b>Select Room:</b>
-                        </label>
-                        <select
-                          id="option"
-                          value={roomId}
-                          onChange={(e) => setRoomId(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                        >
-                          {roomsAndBookings?.rooms?.map((item) => (
-                            <option key={item.RoomID} value={item.RoomID}>
-                              {item.RoomName}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                      <div className="md:w-full mt-0">
-                        <label htmlFor="input1" className="text-gray-600 block">
-                          <b>With Breakfast:</b>
-                        </label>
-                        <input
-                          type="number"
-                          id="input1"
-                          value={priceWithBreakfast}
-                          onChange={(e) =>
-                            setPriceWithBreakfast(e.target.value)
-                          }
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                          placeholder="Enter Price With Breakfast Here"
-                          min="0"
-                          pattern="^[0-9]+$"
-                        />
-                      </div>
-                      <div className="md:w-full mt-0">
-                        <label htmlFor="input2" className="text-gray-600 block">
-                          <b>With All Meals:</b>
-                        </label>
-                        <input
-                          type="number"
-                          id="input2"
-                          value={priceWithAllMeals}
-                          onChange={(e) => setPriceWithAllMeals(e.target.value)}
-                          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                          placeholder="Enter Price With All Meal Here"
-                          min="0"
-                          pattern="^[0-9]+$"
-                        />
-                      </div>
-                      <div className="md:justify-center flex items-center mt-4">
-                        <button
-                          type="submit"
-                          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                )}
-              </div>
+
               <div>
                 <h3 className="text-center">Add Bookings</h3>
                 <Form {...form}>
@@ -486,13 +420,181 @@ function Adminpanel(props) {
                     <div className="md:justify-center flex items-center">
                       <button
                         type="submit"
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                        disabled={
+                          !(
+                            form.control._formValues?.CheckIn &&
+                            form.control._formValues?.CheckOut
+                          )
+                        }
+                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                          form.control._formValues?.CheckIn &&
+                          form.control._formValues?.CheckOut
+                            ? ""
+                            : "bg-gray-500"
+                        }`}
                       >
                         Book
                       </button>
                     </div>
                   </form>
                 </Form>
+              </div>
+              <div className="p-2">
+                <button
+                  onClick={handleToggle}
+                  className="bg-blue-500 text-white p-2 rounded"
+                >
+                  Edit Prices
+                </button>
+                {showDiv && (
+                  <div>
+                    <h3 className="text-center">Edit Prices</h3>
+
+                    <Form {...form}>
+                      <form
+                        className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:w-full"
+                        onSubmit={handlePricechange}
+                      >
+                        <div className="md:w-full">
+                          <label
+                            htmlFor="option"
+                            className="text-gray-600 block"
+                          >
+                            <b>Select Room:</b>
+                          </label>
+                          <select
+                            id="option"
+                            value={roomId}
+                            onChange={(e) => {
+                              setRoomId(e.target.value);
+                            }}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                          >
+                            {roomsAndBookings?.rooms?.map((item) => (
+                              <option key={item.RoomID} value={item.RoomID}>
+                                {item.RoomName}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="md:w-full mt-0">
+                          <FormField
+                            control={form.control}
+                            name="priceWithBreakfast"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>
+                                  With Breakfast:
+                                  <sup className="text-red-500">*</sup>
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="Enter Room Price with Breakfast"
+                                    {...field}
+                                    value={
+                                      priceWithBreakfast ||
+                                      roomsAndBookings?.rooms.filter(
+                                        (item) => item.RoomID == roomId
+                                      )[0].withBreakfastPrice
+                                    }
+                                    type="number"
+                                    required
+                                    // onChange={(e) =>
+                                    //   setPriceWithBreakfast(e.target.value)
+                                    // }
+                                    onChange={(e) => {
+                                      setPriceWithBreakfast(e.target.value);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+
+                          {/* <input
+                            type="number"
+                            id="input1"
+                            name="priceWithBreakfast"
+                            value={priceWithBreakfast}
+                            onChange={(e) =>
+                              setPriceWithBreakfast(e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            placeholder="Enter Price With Breakfast Here"
+                            min="0"
+                            pattern="^[0-9]+$"
+                          /> */}
+                        </div>
+                        <div className="md:w-full mt-0">
+                          <FormField
+                            control={form.control}
+                            name="priceWithBreakfast"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel>
+                                  With All Meals:{" "}
+                                  <sup className="text-red-500">*</sup>
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder="Enter Room Price with All Meals"
+                                    {...field}
+                                    value={
+                                      priceWithAllMeals ||
+                                      roomsAndBookings?.rooms.filter(
+                                        (item) => item.RoomID == roomId
+                                      )[0].withAllMealsPrice
+                                    }
+                                    type="number"
+                                    required
+                                    onChange={(e) => {
+                                      setPriceWithAllMeals(e.target.value);
+                                    }}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          {/* <input
+                            type="number"
+                            id="input2"
+                            name="priceWithAllMeals"
+                            value={priceWithAllMeals}
+                            onChange={(e) =>
+                              setPriceWithAllMeals(e.target.value)
+                            }
+                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            placeholder="Enter Price With All Meal Here"
+                            min="0"
+                            pattern="^[0-9]+$"
+                          /> */}
+                        </div>
+                        <div className="md:justify-center flex items-center mt-4">
+                          <button
+                            type="submit"
+                            className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                            // disabled={
+                            //   !(
+                            //     form.control._formValues?.priceWithAllMeals &&
+                            //     form.control._formValues?.priceWithBreakfast
+                            //   )
+                            // }
+                            // className={`bg-blue-500 text-white font-bold py-2 px-4 rounded ${
+                            //   form.control._formValues?.priceWithAllMeals &&
+                            //   form.control._formValues?.priceWithBreakfast
+                            //     ? ""
+                            //     : "bg-gray-500"
+                            // }`}
+                          >
+                            Save
+                          </button>
+                        </div>
+                      </form>
+                    </Form>
+                  </div>
+                )}
               </div>
               <button
                 onClick={handleLogout}
