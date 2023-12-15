@@ -203,7 +203,60 @@ export default function Home() {
   }
   // emailjs code here to send mail
   emailjs.init("dVPPPyRhEoB6ft-B_");
-  const PayNow = () => {
+
+  async function sha256(message) {
+    // Encode the message as a Uint8Array
+    const encoder = new TextEncoder();
+    const data = encoder.encode(message);
+
+    // Use the Web Crypto API to create a SHA-256 hash
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+
+    // Convert the hash buffer to a hexadecimal string
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((byte) => byte.toString(16).padStart(2, "0"))
+      .join("");
+
+    return hashHex;
+  }
+  const PayNow = async () => {
+    const request = {
+      merchantId: "PHONEPEPGUAT8",
+      merchantTransactionId: "MT7850590068188104",
+      merchantUserId: "MUID123",
+      amount: 20000,
+      redirectUrl: "http://localhost:3000",
+      redirectMode: "REDIRECT",
+      callbackUrl: "http://localhost:3000",
+      mobileNumber: "9999999999",
+      paymentInstrument: {
+        type: "PAY_PAGE",
+      },
+    };
+
+    const payload = Buffer.from(JSON.stringify(request)).toString("base64");
+    const saltPayload =
+      payload + "/pg/v1/pay" + "aeed1568-1a76-4fa4-9f47-3e1c81232660";
+    const checksumvalue = await sha256(saltPayload).then((hash) => hash);
+
+    const options = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        "X-VERIFY": checksumvalue + "###" + 1,
+      },
+      body: JSON.stringify({ request: payload }),
+    };
+
+    fetch("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay", options)
+      .then((response) => response.json())
+      .then((response) =>
+        window.open(response?.data?.instrumentResponse?.redirectInfo?.url)
+      )
+      .catch((err) => console.error(err));
+
     const emailData = {
       ...review,
       subject: "Test: New Booking Confirmed For River Orchid Resort",
