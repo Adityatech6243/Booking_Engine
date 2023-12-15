@@ -595,16 +595,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 )";
 
         if ($conn->query($insertBookingSQL) === TRUE) {
-            if ($numAdults <= 2) {
-                $sql = "SELECT * FROM bookings WHERE BookingID=$BookingID";
-                $result = $conn->query($sql);
-                echo json_encode(mysqli_fetch_assoc($result));
-            } else {
-                $sql = "SELECT * FROM bookings WHERE BookingID = $BookingID AND capacity = 4";
-                $result = $conn->query($sql);
-                echo json_encode(mysqli_fetch_assoc($result));
-            }
-
+            $sql = "SELECT * FROM bookings WHERE BookingID=$BookingID";
+            $result = $conn->query($sql);
+            echo json_encode(mysqli_fetch_assoc($result));
         } else {
             echo "Error inserting booking data: " . $conn->error;
         }
