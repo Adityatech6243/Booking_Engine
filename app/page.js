@@ -210,8 +210,24 @@ export default function Home() {
       to: "riverorchid1313@gmail.com",
       clientName: "River Orchid Resort",
       replyTo: review?.UserEmail,
-      CheckInDate: toIST(review?.CheckInDate),
-      CheckOutDate: toIST(review?.CheckOutDate),
+      CheckInDate:new Date(review?.CheckInDate).toLocaleDateString(
+                        "en-IN",
+                        {
+                          timeZone: "Asia/Kolkata",
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        }
+                      ),
+      CheckOutDate:  new Date(review?.CheckOutDate).toLocaleDateString(
+                        "en-IN",
+                        {
+                          timeZone: "Asia/Kolkata",
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        }
+                      )
     };
 
     // Send the email
@@ -630,11 +646,27 @@ export default function Home() {
                   <ul className="flex flex-wrap flex-col lg:flex-row border-b">
                     <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check In Date:</span>{" "}
-                      {review?.CheckInDate?.toISOString().split("T")[0]}
+                      {new Date(review?.CheckInDate).toLocaleDateString(
+                        "en-IN",
+                        {
+                          timeZone: "Asia/Kolkata",
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        }
+                      )}
                     </li>
                     <li className="p-5 w:1 lg:w-1/2 border-b">
                       <span className="font-semibold">Check Out Date:</span>{" "}
-                      {review?.CheckOutDate?.toISOString().split("T")[0]}
+                      {new Date(review?.CheckOutDate).toLocaleDateString(
+                        "en-IN",
+                        {
+                          timeZone: "Asia/Kolkata",
+                          day: "numeric",
+                          month: "long",
+                          year: "numeric",
+                        }
+                      )}
                     </li>
                     {/* <li className="p-5 lg: w-1/2">Rooms: {review?.Rooms}</li> */}
                     <li className="p-5 w:1 lg:w-1/2">
@@ -691,7 +723,7 @@ export default function Home() {
                           {Number(review?.NumChildrens) &&
                             [...Array(Number(review?.NumChildrens))].map(
                               (_, index) => (
-                                <div key={index}>
+                                <div className="my-3" key={index}>
                                   Child {index + 1}:{" "}
                                   {review[`Child${index + 1}Age`]} Year(s)
                                 </div>

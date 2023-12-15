@@ -293,7 +293,7 @@ function Adminpanel(props) {
                     className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:w-full"
                     onSubmit={handleBooking}
                   >
-                    <div className="md:w-full">
+                    <div className="md:w-full mt-0">
                       <label htmlFor="option" className="text-gray-600 block">
                         Select Room:
                       </label>
