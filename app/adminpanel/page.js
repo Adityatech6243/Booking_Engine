@@ -463,6 +463,7 @@ function Adminpanel(props) {
                   </form>
                 </Form>
               </div>
+              <hr className="my-8" />
               <div className="p-2">
                 <button
                   onClick={handleToggle}
