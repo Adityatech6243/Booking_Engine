@@ -238,7 +238,7 @@ function Adminpanel(props) {
                 </thead>
                 <tbody className="p-2">
                   {roomsAndBookings?.rooms?.map((room) => (
-                    <tr key={room.RoomID}>
+                    <tr key={room.RoomID} className="border-b-2">
                       <td>{room.RoomName}</td>
                       <td>
                         {roomsAndBookings?.bookings?.map(
@@ -290,25 +290,49 @@ function Adminpanel(props) {
                 <h3 className="text-center">Add Bookings</h3>
                 <Form {...form}>
                   <form
-                    className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:w-full"
+                    className="flex flex-col md:flex-row md:space-x-4 md:w-full"
                     onSubmit={handleBooking}
                   >
                     <div className="md:w-full mt-0">
-                      <label htmlFor="option" className="text-gray-600 block">
-                        Select Room:
-                      </label>
-                      <select
-                        id="option"
-                        value={bookingRoomId}
-                        onChange={(e) => setBookingRoomId(e.target.value)}
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                      >
-                        {roomsAndBookings?.rooms?.map((item) => (
-                          <option key={item.RoomID} value={item.RoomID}>
-                            {item.RoomName}
-                          </option>
-                        ))}
-                      </select>
+                      <FormField
+                        control={form.control}
+                        name="CheckIn"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel className="text-gray-600">
+                              Select Room:
+                            </FormLabel>
+                            <select
+                              id="option"
+                              value={bookingRoomId}
+                              onChange={(e) => setBookingRoomId(e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            >
+                              {roomsAndBookings?.rooms?.map((item) => (
+                                <option key={item.RoomID} value={item.RoomID}>
+                                  {item.RoomName}
+                                </option>
+                              ))}
+                            </select>
+                          </FormItem>
+                        )}
+                      />
+                      {/*                     
+                      // <label htmlFor="option" className="text-gray-600 block">
+                      //   <b>Select Room:</b>
+                      // </label>
+                      // <select
+                      //   id="option"
+                      //   value={bookingRoomId}
+                      //   onChange={(e) => setBookingRoomId(e.target.value)}
+                      //   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                      // >
+                      //   {roomsAndBookings?.rooms?.map((item) => (
+                      //     <option key={item.RoomID} value={item.RoomID}>
+                      //       {item.RoomName}
+                      //     </option>
+                      //   ))}
+                      // </select> */}
                     </div>
                     <div className="md:w-full mt-0">
                       <FormField
@@ -452,10 +476,10 @@ function Adminpanel(props) {
 
                     <Form {...form}>
                       <form
-                        className="flex flex-col md:flex-row space-y-4 md:space-x-4 md:w-full"
+                        className="flex flex-col md:flex-row md:space-x-4 md:w-full"
                         onSubmit={handlePricechange}
                       >
-                        <div className="md:w-full">
+                        <div className="md:w-full space-y-2">
                           <label
                             htmlFor="option"
                             className="text-gray-600 block"
@@ -493,7 +517,7 @@ function Adminpanel(props) {
                                     {...field}
                                     value={
                                       priceWithBreakfast ||
-                                      roomsAndBookings?.rooms.filter(
+                                      roomsAndBookings?.rooms?.filter(
                                         (item) => item.RoomID == roomId
                                       )[0].withBreakfastPrice
                                     }
@@ -542,7 +566,7 @@ function Adminpanel(props) {
                                     {...field}
                                     value={
                                       priceWithAllMeals ||
-                                      roomsAndBookings?.rooms.filter(
+                                      roomsAndBookings?.rooms?.filter(
                                         (item) => item.RoomID == roomId
                                       )[0].withAllMealsPrice
                                     }
