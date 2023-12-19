@@ -82,7 +82,6 @@ export default function Home() {
 
   const [activeItem, setActiveItem] = useState("item-1");
   const [review, setReview] = useState();
-  // const [checkIn, setCheckIn] = useState("abcd");
   const [checkIn, setCheckIn] = useState(null);
   const [checkOut, setCheckOut] = useState(null);
   const [edit1, enableEdit1] = useState();
@@ -149,7 +148,6 @@ export default function Home() {
       sendData();
     }
   }, [searchdata]);
-  // useEffect(() => console.log("dd", review), [review]);
   useEffect(() => {
     if (childrensCount == 0) {
       form.control._formValues.Child1Age = "";
@@ -337,7 +335,6 @@ export default function Home() {
                   )}
                 </div>
               </AccordionTrigger>
-              {/* <FontAwesomeIcon icon={faEdit} /> */}
               <AccordionContent>
                 <Form {...form}>
                   <form

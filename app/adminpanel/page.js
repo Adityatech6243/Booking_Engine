@@ -30,13 +30,9 @@ import { Input } from "@/components/ui/input";
 const formSchema = z.object({
   CheckIn: z.date(),
   CheckOut: z.date(),
+  priceWithAllMeals: z.string(),
+  priceWithBreakfast: z.string(),
 });
-
-// export function CalendarForm() {
-//   const form = useForm<z.infer<typeof FormSchema>>({
-//     resolver: zodResolver(FormSchema),
-//   })
-// }
 function Adminpanel(props) {
   const [selectedOption, setSelectedOption] = useState("1");
   const [input1, setInput1] = useState("");
@@ -56,6 +52,17 @@ function Adminpanel(props) {
     setBookingRoomId(roomsAndBookings?.rooms?.[0].RoomID);
     setRoomId(roomsAndBookings?.rooms?.[0].RoomID);
   }, [roomsAndBookings]);
+
+  useEffect(() => {
+    setPriceWithAllMeals(
+      roomsAndBookings?.rooms?.filter((item) => item.RoomID == roomId)[0]
+        .withAllMealsPrice
+    );
+    setPriceWithBreakfast(
+      roomsAndBookings?.rooms?.filter((item) => item.RoomID == roomId)[0]
+        .withBreakfastPrice
+    );
+  }, [roomId]);
 
   useEffect(() => {
     async function fetchData() {
@@ -97,11 +104,6 @@ function Adminpanel(props) {
       priceWithBreakfast: "",
     },
   });
-  // const handleSubmit(event) {
-  //     event.preventDefault();
-  //     // Handle form submission
-  //     // ...
-  //   };
   function onSubmit(values) {
     //setSearchData(values);
   }
@@ -232,14 +234,18 @@ function Adminpanel(props) {
               <table className="table-bordered p-2 w-full">
                 <thead>
                   <tr>
-                    <th>Room Category</th>
-                    <th>Bookings</th>
+                    <th>
+                      <b>Room Category</b>
+                    </th>
+                    <th>
+                      <b>Bookings</b>
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="p-2">
                   {roomsAndBookings?.rooms?.map((room) => (
                     <tr key={room.RoomID} className="border-b-2">
-                      <td>{room.RoomName}</td>
+                      <td className="py-2">{room.RoomName}</td>
                       <td>
                         {roomsAndBookings?.bookings?.map(
                           (booking, index) =>
@@ -287,20 +293,22 @@ function Adminpanel(props) {
               </table>
 
               <div>
-                <h3 className="text-center">Add Bookings</h3>
+                <h2 className="text-center">
+                  <b>Add Bookings</b>
+                </h2>
                 <Form {...form}>
                   <form
                     className="flex flex-col md:flex-row md:space-x-4 md:w-full"
                     onSubmit={handleBooking}
                   >
-                    <div className="md:w-full mt-0">
+                    <div className="md:w-full mt-4">
                       <FormField
                         control={form.control}
                         name="CheckIn"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel className="text-gray-600">
-                              Select Room:
+                              <b>Select Room:</b>
                             </FormLabel>
                             <select
                               id="option"
@@ -317,31 +325,15 @@ function Adminpanel(props) {
                           </FormItem>
                         )}
                       />
-                      {/*                     
-                      // <label htmlFor="option" className="text-gray-600 block">
-                      //   <b>Select Room:</b>
-                      // </label>
-                      // <select
-                      //   id="option"
-                      //   value={bookingRoomId}
-                      //   onChange={(e) => setBookingRoomId(e.target.value)}
-                      //   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                      // >
-                      //   {roomsAndBookings?.rooms?.map((item) => (
-                      //     <option key={item.RoomID} value={item.RoomID}>
-                      //       {item.RoomName}
-                      //     </option>
-                      //   ))}
-                      // </select> */}
                     </div>
-                    <div className="md:w-full mt-0">
+                    <div className="md:w-full mt-4">
                       <FormField
                         control={form.control}
                         name="CheckIn"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel className="text-gray-600">
-                              Check In Date
+                              <b>Check In Date</b>
                             </FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
@@ -355,7 +347,9 @@ function Adminpanel(props) {
                                   {field.value ? (
                                     format(field.value, "PPP")
                                   ) : (
-                                    <span>Select Check In Date</span>
+                                    <span>
+                                      <b>Select Check In Date</b>
+                                    </span>
                                   )}
                                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -380,14 +374,14 @@ function Adminpanel(props) {
                         )}
                       />
                     </div>
-                    <div className="md:w-full mt-0">
+                    <div className="md:w-full mt-4">
                       <FormField
                         control={form.control}
                         name="CheckOut"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel className="text-gray-600">
-                              Check Out Date
+                              <b>Check Out Date</b>
                             </FormLabel>
                             <Popover>
                               <PopoverTrigger asChild>
@@ -401,7 +395,9 @@ function Adminpanel(props) {
                                   {field.value ? (
                                     format(field.value, "PPP")
                                   ) : (
-                                    <span>Select Check Out Date</span>
+                                    <span>
+                                      <b>Select Check Out Date</b>
+                                    </span>
                                   )}
                                   <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                 </Button>
@@ -441,7 +437,7 @@ function Adminpanel(props) {
                         )}
                       />
                     </div>
-                    <div className="md:justify-center flex items-center">
+                    <div className="md:justify-center flex items-end mt-4">
                       <button
                         type="submit"
                         disabled={
@@ -450,7 +446,7 @@ function Adminpanel(props) {
                             form.control._formValues?.CheckOut
                           )
                         }
-                        className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ${
+                        className={`bg-blue-500  text-white font-bold py-2 px-4 rounded ${
                           form.control._formValues?.CheckIn &&
                           form.control._formValues?.CheckOut
                             ? ""
@@ -473,14 +469,16 @@ function Adminpanel(props) {
                 </button>
                 {showDiv && (
                   <div>
-                    <h3 className="text-center">Edit Prices</h3>
+                    <h2 className="text-center">
+                      <b>Edit Prices</b>
+                    </h2>
 
                     <Form {...form}>
                       <form
                         className="flex flex-col md:flex-row md:space-x-4 md:w-full"
                         onSubmit={handlePricechange}
                       >
-                        <div className="md:w-full space-y-2">
+                        <div className="md:w-full space-y-2 mt-4">
                           <label
                             htmlFor="option"
                             className="text-gray-600 block"
@@ -496,37 +494,33 @@ function Adminpanel(props) {
                             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                           >
                             {roomsAndBookings?.rooms?.map((item) => (
-                              <option key={item.RoomID} value={item.RoomID}>
+                              <option
+                                key={item.RoomID}
+                                value={item.RoomID}
+                                className="text-sm p-2"
+                              >
                                 {item.RoomName}
                               </option>
                             ))}
                           </select>
                         </div>
-                        <div className="md:w-full mt-0">
+                        <div className="md:w-full mt-4">
                           <FormField
                             control={form.control}
                             name="priceWithBreakfast"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  With Breakfast:
+                                  <b>With Breakfast:</b>
                                   <sup className="text-red-500">*</sup>
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     placeholder="Enter Room Price with Breakfast"
                                     {...field}
-                                    value={
-                                      priceWithBreakfast ||
-                                      roomsAndBookings?.rooms?.filter(
-                                        (item) => item.RoomID == roomId
-                                      )[0].withBreakfastPrice
-                                    }
+                                    value={priceWithBreakfast}
                                     type="number"
                                     required
-                                    // onChange={(e) =>
-                                    //   setPriceWithBreakfast(e.target.value)
-                                    // }
                                     onChange={(e) => {
                                       setPriceWithBreakfast(e.target.value);
                                     }}
@@ -536,41 +530,22 @@ function Adminpanel(props) {
                               </FormItem>
                             )}
                           />
-
-                          {/* <input
-                            type="number"
-                            id="input1"
-                            name="priceWithBreakfast"
-                            value={priceWithBreakfast}
-                            onChange={(e) =>
-                              setPriceWithBreakfast(e.target.value)
-                            }
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                            placeholder="Enter Price With Breakfast Here"
-                            min="0"
-                            pattern="^[0-9]+$"
-                          /> */}
                         </div>
-                        <div className="md:w-full mt-0">
+                        <div className="md:w-full mt-4">
                           <FormField
                             control={form.control}
-                            name="priceWithBreakfast"
+                            name="priceWithAllMeals"
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>
-                                  With All Meals:{" "}
+                                  <b>With All Meals: </b>
                                   <sup className="text-red-500">*</sup>
                                 </FormLabel>
                                 <FormControl>
                                   <Input
                                     placeholder="Enter Room Price with All Meals"
                                     {...field}
-                                    value={
-                                      priceWithAllMeals ||
-                                      roomsAndBookings?.rooms?.filter(
-                                        (item) => item.RoomID == roomId
-                                      )[0].withAllMealsPrice
-                                    }
+                                    value={priceWithAllMeals}
                                     type="number"
                                     required
                                     onChange={(e) => {
@@ -582,36 +557,19 @@ function Adminpanel(props) {
                               </FormItem>
                             )}
                           />
-                          {/* <input
-                            type="number"
-                            id="input2"
-                            name="priceWithAllMeals"
-                            value={priceWithAllMeals}
-                            onChange={(e) =>
-                              setPriceWithAllMeals(e.target.value)
-                            }
-                            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                            placeholder="Enter Price With All Meal Here"
-                            min="0"
-                            pattern="^[0-9]+$"
-                          /> */}
                         </div>
-                        <div className="md:justify-center flex items-center mt-4">
+                        <div className="md:justify-center flex items-end mt-4">
                           <button
                             type="submit"
-                            className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-                            // disabled={
-                            //   !(
-                            //     form.control._formValues?.priceWithAllMeals &&
-                            //     form.control._formValues?.priceWithBreakfast
-                            //   )
-                            // }
-                            // className={`bg-blue-500 text-white font-bold py-2 px-4 rounded ${
-                            //   form.control._formValues?.priceWithAllMeals &&
-                            //   form.control._formValues?.priceWithBreakfast
-                            //     ? ""
-                            //     : "bg-gray-500"
-                            // }`}
+                            // className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                            disabled={
+                              !(priceWithBreakfast && priceWithAllMeals)
+                            }
+                            className={`bg-blue-500  text-white font-bold py-2 px-4 rounded ${
+                              priceWithBreakfast && priceWithAllMeals
+                                ? ""
+                                : "bg-gray-500"
+                            }`}
                           >
                             Save
                           </button>
@@ -623,7 +581,7 @@ function Adminpanel(props) {
               </div>
               <button
                 onClick={handleLogout}
-                className="bg-red-500 text-white p-2 rounded"
+                className="bg-red-500 text-white p-2 rounded w-1/2 ml-8 md:w-auto md:ml-0"
               >
                 Logout
               </button>
