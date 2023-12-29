@@ -5,13 +5,13 @@ const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
   return (
     <nav className="bg-[#ffffff] sticky top-0 shadow z-50">
       <div className="container flex mx-auto space-x-4 justify-between">
-        <Link href="/">
+        <Link href="/booking-engine/">
           <Image
-            src="/Logo.png"
+            src="/booking-engine/Logo.png"
             width="60"
             height="60"
             alt="logo"
-            style={{width: "auto", height: "auto" }}
+            style={{ width: "auto", height: "auto" }}
           />
         </Link>
         {/* <button

@@ -1,5 +1,4 @@
 "use client";
-import Container from "react-bootstrap/Container";
 import React, { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { format } from "date-fns";
@@ -226,7 +225,7 @@ function Adminpanel(props) {
           href="#"
           className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
-          <img src="Logo.png" alt="logo" className="w-20" />
+          <img src="/booking-engine/Logo.png" alt="logo" className="w-20" />
         </a>
         <div className="w-full bg-white rounded-lg shadow dark:border p-5 md:mt-0 dark:bg-gray-800 dark:border-gray-700">
           {isLoggedIn ? (
