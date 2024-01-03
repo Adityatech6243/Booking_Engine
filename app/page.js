@@ -875,7 +875,7 @@ export default function Home() {
                   <span>{data?.client?.ClientPhone}</span>
                 </p>
                 <p className="mb-1">
-                  <b>Addres: </b>
+                  <b>Address: </b>
                   <br />
                   <span>{data?.client?.ClientAddress}</span>
                 </p>

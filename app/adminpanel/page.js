@@ -292,7 +292,7 @@ function Adminpanel(props) {
               </table>
 
               <div>
-                <h2 className="text-center">
+                <h2 className="text-center mt-10">
                   <b>Add Bookings</b>
                 </h2>
                 <Form {...form}>
@@ -462,16 +462,12 @@ function Adminpanel(props) {
               <div className="p-2">
                 <button
                   onClick={handleToggle}
-                  className="bg-blue-500 text-white p-2 rounded"
+                  className="bg-blue-500 text-white p-2 font-bold py-2 px-4 rounded "
                 >
                   Edit Prices
                 </button>
                 {showDiv && (
                   <div>
-                    <h2 className="text-center">
-                      <b>Edit Prices</b>
-                    </h2>
-
                     <Form {...form}>
                       <form
                         className="flex flex-col md:flex-row md:space-x-4 md:w-full"
@@ -564,7 +560,7 @@ function Adminpanel(props) {
                             disabled={
                               !(priceWithBreakfast && priceWithAllMeals)
                             }
-                            className={`bg-blue-500  text-white font-bold py-2 px-4 rounded ${
+                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${
                               priceWithBreakfast && priceWithAllMeals
                                 ? ""
                                 : "bg-gray-500"
@@ -578,12 +574,14 @@ function Adminpanel(props) {
                   </div>
                 )}
               </div>
-              <button
-                onClick={handleLogout}
-                className="bg-red-500 text-white p-2 rounded w-1/2 ml-8 md:w-auto md:ml-0"
-              >
-                Logout
-              </button>
+              <div className="flex justify-center">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white p-2 rounded font-bold py-2 px-8"
+                >
+                  Logout
+                </button>
+              </div>
             </section>
           ) : (
             <section className="bg-gray-50 dark:bg-gray-900">
