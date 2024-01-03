@@ -112,7 +112,14 @@ export function Details(props) {
         .catch((error) => {
           return "{}";
         });
-      props.setReview(JSON.parse(tempSendData));
+        try {
+          const parsedData = JSON.parse(tempSendData);
+          props.setReview(parsedData);
+        } catch (error) {
+          console.error("Error parsing JSON:", error);
+          // Handle the error, e.g., display an error message or fallback data
+        }
+      // props.setReview(JSON.parse(tempSendData));
     }
 
     sendData();

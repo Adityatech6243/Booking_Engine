@@ -304,7 +304,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col justify-between lg:p-24 lg:py-0 bg-[#f9f9f9]">
       <MyNavbar />
-      <div className="relative h-48" style={{ backgroundImage: `url(/1.jpg)` }}>
+      <div className="relative h-48" style={{ backgroundImage: `url(./1.jpg)` }}>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-60 text-white p-4  bg-gray-400 rounded-lg">
           <h1 className="font-bold text-2xl md:text-4xl">
             River Orchid Resort
