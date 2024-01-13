@@ -145,6 +145,7 @@ export function Details(props) {
                     placeholder="Enter Guest / Business Name"
                     {...field}
                     required
+                    pattern="[A-Za-z\s]+"
                   />
                 </FormControl>
                 <FormMessage />
