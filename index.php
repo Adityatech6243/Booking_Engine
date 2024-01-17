@@ -1,5 +1,6 @@
 <?php
 // Database connection details
+header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header("Access-Control-Allow-Headers: X-Requested-With");
@@ -92,7 +93,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     if (isset($data->searchAvailability)) {
-
 
         $checkInDate = sanitizeInput($data->CheckIn);
         $checkOutDate = sanitizeInput($data->CheckOut);
@@ -496,10 +496,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 }
 
                 // Encode the array as a JSON object
-                $jsonObject = json_encode($rooms);
-
-                // Output the JSON object
-                echo $jsonObject;
+                array_walk_recursive($rooms, function (&$value) {
+                    $value = mb_convert_encoding($value, 'UTF-8', 'UTF-8');
+                });
+                echo json_encode($rooms, JSON_UNESCAPED_UNICODE);
+                exit;
             }
         } else {
             // Your code to execute when one or more conditions are not met
