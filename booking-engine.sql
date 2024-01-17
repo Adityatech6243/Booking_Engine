@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2024 at 08:41 AM
+-- Generation Time: Jan 17, 2024 at 11:39 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -71,7 +71,8 @@ INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDa
 (1702640555440636, 1, '2023-12-20T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 7170, 'pending', 'With Breakfast', '5', '3', '8', '4', '9', '1', '3600', '3200', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'dfshsfhfsdh', 'Blue Bell cottage couple AC', 2, 2151),
 (1702640964495972, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'jhbhjbjk', 'Blue Bell cottage couple AC', 3, 3227),
 (1702641141268150, 1, '2023-12-19T18:30:00.000Z', '2023-12-25T18:30:00.000Z', 21510, 'pending', 'With Breakfast', '5', '3', '7', '5', '6', '1', '3600', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'c', 'ghgj', 'Blue Bell cottage couple AC', 6, 6453),
-(1702641283196155, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'asdasd', 'dfsdfgh', 'Blue Bell cottage couple AC', 3, 3227);
+(1702641283196155, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'asdasd', 'dfsdfgh', 'Blue Bell cottage couple AC', 3, 3227),
+(1705483500444848, 1, '2024-01-17T18:30:00.000Z', '2024-01-18T18:30:00.000Z', 1485, 'pending', 'With Breakfast', '4', '2', '6', '5', '', '0', '2400', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'c', 'sdfsdfsdfs', 'Blue Bell cottage couple AC', 1, 446);
 
 -- --------------------------------------------------------
 
@@ -144,11 +145,11 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`RoomID`, `RoomName`, `Description`, `RoomsClientID`, `RoomPhotos`, `RoomsWithBreakFast`, `RoomsWithAllMeals`, `capacity`, `available`) VALUES
-(1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '785', '222', 4, 1),
-(3, 'Mango cottage Room AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/mango.jpg,https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '7200', '10000', 2, 1),
+(1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://www.riverorchidresort.com/img/landing%20page%20img/bluebell%20couple.jpg, https://www.riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg,https://www.riverorchidresort.com/img/room%20img/Blue%20Bell%20cottage%20Nabar%202%20bathrum%20open%20to%20sky.jpg', '785', '222', 4, 1),
+(3, 'Mango cottage Room AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://www.riverorchidresort.com/img/landing%20page%20img/mango.jpg,https://www.riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, https://www.riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '7200', '10000', 2, 1),
 (14, 'Jasmanium Cottage 1 - Couple Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20couple.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20washroom.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20balcony.jpg', '55', '45', 4, 1),
 (16, 'Iris Family Cottage - Family Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/iris%20family%201.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20family.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20balcony.jpg', '5656', '888', 4, 0),
-(17, 'Lilium Twin Rooms - Family Room with Breakfast', 'An exclusive Family cottage with private sit out facing lawn n lake, the cottage is equipped with Two kingsize bed sleeping accommodation, and two bed rooms among which one is master bedroom with attached bathroom,blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/lilium%202.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium%20balcony.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium.jpg', '2', '23', 4, 1);
+(17, 'Lilium Twin Rooms - Family Room with Breakfast', 'An exclusive Family cottage with private sit out facing lawn n lake, the cottage is equipped with Two kingsize bed sleeping accommodation, and two bed rooms among which one is master bedroom with attached bathroom,blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility.', 1, 'https://www.riverorchidresort.com/img/landing%20page%20img/lilium.jpg, https://www.riverorchidresort.com/img/landing%20page%20img/lilium%20balcony.jpg, https://www.riverorchidresort.com/img/landing%20page%20img/lilium%202.jpg', '2', '23', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -222,7 +223,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1702641283196156;
+  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1705483500444849;
 
 --
 -- AUTO_INCREMENT for table `clients`
