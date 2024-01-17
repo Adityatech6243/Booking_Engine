@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2024 at 08:24 AM
--- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- Generation Time: Jan 17, 2024 at 08:41 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,7 +55,7 @@ CREATE TABLE `bookings` (
   `RoomName` text NOT NULL,
   `numberOfNights` int(11) NOT NULL,
   `AmtToPaid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bookings`
@@ -90,14 +90,14 @@ CREATE TABLE `clients` (
   `ChildCostForAllMeals` text NOT NULL,
   `AdultCostForBreakfast` text NOT NULL,
   `AdultCostForAllMeals` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `clients`
 --
 
 INSERT INTO `clients` (`ClientID`, `ClientBusinessName`, `ClientName`, `ClientEmail`, `ClientPhone`, `ClientAddress`, `ChildCostForBreakfast`, `ChildCostForAllMeals`, `AdultCostForBreakfast`, `AdultCostForAllMeals`) VALUES
-(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9158785725 / +91-9403268501', 'Tapola', '800', '1200', '1200', '1500');
+(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9158785725 / +91-9403268501', 'Tapola', '700', '1200', '1000', '1600');
 
 -- --------------------------------------------------------
 
@@ -112,14 +112,14 @@ CREATE TABLE `policies` (
   `LateCheckOut` text NOT NULL,
   `CancellationPolicies` longtext NOT NULL,
   `PolicyID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `policies`
 --
 
 INSERT INTO `policies` (`ClientID`, `CheckIn`, `CheckOut`, `LateCheckOut`, `CancellationPolicies`, `PolicyID`) VALUES
-('1', '12:00 PM', '12:00 AM', 'Subject To Availability', '[\" If cancelled before 15 days of Check In date refundable amount would Be 100% of total billing.\", \"If cancelled before 7 days of Check In date refundable amount would Be 50% of total billing.\", \"If cancelled before 6 days of Check In date booking will Be Non Refundable.\"]', 1);
+('1', '12:00 AM', '10:30 AM', 'Subject To Availability', '[\" If cancelled before 4 days of Check In date refundable amount would Be 100% of total billing.\", ]', 1);
 
 -- --------------------------------------------------------
 
@@ -137,7 +137,7 @@ CREATE TABLE `rooms` (
   `RoomsWithAllMeals` text NOT NULL,
   `capacity` int(11) NOT NULL,
   `available` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rooms`
@@ -168,7 +168,7 @@ CREATE TABLE `users` (
   `CompanyGST` text NOT NULL,
   `CompanyAddress` text NOT NULL,
   `SpecialRequest` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
