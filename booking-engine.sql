@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 17, 2024 at 11:39 AM
+-- Generation Time: Jan 17, 2024 at 11:55 AM
 -- Server version: 10.4.24-MariaDB
 -- PHP Version: 8.1.6
 
@@ -120,7 +120,7 @@ CREATE TABLE `policies` (
 --
 
 INSERT INTO `policies` (`ClientID`, `CheckIn`, `CheckOut`, `LateCheckOut`, `CancellationPolicies`, `PolicyID`) VALUES
-('1', '12:00 AM', '10:30 AM', 'Subject To Availability', '[\" If cancelled before 4 days of Check In date refundable amount would Be 100% of total billing.\", ]', 1);
+('1', '12:00 AM', '10:30 AM', 'Subject To Availability', '[\" If cancelled before 4 days of Check In date refundable amount would Be 100% of total billing.\" ]', 1);
 
 -- --------------------------------------------------------
 
