@@ -4,10 +4,18 @@ header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST');
 header("Access-Control-Allow-Headers: X-Requested-With");
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 $servername = "localhost";
-$username = "root";
-$password = "";
+$username = "bookingengine";
+$password = "AthangInfoTech@booking-engine";
 $database = "booking-engine";
+
+// $servername = "localhost";
+// $username = "root";
+// $password = "";
+// $database = "booking-engine";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
