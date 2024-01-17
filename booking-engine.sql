@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 10, 2024 at 11:10 AM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Jan 17, 2024 at 08:24 AM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.0.28
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -55,7 +55,7 @@ CREATE TABLE `bookings` (
   `RoomName` text NOT NULL,
   `numberOfNights` int(11) NOT NULL,
   `AmtToPaid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
@@ -64,28 +64,14 @@ CREATE TABLE `bookings` (
 INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `numberOfNights`, `AmtToPaid`) VALUES
 (1697806126035, 1, '2023-10-24T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 18450, 'pending', 'All Inclusive', '2', '2', '3', '9', '', '0', '0', '2400', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'a', 'b', 'c', 'wwwwww', 'Blue Bell cottage couple AC', 3, 0),
 (1701862509723449, 1, '2023-12-26T18:30:00.000Z', '2023-12-27T18:30:00.000Z', 0, '', 'All Inclusive', '1', '0', '', '', '', '', '0', '1200', 'sagar', '9970565243', 'awdawdw@gail.com', 'sdwewe hh', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0, 0),
+(1701862509723451, 3, '2023-12-17T18:30:00.000Z', '2023-12-18T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
 (1701862509723453, 1, '2023-12-26T18:30:00.000Z', '2023-12-28T18:30:00.000Z', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
 (1702639955467256, 1, '2023-12-18T18:30:00.000Z', '2023-12-27T18:30:00.000Z', 37098, 'pending', 'All Inclusive', '5', '3', '7', '9', '3', '1', '4500', '21600', 'prathamesh', '9970565245', 'awdawdw@gail.com', 'jknjkjkjk', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 9, 11129),
 (1702640360661843, 1, '2023-12-18T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 16488, 'pending', 'All Inclusive', '5', '3', '9', '8', '4', '1', '4500', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'opoip', 'yes', '1111111', '22AAAAA0000A1Z5', 'asdasd', 'uiouiouio', 'Blue Bell cottage couple AC', 4, 4946),
 (1702640555440636, 1, '2023-12-20T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 7170, 'pending', 'With Breakfast', '5', '3', '8', '4', '9', '1', '3600', '3200', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'dfshsfhfsdh', 'Blue Bell cottage couple AC', 2, 2151),
 (1702640964495972, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'jhbhjbjk', 'Blue Bell cottage couple AC', 3, 3227),
 (1702641141268150, 1, '2023-12-19T18:30:00.000Z', '2023-12-25T18:30:00.000Z', 21510, 'pending', 'With Breakfast', '5', '3', '7', '5', '6', '1', '3600', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'c', 'ghgj', 'Blue Bell cottage couple AC', 6, 6453),
-(1702641283196155, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'asdasd', 'dfsdfgh', 'Blue Bell cottage couple AC', 3, 3227),
-(1703756970198226, 14, '2023-12-28T18:30:00.000Z', '2023-12-29T18:30:00.000Z', 0, 'pending', 'With Breakfast', '3', '2', '4', '5', '', '0', '1200', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'dfdgds', 'dfhgfjgjk', 'Jasmanium Cottage 1 - Couple Room with Breakfast', 1, 0),
-(1703757076439605, 1, '2023-12-28T18:30:00.000Z', '2023-12-29T18:30:00.000Z', 800, 'pending', 'With Breakfast', '4', '2', '7', '5', '', '0', '2400', '800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'wewewewe', 'Blue Bell cottage couple AC', 1, 240),
-(1703757409818182, 1, '2023-12-28T18:30:00.000Z', '2023-12-30T18:30:00.000Z', 1600, 'pending', 'With Breakfast', '4', '3', '5', '7', '4', '0', '2400', '1600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'asdasdasd', 'Blue Bell cottage couple AC', 2, 480),
-(1703757841863991, 17, '2023-12-28T18:30:00.000Z', '2023-12-30T18:30:00.000Z', 1604, 'pending', 'With Breakfast', '4', '2', '7', '5', '', '0', '2400', '1600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'asdasd', 'fdgdfgdfg', 'Lilium Twin Rooms - Family Room with Breakfast', 2, 481),
-(1703758256911482, 1, '2023-12-28T18:30:00.000Z', '2023-12-30T18:30:00.000Z', 3200, 'pending', 'With Breakfast', '4', '2', '6', '8', '', '0', '2400', '3200', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'asdasd', 'gfgfhfgh', 'Blue Bell cottage couple AC', 2, 960),
-(1703758256911484, 14, '2023-12-29T18:30:00.000Z', '2023-12-30T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
-(1703758256911485, 1, '2023-12-29T18:30:00.000Z', '2023-12-30T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
-(1703758256911498, 3, '2023-12-29T18:30:00.000Z', '2023-12-30T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
-(1703758256911499, 14, '2023-12-30T18:30:00.000Z', '2024-01-21T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
-(1704273808722598, 1, '2024-01-17T18:30:00.000Z', '2024-01-19T18:30:00.000Z', 10508, 'pending', 'With Breakfast', '4', '2', '6', '4', '', '0', '2400', '1600', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 3152),
-(1704274857821855, 3, '2024-01-17T18:30:00.000Z', '2024-01-19T18:30:00.000Z', 7200, 'pending', 'With Breakfast', '1', '0', '', '', '', '', '0', '800', '456', '9907565243', 'awdawdw@gail.com', '1233', 'no', '', '', '', '', 'Mango cottage Room AC', 0, 2160),
-(1704281157397259, 1, '2024-01-11T18:30:00.000Z', '2024-01-17T18:30:00.000Z', 26724, 'pending', 'With Breakfast', '1', '0', '', '', '', '', '0', '800', '12131', '9970565241', 'awdawdw@gail.com', 'ugjghjghj', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 6, 8017),
-(1704282887574279, 1, '2024-01-10T18:30:00.000Z', '2024-01-12T18:30:00.000Z', 10508, 'pending', 'With Breakfast', '3', '2', '7', '6', '', '0', '1200', '1600', '12', '9823202140', 'awdawdw@gail.com', 'awdawd ajm', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 3152),
-(1704440389284445, 16, '2024-01-10T18:30:00.000Z', '2024-01-17T18:30:00.000Z', 0, 'pending', 'With Breakfast', '4', '0', '', '', '', '', '2400', '800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'no', '', '', '', '', 'Iris Family Cottage - Family Room with Breakfast', 7, 0),
-(1704440432293179, 1, '2024-01-11T18:30:00.000Z', '2024-01-12T18:30:00.000Z', 5254, 'pending', 'With Breakfast', '3', '2', '6', '7', '', '0', '1200', '800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1576);
+(1702641283196155, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'asdasd', 'dfsdfgh', 'Blue Bell cottage couple AC', 3, 3227);
 
 -- --------------------------------------------------------
 
@@ -104,7 +90,7 @@ CREATE TABLE `clients` (
   `ChildCostForAllMeals` text NOT NULL,
   `AdultCostForBreakfast` text NOT NULL,
   `AdultCostForAllMeals` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
@@ -126,7 +112,7 @@ CREATE TABLE `policies` (
   `LateCheckOut` text NOT NULL,
   `CancellationPolicies` longtext NOT NULL,
   `PolicyID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `policies`
@@ -149,19 +135,20 @@ CREATE TABLE `rooms` (
   `RoomPhotos` longtext NOT NULL,
   `RoomsWithBreakFast` text NOT NULL,
   `RoomsWithAllMeals` text NOT NULL,
-  `capacity` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  `capacity` int(11) NOT NULL,
+  `available` tinyint(1) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
 --
 
-INSERT INTO `rooms` (`RoomID`, `RoomName`, `Description`, `RoomsClientID`, `RoomPhotos`, `RoomsWithBreakFast`, `RoomsWithAllMeals`, `capacity`) VALUES
-(1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '3500', '6000', 5),
-(3, 'Mango cottage Room AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/mango.jpg,https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '2800', '4000', 2),
-(14, 'Jasmanium Cottage 1 - Couple Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20couple.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20washroom.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20balcony.jpg', '3500', '6000', 4),
-(16, 'Iris Family Cottage - Family Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/iris%20family%201.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20family.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20balcony.jpg', '', '', 4),
-(17, 'Lilium Twin Rooms - Family Room with Breakfast', 'An exclusive Family cottage with private sit out facing lawn n lake, the cottage is equipped with Two kingsize bed sleeping accommodation, and two bed rooms among which one is master bedroom with attached bathroom,blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/lilium%202.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium%20balcony.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium.jpg', '4200', '7000', 4);
+INSERT INTO `rooms` (`RoomID`, `RoomName`, `Description`, `RoomsClientID`, `RoomPhotos`, `RoomsWithBreakFast`, `RoomsWithAllMeals`, `capacity`, `available`) VALUES
+(1, 'Blue Bell cottage couple AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'http://riverorchidresort.com/img/landing%20page%20img/mango.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, http://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '785', '222', 4, 1),
+(3, 'Mango cottage Room AC', 'An exclusive cottage with additional private lakeside sit out of 430sqft+ area under old mango tree, the cottage is equipped with One large kingsize bed, blackout curtains, 32” LED TV with Tata sky connection, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/mango.jpg,https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20private%20seat%20out.jpg, https://riverorchidresort.com/img/room%20img/Mango%20cottage%20Nabar%201%20bathrum.jpg', '7200', '10000', 2, 1),
+(14, 'Jasmanium Cottage 1 - Couple Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20couple.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20washroom.jpg, https://riverorchidresort.com/img/landing%20page%20img/jasmanium%20balcony.jpg', '55', '45', 4, 1),
+(16, 'Iris Family Cottage - Family Room with Breakfast', 'An exclusive A/C cottage with private sit out under mango tree facing lawn n lake, the cottage is equipped with one kingsize bed sleeping accommodation and one sofa cum bed, blackout curtains, wardrobe, 32”LED TV with Tata sky connection, A/C, intercom facility, bathroom with partial open to sky area.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/iris%20family%201.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20family.jpg, https://riverorchidresort.com/img/landing%20page%20img/iris%20balcony.jpg', '5656', '888', 4, 0),
+(17, 'Lilium Twin Rooms - Family Room with Breakfast', 'An exclusive Family cottage with private sit out facing lawn n lake, the cottage is equipped with Two kingsize bed sleeping accommodation, and two bed rooms among which one is master bedroom with attached bathroom,blackout curtains, wardrobe, 32”LED TV with Tata sky connection, intercom facility.', 1, 'https://riverorchidresort.com/img/landing%20page%20img/lilium%202.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium%20balcony.jpg, https://riverorchidresort.com/img/landing%20page%20img/lilium.jpg', '2', '23', 4, 1);
 
 -- --------------------------------------------------------
 
@@ -181,7 +168,7 @@ CREATE TABLE `users` (
   `CompanyGST` text NOT NULL,
   `CompanyAddress` text NOT NULL,
   `SpecialRequest` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -235,7 +222,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1704440432293180;
+  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1702641283196156;
 
 --
 -- AUTO_INCREMENT for table `clients`

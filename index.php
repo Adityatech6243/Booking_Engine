@@ -121,7 +121,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $rooms = array(); // Initialize an array to store room data
 
                 while ($row = mysqli_fetch_assoc($result)) {
-                    if ($numAdults <= $row['capacity']) {
+                    if ($numAdults <= $row['capacity'] && $row['available']) {
                         // Calculate the updated price per night based on the number of adults and children's ages
                         $RoomsWithAllMeals = floatval($row['RoomsWithAllMeals']);
                         $RoomsWithBreakFast = floatval($row['RoomsWithBreakFast']);
