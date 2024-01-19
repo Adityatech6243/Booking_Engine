@@ -39,7 +39,6 @@ const formSchema = z.object({
 });
 
 export function Details(props) {
-  const [useDetailsIsSuccess, setuseDetailsIsSuccess] = useState(false);
   const [priviosdata, setpriviosdata] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
   const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
@@ -66,7 +65,6 @@ export function Details(props) {
     setIsValidGstNumber(gstNumberRegex.test(value));
   };
   const [emailId, setEmailId] = useState("");
-  const [isValidEmailId, setIsValidEmailId] = useState(true);
   const emailIdRegex = /^[\w-]+(\.[\w-]+)*@([\w-]+\.)+[a-zA-Z]{2,7}$/; // This example assumes a 10-digit number
   const handleEmailChange = (e) => {
     const value = e.target.value;

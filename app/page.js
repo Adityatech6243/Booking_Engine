@@ -74,16 +74,9 @@ export default function Home() {
   const [searchdata, setSearchData] = useState();
   const [childrensCount, setChildrensCount] = useState(0);
   const [finaldata, setFinalData] = useState({});
-  const [stayNights, setStayNights] = useState();
-  const [result, setResult] = useState(0);
-  const [withbreakfastExtrabed, setWithBreakFastExtraBed] = useState(0);
-  const [withbreakfastExtrabedCharg, setWithBreakFastExtraBedCharg] =
-    useState(0);
 
   const [activeItem, setActiveItem] = useState("item-1");
   const [review, setReview] = useState();
-  const [checkIn, setCheckIn] = useState(null);
-  const [checkOut, setCheckOut] = useState(null);
   const [edit1, enableEdit1] = useState();
   const [edit2, enableEdit2] = useState();
   const [edit4, enableEdit4] = useState();
@@ -118,7 +111,6 @@ export default function Home() {
 
       const oneDay = 24 * 60 * 60 * 1000; // One day in milliseconds
       const diffDays = Math.round((endDate - startDate) / oneDay);
-      setStayNights(diffDays);
       console.log(
         `The difference between check-in and check-out is ${diffDays} days.`
       );
@@ -169,27 +161,6 @@ export default function Home() {
         .then((response) => response.json())
         .then((response) => setData(response))
         .catch((error) => {
-          setData({
-            client: {
-              ClientID: "1",
-              ClientBusinessName: "River Orchid Resort",
-              ClientName: "Sitaram Karande",
-              ClientEmail: "riverorchid1313@gmail.com",
-              ClientPhone: "+91-9405751313 / +91-9158785725 / +91-9403268501",
-              ClientAddress: "Tapola",
-            },
-            policies: {
-              CheckIn: "12:00 PM",
-              CheckOut: "12:00 AM",
-              LateCheckOut: "Subject To Availability",
-              CancellationPolicies: [
-                " If cancelled before 15 days of Check In date refundable amount would Be 100% of total billing.",
-                "If cancelled before 7 days of Check In date refundable amount would Be 50% of total billing.",
-                "If cancelled before 6 days of Check In date booking will Be Non Refundable.",
-              ],
-              PolicyID: "1",
-            },
-          });
           return "error";
         });
     }
@@ -261,24 +232,18 @@ export default function Home() {
       to: "riverorchid1313@gmail.com",
       clientName: "River Orchid Resort",
       replyTo: review?.UserEmail,
-      CheckInDate:new Date(review?.CheckInDate).toLocaleDateString(
-                        "en-IN",
-                        {
-                          timeZone: "Asia/Kolkata",
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      ),
-      CheckOutDate:  new Date(review?.CheckOutDate).toLocaleDateString(
-                        "en-IN",
-                        {
-                          timeZone: "Asia/Kolkata",
-                          day: "numeric",
-                          month: "long",
-                          year: "numeric",
-                        }
-                      )
+      CheckInDate: new Date(review?.CheckInDate).toLocaleDateString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
+      CheckOutDate: new Date(review?.CheckOutDate).toLocaleDateString("en-IN", {
+        timeZone: "Asia/Kolkata",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      }),
     };
 
     // Send the email
@@ -304,7 +269,10 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col justify-between lg:p-24 lg:py-0 bg-[#f9f9f9]">
       <MyNavbar />
-      <div className="relative h-48" style={{ backgroundImage: `url(./1.jpg)` }}>
+      <div
+        className="relative h-48"
+        style={{ backgroundImage: `url(./1.jpg)` }}
+      >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-60 text-white p-4  bg-gray-400 rounded-lg">
           <h1 className="font-bold text-2xl md:text-4xl">
             River Orchid Resort
