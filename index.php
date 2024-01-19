@@ -237,9 +237,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $row['where'] = "5";
                                 $row['ExtraBed'] = 0;
                             }
-                            //if adults == 1 and child == 1
-                            // adult = adult+child
-                            // adult == capacity ==  regular p[rice]
+
 
                             if ($numAdults == 3 && $numChildren > 1) {
                                 if ($children2Ages > 5 && $children2Ages < 10) {
