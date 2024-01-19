@@ -8,15 +8,19 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$servername = "localhost";
-$username = "bookingengine";
-$password = "AthangInfoTech@booking-engine";
-$database = "booking-engine";
-
-// $servername = "localhost";
-// $username = "root";
-// $password = "";
-// $database = "booking-engine";
+if (strpos($_SERVER['HTTP_HOST'], 'localhost') !== false) {
+    // Local environment
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $database = "booking-engine";
+} else {
+    // Server environment
+    $servername = "localhost";
+    $username = "bookingengine";
+    $password = "AthangInfoTech@booking-engine";
+    $database = "booking-engine";
+}
 
 $conn = new mysqli($servername, $username, $password, $database);
 
