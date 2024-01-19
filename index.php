@@ -8,15 +8,15 @@ header("Access-Control-Allow-Headers: X-Requested-With");
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$servername = "localhost";
-$username = "bookingengine";
-$password = "AthangInfoTech@booking-engine";
-$database = "booking-engine";
-
 // $servername = "localhost";
-// $username = "root";
-// $password = "";
+// $username = "bookingengine";
+// $password = "AthangInfoTech@booking-engine";
 // $database = "booking-engine";
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "booking-engine";
 
 $conn = new mysqli($servername, $username, $password, $database);
 
@@ -522,7 +522,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $RoomName = sanitizeInput($data->RoomName);
 
         //$ChildCost = sanitizeInput($data->ChildCost);
-        $ExtraBed = sanitizeInput($data->ExtraBed);
+        $ExtraBed = sanitizeInput($data->ExtraBed) || 0;
         $numberOfNights = sanitizeInput($data->numberOfNights);
         $RoomsWithAllMeals = sanitizeInput($data->RoomsWithAllMeals);
         $RoomsWithBreakFast = sanitizeInput($data->RoomsWithBreakFast);
