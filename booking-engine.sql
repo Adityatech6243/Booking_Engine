@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jan 17, 2024 at 04:54 AM
--- Server version: 10.6.16-MariaDB-cll-lve
--- PHP Version: 8.1.16
+-- Host: 127.0.0.1
+-- Generation Time: Jan 22, 2024 at 09:08 AM
+-- Server version: 10.4.24-MariaDB
+-- PHP Version: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -35,6 +35,7 @@ CREATE TABLE `bookings` (
   `TotalPrice` int(11) NOT NULL,
   `PaymentStatus` text NOT NULL,
   `BookingRoomType` text NOT NULL,
+  `BookingRoomPrice` text NOT NULL,
   `Adults` text NOT NULL,
   `NumChildrens` text NOT NULL,
   `Child1Age` text NOT NULL,
@@ -55,24 +56,65 @@ CREATE TABLE `bookings` (
   `RoomName` text NOT NULL,
   `numberOfNights` int(11) NOT NULL,
   `AmtToPaid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `bookings`
 --
 
-INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `numberOfNights`, `AmtToPaid`) VALUES
-(1697806126035, 1, '2023-10-24T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 18450, 'pending', 'All Inclusive', '2', '2', '3', '9', '', '0', '0', '2400', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'a', 'b', 'c', 'wwwwww', 'Blue Bell cottage couple AC', 3, 0),
-(1701862509723449, 1, '2023-12-26T18:30:00.000Z', '2023-12-27T18:30:00.000Z', 0, '', 'All Inclusive', '1', '0', '', '', '', '', '0', '1200', 'sagar', '9970565243', 'awdawdw@gail.com', 'sdwewe hh', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0, 0),
-(1701862509723451, 3, '2023-12-17T18:30:00.000Z', '2023-12-18T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
-(1701862509723453, 1, '2023-12-26T18:30:00.000Z', '2023-12-28T18:30:00.000Z', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
-(1702639955467256, 1, '2023-12-18T18:30:00.000Z', '2023-12-27T18:30:00.000Z', 37098, 'pending', 'All Inclusive', '5', '3', '7', '9', '3', '1', '4500', '21600', 'prathamesh', '9970565245', 'awdawdw@gail.com', 'jknjkjkjk', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 9, 11129),
-(1702640360661843, 1, '2023-12-18T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 16488, 'pending', 'All Inclusive', '5', '3', '9', '8', '4', '1', '4500', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'opoip', 'yes', '1111111', '22AAAAA0000A1Z5', 'asdasd', 'uiouiouio', 'Blue Bell cottage couple AC', 4, 4946),
-(1702640555440636, 1, '2023-12-20T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 7170, 'pending', 'With Breakfast', '5', '3', '8', '4', '9', '1', '3600', '3200', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'dfshsfhfsdh', 'Blue Bell cottage couple AC', 2, 2151),
-(1702640964495972, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'jhbhjbjk', 'Blue Bell cottage couple AC', 3, 3227),
-(1702641141268150, 1, '2023-12-19T18:30:00.000Z', '2023-12-25T18:30:00.000Z', 21510, 'pending', 'With Breakfast', '5', '3', '7', '5', '6', '1', '3600', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'c', 'ghgj', 'Blue Bell cottage couple AC', 6, 6453),
-(1702641283196155, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '5', '3', '5', '9', '6', '1', '3600', '4800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'asdasd', 'dfsdfgh', 'Blue Bell cottage couple AC', 3, 3227),
-(1705483500444848, 1, '2024-01-17T18:30:00.000Z', '2024-01-18T18:30:00.000Z', 1485, 'pending', 'With Breakfast', '4', '2', '6', '5', '', '0', '2400', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'c', 'sdfsdfsdfs', 'Blue Bell cottage couple AC', 1, 446);
+INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `BookingRoomPrice`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `numberOfNights`, `AmtToPaid`) VALUES
+(1697806126035, 1, '2023-10-24T18:30:00.000Z', '2023-10-27T18:30:00.000Z', 18450, 'pending', 'All Inclusive', '', '2', '2', '3', '9', '', '0', '0', '2400', 'prathamesh', '997056524', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'a', 'b', 'c', 'wwwwww', 'Blue Bell cottage couple AC', 3, 0),
+(1701862509723449, 1, '2023-12-26T18:30:00.000Z', '2023-12-27T18:30:00.000Z', 0, '', 'All Inclusive', '', '1', '0', '', '', '', '', '0', '1200', 'sagar', '9970565243', 'awdawdw@gail.com', 'sdwewe hh', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 0, 0),
+(1701862509723451, 3, '2023-12-17T18:30:00.000Z', '2023-12-18T18:30:00.000Z', 0, 'paid', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
+(1701862509723453, 1, '2023-12-26T18:30:00.000Z', '2023-12-28T18:30:00.000Z', 0, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', 0, 0),
+(1702639955467256, 1, '2023-12-18T18:30:00.000Z', '2023-12-27T18:30:00.000Z', 37098, 'pending', 'All Inclusive', '', '5', '3', '7', '9', '3', '1', '4500', '21600', 'prathamesh', '9970565245', 'awdawdw@gail.com', 'jknjkjkjk', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 9, 11129),
+(1702640360661843, 1, '2023-12-18T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 16488, 'pending', 'All Inclusive', '', '5', '3', '9', '8', '4', '1', '4500', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'opoip', 'yes', '1111111', '22AAAAA0000A1Z5', 'asdasd', 'uiouiouio', 'Blue Bell cottage couple AC', 4, 4946),
+(1702640555440636, 1, '2023-12-20T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 7170, 'pending', 'With Breakfast', '', '5', '3', '8', '4', '9', '1', '3600', '3200', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'dfshsfhfsdh', 'Blue Bell cottage couple AC', 2, 2151),
+(1702640964495972, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '', '5', '3', '5', '9', '6', '1', '3600', '4800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'jhbhjbjk', 'Blue Bell cottage couple AC', 3, 3227),
+(1702641141268150, 1, '2023-12-19T18:30:00.000Z', '2023-12-25T18:30:00.000Z', 21510, 'pending', 'With Breakfast', '', '5', '3', '7', '5', '6', '1', '3600', '9600', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'c', 'ghgj', 'Blue Bell cottage couple AC', 6, 6453),
+(1702641283196155, 1, '2023-12-19T18:30:00.000Z', '2023-12-22T18:30:00.000Z', 10755, 'pending', 'With Breakfast', '', '5', '3', '5', '9', '6', '1', '3600', '4800', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'asdasd', 'dfsdfgh', 'Blue Bell cottage couple AC', 3, 3227),
+(1705483500444848, 1, '2024-01-17T18:30:00.000Z', '2024-01-18T18:30:00.000Z', 1485, 'pending', 'With Breakfast', '', '4', '2', '6', '5', '', '0', '2400', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'c', 'sdfsdfsdfs', 'Blue Bell cottage couple AC', 1, 446),
+(1705492934545563, 17, '2024-01-19T18:30:00.000Z', '2024-01-21T18:30:00.000Z', 10400, 'pending', 'With Breakfast', '', '5', '0', '', '', '', '0', '3600', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awd', 'no', '', '', '', 'sdfdgsdfsdf', 'Lilium Twin Rooms - Family Room with Breakfast', 2, 3120),
+(1705648673144412, 1, '2024-01-24T18:30:00.000Z', '2024-01-29T18:30:00.000Z', 21000, 'pending', 'With Breakfast', '', '4', '2', '5', '7', '', '0', '2400', '3500', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'yes', 'sdadasd', '22AAAAA0000A1Z5', 'dfdgds', 'dfdsdfsdfs', 'Blue Bell cottage couple AC', 5, 6300),
+(1705658114853256, 1, '2024-01-24T18:30:00.000Z', '2024-01-29T18:30:00.000Z', 30000, 'pending', 'All Inclusive', '', '4', '0', '', '', '', '0', '3000', '1200', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 5, 9000),
+(1705658211249390, 1, '2024-01-24T18:30:00.000Z', '2024-01-29T18:30:00.000Z', 38000, 'pending', 'All Inclusive', '', '5', '0', '', '', '', '0', '4500', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 5, 11400),
+(1705658306573875, 1, '2024-01-24T18:30:00.000Z', '2024-01-29T18:30:00.000Z', 22500, 'pending', 'With Breakfast', '', '5', '0', '', '', '', '0', '3600', '0', 'suraj', '9907565243', 'awdawdw@gail.com', 'sdwewe hh', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 5, 6750),
+(1705658536870727, 1, '2024-01-22T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 13500, 'pending', 'With Breakfast', '', '5', '0', '', '', '', '0', '3600', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 4050),
+(1705658714342541, 1, '2024-01-23T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 11800, 'pending', 'With Breakfast', '', '5', '3', '4', '7', '8', '1', '3600', '2800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 3540),
+(1705658819879646, 1, '2024-01-23T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705660325769734, 1, '2024-01-21T18:30:00.000Z', '2024-01-23T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '4', '0', '', '', '', '0', '2400', '700', 'prathamesh', '9907565243', 'awd@ad.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705660382511969, 1, '2024-01-21T18:30:00.000Z', '2024-01-23T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '3', '0', '', '', '', '0', '1200', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705660410486768, 1, '2024-01-21T18:30:00.000Z', '2024-01-23T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '2', '0', '', '', '', '0', '0', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705660648015902, 1, '2024-01-22T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 10500, 'pending', 'With Breakfast', '', '3', '0', '', '', '', '0', '1200', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 3150),
+(1705660686807391, 1, '2024-01-21T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 10500, 'pending', 'With Breakfast', '', '4', '0', '', '', '', '0', '2400', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 3150),
+(1705660738561211, 1, '2024-01-21T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 18000, 'pending', 'All Inclusive', '', '3', '0', '', '', '', '0', '1500', '1200', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 5400),
+(1705660881563691, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '3', '0', '', '', '', '0', '1200', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'sdwewe hh', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705660903629436, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '2', '0', '', '', '', '0', '0', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705662478349102, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '4', '0', '', '', '', '0', '0', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705663113188347, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '2', '0', '', '', '', '0', '0', '700', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'sdwewe', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705663135732912, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 6000, 'pending', 'All Inclusive', '', '2', '0', '', '', '', '0', '0', '1200', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1800),
+(1705666015602105, 1, '2024-01-22T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705666151293133, 1, '2024-01-22T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'asas', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705666286596703, 1, '2024-01-21T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 10500, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'sdssdsdf', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 3150),
+(1705734832361309, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705734861942281, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '3', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705734877576710, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 4500, 'pending', 'With Breakfast', '', '5', '0', '', '', '', '0', '1200', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1350),
+(1705751684814212, 1, '2024-01-23T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705752611341135, 1, '2024-01-24T18:30:00.000Z', '2024-01-26T18:30:00.000Z', 9000, 'pending', 'With Breakfast', '', '5', '0', '', '', '', '0', '1200', '0', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2700),
+(1705752882781254, 1, '2024-01-23T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 9000, 'pending', 'With Breakfast', '', '5', '0', '', '', '', '0', '1200', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2700),
+(1705754079385702, 1, '2024-01-23T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705754112745337, 1, '2024-01-23T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 11800, 'pending', 'With Breakfast', '', '5', '3', '7', '6', '5', '1', '1200', '2800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 3540),
+(1705754298124174, 1, '2024-01-24T18:30:00.000Z', '2024-01-26T18:30:00.000Z', 11800, 'pending', 'With Breakfast', '', '5', '2', '8', '6', '', '1', '1200', '2800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 3540),
+(1705754477402815, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 5900, 'pending', 'With Breakfast', '', '5', '2', '6', '8', '', '1', '1000', '1400', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1770),
+(1705754518642295, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 10000, 'pending', 'All Inclusive', '', '5', '2', '6', '8', '', '1', '1200', '2400', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 3000),
+(1705754564190885, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 5900, 'pending', 'With Breakfast', '', '5', '2', '6', '8', '', '1', '1000', '1400', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1770),
+(1705754644091199, 1, '2024-01-24T18:30:00.000Z', '2024-01-26T18:30:00.000Z', 11800, 'pending', 'With Breakfast', '', '5', '2', '6', '8', '', '1', '1000', '2800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 3540),
+(1705908815357458, 1, '2024-01-24T18:30:00.000Z', '2024-01-26T18:30:00.000Z', 7000, 'pending', 'With Breakfast', '', '4', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 2, 2100),
+(1705908962551378, 1, '2024-01-23T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1050),
+(1705909530989715, 1, '2024-01-23T18:30:00.000Z', '2024-01-24T18:30:00.000Z', 3500, 'pending', 'With Breakfast', '', '1', '0', '', '', '', '0', '0', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', 'awd', 'Blue Bell cottage couple AC', 1, 1050),
+(1705909991402794, 1, '2024-01-23T18:30:00.000Z', '2024-01-26T18:30:00.000Z', 13500, 'pending', 'With Breakfast', '13500', '5', '0', '', '', '', '0', '1200', '0', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 4050),
+(1705910039304610, 1, '2024-01-23T18:30:00.000Z', '2024-01-26T18:30:00.000Z', 13500, 'pending', 'With Breakfast', '13500', '5', '0', '', '', '', '0', '1200', '0', 'prathamesh', '9970565245', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 3, 4050),
+(1705910698288411, 1, '2024-01-24T18:30:00.000Z', '2024-01-25T18:30:00.000Z', 4500, 'pending', 'With Breakfast', '3500', '5', '0', '', '', '', '0', '1200', '0', 'suraj', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', 1, 1350);
 
 -- --------------------------------------------------------
 
@@ -91,7 +133,7 @@ CREATE TABLE `clients` (
   `ChildCostForAllMeals` text NOT NULL,
   `AdultCostForBreakfast` text NOT NULL,
   `AdultCostForAllMeals` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `clients`
@@ -113,7 +155,7 @@ CREATE TABLE `policies` (
   `LateCheckOut` text NOT NULL,
   `CancellationPolicies` longtext NOT NULL,
   `PolicyID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `policies`
@@ -138,7 +180,7 @@ CREATE TABLE `rooms` (
   `RoomsWithAllMeals` text NOT NULL,
   `capacity` int(11) NOT NULL,
   `available` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `rooms`
@@ -169,7 +211,7 @@ CREATE TABLE `users` (
   `CompanyGST` text NOT NULL,
   `CompanyAddress` text NOT NULL,
   `SpecialRequest` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
@@ -223,7 +265,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1705483500444849;
+  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1705910698288412;
 
 --
 -- AUTO_INCREMENT for table `clients`

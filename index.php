@@ -393,6 +393,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($numChildren > 0) {
         $ChildCost = ($bookingRoomType === 'All Inclusive') ? sanitizeInput($data->ChildCostForAllMeals) : sanitizeInput($data->ChildCostForBreakfast);
         }
+        $sql = "SELECT RoomsWithBreakfast, RoomsWithAllMeals FROM rooms WHERE RoomID=$roomID";
+            $result = $conn->query($sql);
+        $roomData = mysqli_fetch_assoc($result);
+
+        $BookingRoomPrice = ($bookingRoomType === 'All Inclusive') ? $roomData['RoomsWithAllMeals'] : $roomData['RoomsWithBreakfast'];
 
         $BookingID = round(microtime(true) * 1000) . mt_rand(100, 999);
         $AmtToPaid = $totalPrice * 0.30;
@@ -418,7 +423,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 CheckInDate, 
                                                                 CheckOutDate, 
                                                                 TotalPrice, 
-                                                                BookingRoomType, 
+                                                                BookingRoomType,
+                                                                BookingRoomPrice, 
                                                                 ExtraBed, 
                                                                 ExtraBedCost, 
                                                                 ChildCost,
@@ -447,6 +453,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 '$checkOutDate', 
                                                                 '$totalPrice', 
                                                                 '$bookingRoomType', 
+                                                                '$BookingRoomPrice',
                                                                 '$ExtraBed', 
                                                                 '$ExtraBedCost', 
                                                                 '$ChildCost',
