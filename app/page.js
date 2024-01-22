@@ -764,7 +764,7 @@ export default function Home() {
                         </TableCell>
                         <TableCell className="border-r border-2">
                           {currency}
-                          {review?.TotalPrice}/-
+                          {review?.BookingRoomPrice}/-
                         </TableCell>
                       </TableRow>
                     </TableBody>
