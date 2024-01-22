@@ -691,6 +691,10 @@ export default function Home() {
                       <span className="font-semibold">Room Type:</span>{" "}
                       {review?.BookingRoomType}
                     </li>
+                    <li className="p-5 w:1 lg:w-1/2">
+                      <span className="font-semibold">Room Capcity:</span>{" "}
+                      {review?.Capacity}
+                    </li>
                   </ul>
                 </div>
                 <div>
@@ -710,7 +714,7 @@ export default function Home() {
                           Child Age
                         </TableHead>
                         <TableHead className="border-r border-2">
-                          Child Cost
+                          Extra Child Cost
                         </TableHead>
                         <TableHead className="border-r border-2">
                           Nights
@@ -719,7 +723,7 @@ export default function Home() {
                           Extrabed
                         </TableHead>
                         <TableHead className="border-r border-2">
-                          Extrabed Cost
+                          Extra Adult Cost
                         </TableHead>
                         <TableHead className="border-r border-2">
                           Room Cost

@@ -370,7 +370,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $children3Ages = sanitizeInput($data->Child3Age);
         $RoomName = sanitizeInput($data->RoomName);
 
-        //$ChildCost = sanitizeInput($data->ChildCost);
+        $Capacity = sanitizeInput($data->capacity);
         $ExtraBed = sanitizeInput($data->ExtraBed);
         $numberOfNights = sanitizeInput($data->numberOfNights);
         $RoomsWithAllMeals = sanitizeInput($data->RoomsWithAllMeals);
@@ -414,6 +414,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 BookingID ,
                                                                 BookingRoomID, 
                                                                 RoomName,
+                                                                Capacity,
                                                                 numberOfNights,
                                                                 Adults, 
                                                                 NumChildrens, 
@@ -443,6 +444,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                                                 '$BookingID',
                                                                 '$roomID', 
                                                                 '$RoomName',
+                                                                '$Capacity',
                                                                 '$numberOfNights',
                                                                 '$numAdults', 
                                                                 '$numChildren', 
