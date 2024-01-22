@@ -387,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ExtraBedCost = 0;
         $specialRequest = sanitizeInput($data->SpecialRequest);
         if ($numAdults > 4) {
-            $ExtraBedCost = ($bookingRoomType === 'All Inclusive') ? ($numAdults - 4) * 1500 : ($numAdults - 4) * 1200;
+            $ExtraBedCost = ($bookingRoomType === 'All Inclusive') ? ($numAdults - 4) * 1600 : ($numAdults - 4) * 1000;
         }
         $ChildCost = 0; 
         if ($numChildren > 0) {
