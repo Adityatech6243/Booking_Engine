@@ -388,6 +388,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $specialRequest = sanitizeInput($data->SpecialRequest);
         if ($numAdults > 4) {
             $ExtraBedCost = ($bookingRoomType === 'All Inclusive') ? ($numAdults - 4) * 1600 : ($numAdults - 4) * 1000;
+              // Assuming $numberOfNights is a variable representing the number of nights
+            $TotalExtraBedCost = $ExtraBedCost * $numberOfNights;
+
+            // Store the total cost back in $ExtraBedCost
+            $ExtraBedCost = $TotalExtraBedCost;
         }
         $ChildCost = 0; 
         if ($numChildren > 0) {
@@ -398,6 +403,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $roomData = mysqli_fetch_assoc($result);
 
         $BookingRoomPrice = ($bookingRoomType === 'All Inclusive') ? $roomData['RoomsWithAllMeals'] : $roomData['RoomsWithBreakfast'];
+        // Assuming $numberOfNights is a variable representing the number of nights
+            $TotalExtraRoomCost = $BookingRoomPrice * $numberOfNights;
+
+            // Store the total cost back in $ExtraBedCost
+            $BookingRoomPrice = $TotalExtraRoomCost;
 
         $BookingID = round(microtime(true) * 1000) . mt_rand(100, 999);
         $AmtToPaid = $totalPrice * 0.30;
