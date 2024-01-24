@@ -196,8 +196,6 @@ function Adminpanel(props) {
   const handlePricechange = (event) => {
     event.preventDefault();
     console.log("price re", roomId, priceWithAllMeals, priceWithBreakfast);
-      if (typeof window !== 'undefined') {
-
     async function sendData() {
       let tempSendData = await fetch(`//${basepath}/index.php`, {
         method: "POST",
@@ -215,11 +213,10 @@ function Adminpanel(props) {
         });
       if (tempSendData == true) {
         alert("Price Updated, Reloading Page");
-        setTimeout(() => window.location.reload(), 2000);
+        setTimeout(() => (typeof window !== 'undefined' ? window.location.reload() : ""), 2000);
       }
     }
     sendData();
-  }
   };
   return (
     <div className="bg-gray-50 dark:bg-gray-900">

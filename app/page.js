@@ -66,7 +66,7 @@ const formSchema = z.object({
 });
 export default function Home() {
   const refreshPage = () => {
-    window.location.reload();
+    typeof window !== 'undefined' ? window.location.reload() : "";
   };
   const [data, setData] = useState({});
   const [roomdata, setRoomData] = useState();
@@ -222,7 +222,9 @@ export default function Home() {
     fetch("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay", options)
       .then((response) => response.json())
       .then((response) =>
-        window.open(response?.data?.instrumentResponse?.redirectInfo?.url)
+        typeof window !== 'undefined'
+          ? window.open(response?.data?.instrumentResponse?.redirectInfo?.url)
+          : ""
       )
       .catch((err) => console.error(err));
 
