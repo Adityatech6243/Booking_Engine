@@ -196,6 +196,8 @@ function Adminpanel(props) {
   const handlePricechange = (event) => {
     event.preventDefault();
     console.log("price re", roomId, priceWithAllMeals, priceWithBreakfast);
+      if (typeof window !== 'undefined') {
+
     async function sendData() {
       let tempSendData = await fetch(`//${basepath}/index.php`, {
         method: "POST",
@@ -217,6 +219,7 @@ function Adminpanel(props) {
       }
     }
     sendData();
+  }
   };
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
