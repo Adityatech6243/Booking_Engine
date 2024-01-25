@@ -66,7 +66,7 @@ const formSchema = z.object({
 });
 export default function Home() {
   const refreshPage = () => {
-    typeof window !== 'undefined' ? window.location.reload() : "";
+    typeof window !== "undefined" ? window.location.reload() : "";
   };
   const [data, setData] = useState({});
   const [roomdata, setRoomData] = useState();
@@ -222,7 +222,7 @@ export default function Home() {
     fetch("https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/pay", options)
       .then((response) => response.json())
       .then((response) =>
-        typeof window !== 'undefined'
+        typeof window !== "undefined"
           ? window.open(response?.data?.instrumentResponse?.redirectInfo?.url)
           : ""
       )
@@ -791,7 +791,8 @@ export default function Home() {
                         </TableHead>
                         <TableHead className="border-2">
                           {currency}
-                          {review?.TotalPrice}/-
+                          {review?.TotalPrice}/- (Extra Child Cost + Extra Adult
+                          Cost + Room Cost)
                         </TableHead>
                       </TableRow>
                     </TableHeader>
@@ -807,6 +808,7 @@ export default function Home() {
                       </TableRow>
                     </TableBody>
                   </Table>
+                  {/* <span><b>Total Cost = Price Per Night * Number of Nights</b></span> */}
                 </div>
                 <div className="flex">
                   <Button
