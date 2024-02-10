@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.0
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 25, 2024 at 01:55 PM
--- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- Generation Time: Feb 10, 2024 at 10:33 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -57,7 +57,7 @@ CREATE TABLE `bookings` (
   `Capacity` text NOT NULL,
   `numberOfNights` int(11) NOT NULL,
   `AmtToPaid` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `bookings`
@@ -141,7 +141,9 @@ INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDa
 (1706086107656586, 1, '2024-01-24T18:30:00.000Z', '2024-01-27T18:30:00.000Z', 18300, 'pending', 'With Breakfast', '10500', '5', '2', '6', '7', '', '1', '3000', '4800', 'prathamesh', '9907565243', 'awdawdw@gail.com', 'awdawdawdawd', 'no', '', '', '', '', 'Blue Bell cottage couple AC', '5', 3, 5490),
 (1706180540793242, 1, '2024-01-25T18:30:00.000Z', '2024-01-28T18:30:00.000Z', 18300, 'pending', 'With Breakfast', '10500', '5', '2', '6', '7', '', '1', '3000', '4800', 'prathamesh', '9907565243', 'kolisuraj4044@gmail.com', 'sdwewe hh', 'yes', 'fgfdfgd', '22AAAAA0000A1Z5', 'dfdgds', 'fsdhdfdghgd dfg df g dgd g', 'Blue Bell cottage couple AC', '5', 3, 5490),
 (1706181255382234, 1, '2024-01-25T18:30:00.000Z', '2024-01-28T18:30:00.000Z', 18300, 'pending', 'With Breakfast', '10500', '5', '2', '7', '8', '', '1', '3000', '4800', 'suraj', '9907565243', 'kolisuraj4044@gmail.com', 'awdawd', 'no', '', '', '', 'ljf hgfh fg  jhiuhiu', 'Blue Bell cottage couple AC', '5', 3, 5490),
-(1706182009195880, 1, '2024-01-25T18:30:00.000Z', '2024-01-28T18:30:00.000Z', 13500, 'pending', 'With Breakfast', '10500', '5', '0', '', '', '', '0', '3000', '0', 'suraj', '9907565243', 'kolisuraj4044@gmail.com', 'awdawdawdawd', 'no', '', '', '', 'gdgdfgdfgdgdgdg', 'Blue Bell cottage couple AC', '5', 3, 4050);
+(1706182009195880, 1, '2024-01-25T18:30:00.000Z', '2024-01-28T18:30:00.000Z', 13500, 'pending', 'With Breakfast', '10500', '5', '0', '', '', '', '0', '3000', '0', 'suraj', '9907565243', 'kolisuraj4044@gmail.com', 'awdawdawdawd', 'no', '', '', '', 'gdgdfgdfgdgdgdg', 'Blue Bell cottage couple AC', '5', 3, 4050),
+(1707392304262515, 17, '2024-02-15T18:30:00.000Z', '2024-02-27T18:30:00.000Z', 50400, 'pending', 'With Breakfast', '50400', '1', '0', '', '', '', '0', '0', '0', 'Nikhil jadhav', '7249093857', 'nikhiljadhav2218@gmail.com', 'dhayari pune', 'no', '', '', '', 'test', 'Lilium Twin Rooms - Family Room with Breakfast', '5', 12, 15120),
+(1707392371449581, 17, '2024-02-08T18:30:00.000Z', '2024-02-19T18:30:00.000Z', 46200, 'pending', 'With Breakfast', '46200', '1', '2', '9', '9', '', '0', '0', '800', 'Nikhil jadhav', '7249093857', 'nikhiljadhav2218@gmail.com', 'dhayari pune', 'no', '', '', '', 'test 2', 'Lilium Twin Rooms - Family Room with Breakfast', '5', 11, 13860);
 
 -- --------------------------------------------------------
 
@@ -160,7 +162,7 @@ CREATE TABLE `clients` (
   `ChildCostForAllMeals` text NOT NULL,
   `AdultCostForBreakfast` text NOT NULL,
   `AdultCostForAllMeals` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `clients`
@@ -182,7 +184,7 @@ CREATE TABLE `policies` (
   `LateCheckOut` text NOT NULL,
   `CancellationPolicies` longtext NOT NULL,
   `PolicyID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `policies`
@@ -207,7 +209,7 @@ CREATE TABLE `rooms` (
   `RoomsWithAllMeals` text NOT NULL,
   `capacity` int(11) NOT NULL,
   `available` tinyint(1) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `rooms`
@@ -238,7 +240,7 @@ CREATE TABLE `users` (
   `CompanyGST` text NOT NULL,
   `CompanyAddress` text NOT NULL,
   `SpecialRequest` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `users`
@@ -292,7 +294,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1706182009195881;
+  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1707392371449582;
 
 --
 -- AUTO_INCREMENT for table `clients`
