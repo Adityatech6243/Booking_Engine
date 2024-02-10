@@ -167,7 +167,7 @@ CREATE TABLE `clients` (
 --
 
 INSERT INTO `clients` (`ClientID`, `ClientBusinessName`, `ClientName`, `ClientEmail`, `ClientPhone`, `ClientAddress`, `ChildCostForBreakfast`, `ChildCostForAllMeals`, `AdultCostForBreakfast`, `AdultCostForAllMeals`) VALUES
-(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9158785725 / +91-9403268501', 'Tapola', '800', '1200', '1000', '1600');
+(1, 'River Orchid Resort', 'Sitaram Karande', 'riverorchid1313@gmail.com', '+91-9405751313 / +91-9403268501', 'River Orchid Resort AT-Pali Tarfe Aategaon, Post-Tapola, Taluka-Mahabaleshwar, Dist-Satara, Pin-412806', '800', '1200', '1000', '1600');
 
 -- --------------------------------------------------------
 

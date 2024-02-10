@@ -285,11 +285,11 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-col lg:flex-row w-full">
-        <div className="lg:w-9/12 p-4 bg-[#f9f9f9]">
+        <div className="lg:w-9/12 p-1 bg-[#f9f9f9]">
           <Accordion type="single" collapsible="true" value={activeItem}>
             <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
-                <div className="flex justify-between w-full">
+                <div className="flex justify-between w-fit">
                   <span>Search For Availability</span>
                   {edit1 == "item-1" && (
                     <span
@@ -828,7 +828,7 @@ export default function Home() {
             </AccordionItem>
           </Accordion>
         </div>
-        <div className="lg:w-3/12  p-4">
+        <div className="lg:w-3/12  p-1">
           <Accordion type="multiple" collapsible="true">
             <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
