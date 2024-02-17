@@ -230,7 +230,7 @@ export default function Home() {
 
     const emailData = {
       ...review,
-      subject: "Test: New Booking Confirmed For River Orchid Resort",
+      subject: "New Booking Confirmed For River Orchid Resort",
       to: "riverorchid1313@gmail.com",
       clientName: "River Orchid Resort",
       replyTo: review?.UserEmail,
@@ -268,11 +268,23 @@ export default function Home() {
     console.log("finaldata: ", finaldata);
   }, [finaldata]);
 
+  useEffect(() => {
+    const rzpPaymentForm = document.getElementById("rzp_payment_form");
+
+    if (rzpPaymentForm && !rzpPaymentForm.hasChildNodes()) {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+      script.async = true;
+      script.dataset.payment_button_id = "pl_NbqjGE0lvugKUm";
+      rzpPaymentForm.appendChild(script);
+    }
+  });
+
   return (
     <main className="flex min-h-screen flex-col justify-between lg:p-24 lg:py-0 bg-[#f9f9f9]">
       <MyNavbar />
       <div
-        className="relative h-48"
+        className="relative h-64"
         style={{ backgroundImage: `url(./1.jpg)` }}
       >
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center bg-opacity-60 text-white p-4  bg-gray-400 rounded-lg">
@@ -285,7 +297,7 @@ export default function Home() {
         </div>
       </div>
       <div className="flex flex-col lg:flex-row w-full">
-        <div className="lg:w-9/12 p-4 bg-[#f9f9f9]">
+        <div className="lg:w-9/12 p-1 bg-[#f9f9f9]">
           <Accordion type="single" collapsible="true" value={activeItem}>
             <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">
@@ -799,11 +811,12 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-2">
-                          (30%) Amount to be Paid
+                          Advance Payable Amount (30%)
                         </TableCell>
-                        <TableCell className="border-2">
+                        <TableCell className="border-2 font-bold">
                           {currency}
-                          {review?.AmtToPaid}/-
+                          {review?.AmtToPaid}/- (please pay remaining 70% amount
+                          at resort)
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -817,18 +830,19 @@ export default function Home() {
                   >
                     Reset
                   </Button>
-                  <Button
+                  <form id="rzp_payment_form" className="ml-5 mt-2"></form>
+                  {/* <Button
                     onClick={PayNow}
                     className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
                   >
                     Pay Now
-                  </Button>
+                  </Button> */}
                 </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </div>
-        <div className="lg:w-3/12  p-4">
+        <div className="lg:w-3/12  p-1">
           <Accordion type="multiple" collapsible="true">
             <AccordionItem value="item-1" className="bg-[#ffffff] my-1">
               <AccordionTrigger className="bg-[#9f1f63] text-white p-2 hover:no-underline">

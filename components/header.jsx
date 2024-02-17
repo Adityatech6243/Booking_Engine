@@ -8,10 +8,10 @@ const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
         <Link href="/booking-engine/">
           <Image
             src="/booking-engine/Logo.png"
-            width="60"
-            height="60"
+            width="0"
+            height="0"
             alt="logo"
-            style={{ width: "auto", height: "auto" }}
+            style={{ width: "100px", height: "100px" }}
           />
         </Link>
         {/* <button
@@ -21,7 +21,7 @@ const MyNavbar = ({ expanded, handleToggle, handleMenuItemClick }) => {
           ☰
         </button> */}
         <div className="lg:flex lg:items-center lg:w-auto justify-end">
-          <ul className="bg-[#9f1f63] lg:flex lg:space-x-2 lg:mt-0 mt-4 text-white p-2 rounded-md">
+          <ul className="bg-[#9f1f63] lg:flex lg:space-x-2 lg:mt-0 mt-8 text-white p-2 rounded-md">
             <li>
               <Link
                 href="https://www.riverorchidresort.com"
