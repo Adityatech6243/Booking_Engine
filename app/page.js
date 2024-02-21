@@ -230,7 +230,7 @@ export default function Home() {
 
     const emailData = {
       ...review,
-      subject: "Test: New Booking Confirmed For River Orchid Resort",
+      subject: "New Booking Confirmed For River Orchid Resort",
       to: "riverorchid1313@gmail.com",
       clientName: "River Orchid Resort",
       replyTo: review?.UserEmail,
@@ -268,6 +268,18 @@ export default function Home() {
     console.log("finaldata: ", finaldata);
   }, [finaldata]);
 
+  useEffect(() => {
+    const rzpPaymentForm = document.getElementById("rzp_payment_form");
+
+    if (rzpPaymentForm && !rzpPaymentForm.hasChildNodes()) {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+      script.async = true;
+      script.dataset.payment_button_id = "pl_NbqjGE0lvugKUm";
+      rzpPaymentForm.appendChild(script);
+    }
+  });
+
   return (
     <main className="flex min-h-screen flex-col justify-between lg:p-24 lg:py-0 bg-[#f9f9f9]">
       <MyNavbar />
@@ -293,7 +305,7 @@ export default function Home() {
                   <span>Search For Availability</span>
                   {edit1 == "item-1" && (
                     <span
-                      className="px-4 py-1 hover:bg-[#a0a1a4] rounded-lg" 
+                      className="px-4 py-1 hover:bg-[#a0a1a4] rounded-lg"
                       onClick={() => handleSearch("item-1")}
                     >
                       <FontAwesomeIcon
@@ -799,11 +811,12 @@ export default function Home() {
                     <TableBody>
                       <TableRow>
                         <TableCell className="font-medium border-2">
-                          (30%) Amount to be Paid
+                          Advance Payable Amount (30%)
                         </TableCell>
-                        <TableCell className="border-2">
+                        <TableCell className="border-2 font-bold">
                           {currency}
-                          {review?.AmtToPaid}/-
+                          {review?.AmtToPaid}/- (please pay remaining 70% amount
+                          at resort)
                         </TableCell>
                       </TableRow>
                     </TableBody>
@@ -817,12 +830,13 @@ export default function Home() {
                   >
                     Reset
                   </Button>
-                  <Button
+                  <form id="rzp_payment_form" className="ml-5 mt-2"></form>
+                  {/* <Button
                     onClick={PayNow}
                     className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
                   >
                     Pay Now
-                  </Button>
+                  </Button> */}
                 </div>
               </AccordionContent>
             </AccordionItem>

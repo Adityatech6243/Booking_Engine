@@ -150,96 +150,105 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-                        if ($row['RoomName'] == "Mango cottage Room AC") {
-                            if ($numAdults == 1 && $numChildren == 1) {
+                        // if ($row['RoomName'] == "Mango cottage Room AC") {
+                        //     if ($numAdults == 1 && $numChildren == 1) {
 
-                                $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
-                                $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
-                                $row['ExtraBed'] = $ExtraBed;
+                        //         $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
+                        //         $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
+                        //         $row['ExtraBed'] = $ExtraBed;
 
-                                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
-                                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+                        //         $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
+                        //         $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
 
-                                $row['numberOfNights'] = $numberOfNights;
-                            }
+                        //         $row['numberOfNights'] = $numberOfNights;
+                        //     }
 
-                            if ($numAdults == 1 && $numChildren > 1) {
-                                if (($numAdults + $numChildren - 2) == 1) {
-                                    if ($children2Ages > 5 && $children2Ages < 10) {
+                        //     if ($numAdults == 1 && $numChildren > 1) {
+                        //         if (($numAdults + $numChildren - 2) == 1) {
+                        //             if ($children2Ages > 5 && $children2Ages < 10) {
 
-                                        $ChildCostForBreakfast += $rateChildCostForBreakfast;
-                                        $ChildCostForAllMeals += $rateChildCostForAllMeals;
-                                    }
-                                }
-                                if (($numAdults + $numChildren - 2) == 2) {
-                                    if ($children3Ages > 5 && $children3Ages < 10) {
+                        //                 $ChildCostForBreakfast += $rateChildCostForBreakfast;
+                        //                 $ChildCostForAllMeals += $rateChildCostForAllMeals;
+                        //             }
+                        //         }
+                        //         if (($numAdults + $numChildren - 2) == 2) {
+                        //             if ($children3Ages > 5 && $children3Ages < 10) {
 
-                                        $ChildCostForBreakfast += $rateChildCostForBreakfast;
-                                        $ChildCostForAllMeals += $rateChildCostForAllMeals;
-                                    }
-                                }
-                                $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
-                                $RoomsWithAllMeals += $ChildCostForAllMeals;
-                                $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
-                                $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
-                                $row['ExtraBed'] = $ExtraBed;
+                        //                 $ChildCostForBreakfast += $rateChildCostForBreakfast;
+                        //                 $ChildCostForAllMeals += $rateChildCostForAllMeals;
+                        //             }
+                        //         }
+                        //         $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
+                        //         $RoomsWithAllMeals += $ChildCostForAllMeals;
+                        //         $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
+                        //         $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
+                        //         $row['ExtraBed'] = $ExtraBed;
 
-                                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
-                                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+                        //         $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
+                        //         $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
 
-                                $row['numberOfNights'] = $numberOfNights;
-                            }
+                        //         $row['numberOfNights'] = $numberOfNights;
+                        //     }
 
-                            if ($numAdults == 2 && $numChildren >= 1) {
-                                if ($children1Ages > 5 && $children1Ages < 10) {
+                        //     if ($numAdults == 2 && $numChildren >= 1) {
+                        //         if ($children1Ages > 5 && $children1Ages < 10) {
 
-                                    $ChildCostForBreakfast += $rateChildCostForBreakfast;
-                                    $ChildCostForAllMeals += $rateChildCostForAllMeals;
-                                }
-                                if ($children2Ages > 5 && $children2Ages < 10) {
+                        //             $ChildCostForBreakfast += $rateChildCostForBreakfast;
+                        //             $ChildCostForAllMeals += $rateChildCostForAllMeals;
+                        //         }
+                        //         if ($children2Ages > 5 && $children2Ages < 10) {
 
-                                    $ChildCostForBreakfast += $rateChildCostForBreakfast;
-                                    $ChildCostForAllMeals += $rateChildCostForAllMeals;
-                                }
-                                if ($children3Ages > 5 && $children3Ages < 10) {
+                        //             $ChildCostForBreakfast += $rateChildCostForBreakfast;
+                        //             $ChildCostForAllMeals += $rateChildCostForAllMeals;
+                        //         }
+                        //         if ($children3Ages > 5 && $children3Ages < 10) {
 
-                                    $ChildCostForBreakfast += $rateChildCostForBreakfast;
-                                    $ChildCostForAllMeals += $rateChildCostForAllMeals;
-                                }
-                                $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
-                                $RoomsWithAllMeals += $ChildCostForAllMeals;
-                                $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
-                                $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
-                                $row['ExtraBed'] = $ExtraBed;
+                        //             $ChildCostForBreakfast += $rateChildCostForBreakfast;
+                        //             $ChildCostForAllMeals += $rateChildCostForAllMeals;
+                        //         }
+                        //         $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
+                        //         $RoomsWithAllMeals += $ChildCostForAllMeals;
+                        //         $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
+                        //         $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
+                        //         $row['ExtraBed'] = $ExtraBed;
 
-                                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
-                                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+                        //         $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
+                        //         $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
 
-                                $row['numberOfNights'] = $numberOfNights;
+                        //         $row['numberOfNights'] = $numberOfNights;
 
-                            }
+                        //     }
 
-                            if ($numAdults == 2 && $numChildren == 0) {
+                        //     if ($numAdults == 2 && $numChildren == 0) {
 
-                                $row['ChildCostForBreakfast'] = 0;
-                                $row['ChildCostForAllMeals'] = 0;
-                                $row['ExtraBed'] = 0;
+                        //         $row['ChildCostForBreakfast'] = 0;
+                        //         $row['ChildCostForAllMeals'] = 0;
+                        //         $row['ExtraBed'] = 0;
 
-                                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
-                                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+                        //         $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
+                        //         $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
 
-                                $row['numberOfNights'] = $numberOfNights;
-                            }
+                        //         $row['numberOfNights'] = $numberOfNights;
+                        //     }
 
-                        }
+                        // }
 
                         if ($row['RoomName'] !== "Mango cottage Room AC") {
-                            if ($numAdults + $numChildren <= 4) {
+                            if (($numAdults + $numChildren) <= 4) {
                                 $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
                                 $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
                                 $row['numberOfNights'] = $numberOfNights;
                                 $row['where'] = "5";
                                 $row['ExtraBed'] = 0;
+                                $ChildCostForBreakfast=0;
+                                $ChildCostForAllMeals=0;
+                                $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
+                                $RoomsWithAllMeals += $ChildCostForAllMeals;
+                                $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
+                                $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
+
+
+                             
                             }
 
 
@@ -267,8 +276,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $row['numberOfNights'] = $numberOfNights;
                                 $row['where'] = "0";
                             }
+                            
 
                             if ($numAdults == 2 && $numChildren == 3) {
+
+                                if ($children3Ages > 5 && $children3Ages < 10) {
+
+                                    $ChildCostForBreakfast += $rateChildCostForBreakfast;
+                                    $ChildCostForAllMeals += $rateChildCostForAllMeals;
+                                }
+                                $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
+                                $RoomsWithAllMeals += $ChildCostForAllMeals;
+                                $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
+                                $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
+                                $row['ExtraBed'] = $ExtraBed;
+
+                                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
+                                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
+
+                                $row['numberOfNights'] = $numberOfNights;
+                                $row['where'] = "30";
+                            }
+                            if ($numAdults == 3 && $numChildren == 2) {
 
                                 if ($children3Ages > 5 && $children3Ages < 10) {
 
