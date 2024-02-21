@@ -31,6 +31,8 @@ const formSchema = z.object({
   CheckOut: z.date(),
   priceWithAllMeals: z.string(),
   priceWithBreakfast: z.string(),
+  userName: z.string(),
+  userPhone: z.string(),
 });
 function Adminpanel(props) {
   const [selectedOption, setSelectedOption] = useState("1");
@@ -101,6 +103,9 @@ function Adminpanel(props) {
       CheckOut: "",
       priceWithAllMeals: "",
       priceWithBreakfast: "",
+      userName: "",
+      userPhone: "",
+      // userName // userPhone
     },
   });
   function onSubmit(values) {
@@ -145,6 +150,8 @@ function Adminpanel(props) {
           bookingRoomId: bookingRoomId,
           checkInDate: checkIn,
           checkOutDate: checkOut,
+          userName: form.control._formValues.userName,
+          userPhone: form.control._formValues.userPhone,
           newBooking: true,
         }),
       })
@@ -246,7 +253,7 @@ function Adminpanel(props) {
                     <tr key={room.RoomID} className="border-b-2">
                       <td className="py-2">{room.RoomName}</td>
                       <td>
-                        {roomsAndBookings?.bookings?.map(
+                        {Array.isArray(roomsAndBookings?.bookings) && roomsAndBookings?.bookings.map(
                           (booking, index) =>
                             room.RoomID == booking.BookingRoomID && (
                               <span
@@ -297,35 +304,58 @@ function Adminpanel(props) {
                 </h2>
                 <Form {...form}>
                   <form
-                    className="flex flex-col md:flex-row md:space-x-4 md:w-full"
+                    className="flex flex-col md:flex-col md:w-full"
                     onSubmit={handleBooking}
                   >
-                    <div className="md:w-full mt-4">
+               <div className="md:flex md:justify-between">
+                    <div className="w-full md:pr-4 mt-4">
                       <FormField
                         control={form.control}
-                        name="CheckIn"
+                        name="userName"
                         render={({ field }) => (
                           <FormItem className="flex flex-col">
                             <FormLabel className="text-gray-600">
-                              <b>Select Room:</b>
+                              <b>Name:</b>
                             </FormLabel>
-                            <select
-                              id="option"
-                              value={bookingRoomId}
-                              onChange={(e) => setBookingRoomId(e.target.value)}
-                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                            >
-                              {roomsAndBookings?.rooms?.map((item) => (
-                                <option key={item.RoomID} value={item.RoomID}>
-                                  {item.RoomName}
-                                </option>
-                              ))}
-                            </select>
+                            <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
+                              <Input
+                                placeholder="Enter Name"
+                                {...field}
+                                type="text"
+                                required
+                                className="pl-4"
+                              />
+                            </FormControl>
+                            <FormMessage />
                           </FormItem>
                         )}
                       />
                     </div>
-                    <div className="md:w-full mt-4">
+                    <div className="w-full mt-4 ">
+                      <FormField
+                        control={form.control}
+                        name="userPhone"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel className="text-gray-600">
+                              <b>Phone Number:</b>
+                            </FormLabel>
+                            <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
+                              <Input
+                                placeholder="Enter Phone Number"
+                                {...field}
+                                type="tel"
+                                required
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+                <div className="md:flex md:justify-between">
+                    <div className="w-full md:pr-4 mt-4">
                       <FormField
                         control={form.control}
                         name="CheckIn"
@@ -436,7 +466,33 @@ function Adminpanel(props) {
                         )}
                       />
                     </div>
-                    <div className="md:justify-center flex items-end mt-4">
+                  </div>
+                    <div className="md:w-full mt-4">
+                      <FormField
+                        control={form.control}
+                        name="CheckIn"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col">
+                            <FormLabel className="text-gray-600">
+                              <b>Select Room:</b>
+                            </FormLabel>
+                            <select
+                              id="option"
+                              value={bookingRoomId}
+                              onChange={(e) => setBookingRoomId(e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                            >
+                              {roomsAndBookings?.rooms?.map((item) => (
+                                <option key={item.RoomID} value={item.RoomID}>
+                                  {item.RoomName}
+                                </option>
+                              ))}
+                            </select>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="p-2 mt-3">
                       <button
                         type="submit"
                         disabled={
@@ -445,12 +501,11 @@ function Adminpanel(props) {
                             form.control._formValues?.CheckOut
                           )
                         }
-                        className={`bg-blue-500  text-white font-bold py-2 px-4 rounded ${
-                          form.control._formValues?.CheckIn &&
+                        className={`bg-blue-500  text-white font-bold py-2 px-10 rounded ${form.control._formValues?.CheckIn &&
                           form.control._formValues?.CheckOut
-                            ? ""
-                            : "bg-gray-500"
-                        }`}
+                          ? ""
+                          : "bg-gray-500"
+                          }`}
                       >
                         Book
                       </button>
@@ -459,7 +514,7 @@ function Adminpanel(props) {
                 </Form>
               </div>
               <hr className="my-8" />
-              <div className="p-2">
+              <div className="p-2 mb-4">
                 <button
                   onClick={handleToggle}
                   className="bg-blue-500 text-white p-2 font-bold py-2 px-4 rounded "
@@ -560,11 +615,10 @@ function Adminpanel(props) {
                             disabled={
                               !(priceWithBreakfast && priceWithAllMeals)
                             }
-                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${
-                              priceWithBreakfast && priceWithAllMeals
-                                ? ""
-                                : "bg-gray-500"
-                            }`}
+                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${priceWithBreakfast && priceWithAllMeals
+                              ? ""
+                              : "bg-gray-500"
+                              }`}
                           >
                             Save
                           </button>
