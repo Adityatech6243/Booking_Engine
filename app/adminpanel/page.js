@@ -228,22 +228,34 @@ function Adminpanel(props) {
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center  mx-auto md:h-screen">
-        <a
-          href="#"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          <img src="/booking-engine/Logo.png" alt="logo" className="w-20" />
-        </a>
-        <div className="w-full bg-white rounded-lg shadow dark:border p-5 md:mt-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="w-full p-5 md:mt-0">
+          <a
+            href="#"
+            className="flex justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+          >
+            <img
+              src="/booking-engine/Logo.png"
+              alt="logo"
+              className="w-30 h-30"
+            />
+          </a>
           {isLoggedIn ? (
             <section>
-              <table className="table-bordered p-2 w-full">
+              <div className="flex justify-end">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white p-2 rounded font-bold py-2 px-8"
+                >
+                  Logout
+                </button>
+              </div>
+              <table className="table-bordered p-2 w-full mt-2">
                 <thead>
-                  <tr>
-                    <th>
+                  <tr className="bg-custom-color-500">
+                    <th className="text-left">
                       <b>Room Category</b>
                     </th>
-                    <th>
+                    <th className="text-left">
                       <b>Bookings</b>
                     </th>
                   </tr>
@@ -253,45 +265,46 @@ function Adminpanel(props) {
                     <tr key={room.RoomID} className="border-b-2">
                       <td className="py-2">{room.RoomName}</td>
                       <td>
-                        {Array.isArray(roomsAndBookings?.bookings) && roomsAndBookings?.bookings.map(
-                          (booking, index) =>
-                            room.RoomID == booking.BookingRoomID && (
-                              <span
-                                className="m-2 inline-block"
-                                key={index}
-                                style={{
-                                  backgroundColor: "green",
-                                  padding: "4px 14px",
-                                  color: "white",
-                                  borderRadius: "10px",
-                                  position: "relative",
-                                }}
-                              >
-                                {`${toIST(booking.CheckInDate)} to ${toIST(
-                                  booking.CheckOutDate
-                                )}`}
-                                <button
-                                  onClick={() =>
-                                    handlebookingdel(booking.BookingID)
-                                  }
-                                  className="bg-white-500 text-white rounded fas fa-times"
+                        {Array.isArray(roomsAndBookings?.bookings) &&
+                          roomsAndBookings?.bookings.map(
+                            (booking, index) =>
+                              room.RoomID == booking.BookingRoomID && (
+                                <span
+                                  className="m-2 inline-block"
+                                  key={index}
                                   style={{
-                                    borderRadius: "50%",
-                                    margin: "-2px -6px",
-                                    padding: "2px 6px 0px 6px",
-                                    backgroundColor: "#030303",
-                                    position: "absolute",
-                                    top: "-2px",
-                                    right: "2px",
-                                    fontSize: "10px",
+                                    backgroundColor: "green",
+                                    padding: "4px 14px",
+                                    color: "white",
+                                    borderRadius: "10px",
+                                    position: "relative",
                                   }}
                                 >
-                                  {" "}
-                                  X
-                                </button>
-                              </span>
-                            )
-                        )}
+                                  {`${toIST(booking.CheckInDate)} to ${toIST(
+                                    booking.CheckOutDate
+                                  )}`}
+                                  <button
+                                    onClick={() =>
+                                      handlebookingdel(booking.BookingID)
+                                    }
+                                    className="bg-white-500 text-white rounded fas fa-times"
+                                    style={{
+                                      borderRadius: "50%",
+                                      margin: "-2px -6px",
+                                      padding: "2px 6px 0px 6px",
+                                      backgroundColor: "#030303",
+                                      position: "absolute",
+                                      top: "-2px",
+                                      right: "2px",
+                                      fontSize: "10px",
+                                    }}
+                                  >
+                                    {" "}
+                                    X
+                                  </button>
+                                </span>
+                              )
+                          )}
                       </td>
                     </tr>
                   ))}
@@ -307,166 +320,166 @@ function Adminpanel(props) {
                     className="flex flex-col md:flex-col md:w-full"
                     onSubmit={handleBooking}
                   >
-               <div className="md:flex md:justify-between">
-                    <div className="w-full md:pr-4 mt-4">
-                      <FormField
-                        control={form.control}
-                        name="userName"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Name:</b>
-                            </FormLabel>
-                            <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
-                              <Input
-                                placeholder="Enter Name"
-                                {...field}
-                                type="text"
-                                required
-                                className="pl-4"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="w-full mt-4 ">
-                      <FormField
-                        control={form.control}
-                        name="userPhone"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Phone Number:</b>
-                            </FormLabel>
-                            <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
-                              <Input
-                                placeholder="Enter Phone Number"
-                                {...field}
-                                type="tel"
-                                required
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                <div className="md:flex md:justify-between">
-                    <div className="w-full md:pr-4 mt-4">
-                      <FormField
-                        control={form.control}
-                        name="CheckIn"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Check In Date</b>
-                            </FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "justify-start text-left font-normal ",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>
-                                      <b>Select Check In Date</b>
-                                    </span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                  selected={field.value}
-                                  mode="single"
-                                  onSelect={(e) => {
-                                    field.onChange(e);
-                                    setCheckIn(
-                                      form.control._formValues.CheckIn
-                                    );
-                                  }}
-                                  disabled={(date) => date < new Date()}
-                                  minDate={new Date()} // Set the minimum date to the current date
-                                  initialFocus
+                    <div className="md:flex md:justify-between">
+                      <div className="w-full md:pr-4 mt-4">
+                        <FormField
+                          control={form.control}
+                          name="userName"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Name:</b>
+                              </FormLabel>
+                              <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
+                                <Input
+                                  placeholder="Enter Name"
+                                  {...field}
+                                  type="text"
+                                  required
+                                  className="pl-4"
                                 />
-                              </PopoverContent>
-                            </Popover>
-                          </FormItem>
-                        )}
-                      />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="w-full mt-4 ">
+                        <FormField
+                          control={form.control}
+                          name="userPhone"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Phone Number:</b>
+                              </FormLabel>
+                              <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
+                                <Input
+                                  placeholder="Enter Phone Number"
+                                  {...field}
+                                  type="tel"
+                                  required
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                    <div className="md:w-full mt-4">
-                      <FormField
-                        control={form.control}
-                        name="CheckOut"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Check Out Date</b>
-                            </FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "justify-start text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>
-                                      <b>Select Check Out Date</b>
-                                    </span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={(e) => {
-                                    field.onChange(e);
-                                    setCheckOut(
-                                      form.control._formValues.CheckOut
-                                    );
-                                  }}
-                                  disabled={(date) =>
-                                    date <
-                                    new Date(
+                    <div className="md:flex md:justify-between">
+                      <div className="w-full md:pr-4 mt-4">
+                        <FormField
+                          control={form.control}
+                          name="CheckIn"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Check In Date</b>
+                              </FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "justify-start text-left font-normal ",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>
+                                        <b>Select Check In Date</b>
+                                      </span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    selected={field.value}
+                                    mode="single"
+                                    onSelect={(e) => {
+                                      field.onChange(e);
+                                      setCheckIn(
+                                        form.control._formValues.CheckIn
+                                      );
+                                    }}
+                                    disabled={(date) => date < new Date()}
+                                    minDate={new Date()} // Set the minimum date to the current date
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="md:w-full mt-4">
+                        <FormField
+                          control={form.control}
+                          name="CheckOut"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Check Out Date</b>
+                              </FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "justify-start text-left font-normal",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>
+                                        <b>Select Check Out Date</b>
+                                      </span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={(e) => {
+                                      field.onChange(e);
+                                      setCheckOut(
+                                        form.control._formValues.CheckOut
+                                      );
+                                    }}
+                                    disabled={(date) =>
+                                      date <
+                                      new Date(
+                                        form.control._formValues?.CheckIn
+                                      ).setDate(
+                                        new Date(
+                                          form.control._formValues?.CheckIn
+                                        ).getDate() + 1
+                                      )
+                                    }
+                                    minDate={new Date(
                                       form.control._formValues?.CheckIn
                                     ).setDate(
                                       new Date(
                                         form.control._formValues?.CheckIn
                                       ).getDate() + 1
-                                    )
-                                  }
-                                  minDate={new Date(
-                                    form.control._formValues?.CheckIn
-                                  ).setDate(
-                                    new Date(
-                                      form.control._formValues?.CheckIn
-                                    ).getDate() + 1
-                                  )} // Set the minimum date to the current date
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
-                          </FormItem>
-                        )}
-                      />
+                                    )} // Set the minimum date to the current date
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                  </div>
                     <div className="md:w-full mt-4">
                       <FormField
                         control={form.control}
@@ -501,11 +514,12 @@ function Adminpanel(props) {
                             form.control._formValues?.CheckOut
                           )
                         }
-                        className={`bg-blue-500  text-white font-bold py-2 px-10 rounded ${form.control._formValues?.CheckIn &&
+                        className={`bg-blue-500  text-white font-bold py-2 px-10 rounded ${
+                          form.control._formValues?.CheckIn &&
                           form.control._formValues?.CheckOut
-                          ? ""
-                          : "bg-gray-500"
-                          }`}
+                            ? ""
+                            : "bg-gray-500"
+                        }`}
                       >
                         Book
                       </button>
@@ -615,10 +629,11 @@ function Adminpanel(props) {
                             disabled={
                               !(priceWithBreakfast && priceWithAllMeals)
                             }
-                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${priceWithBreakfast && priceWithAllMeals
-                              ? ""
-                              : "bg-gray-500"
-                              }`}
+                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${
+                              priceWithBreakfast && priceWithAllMeals
+                                ? ""
+                                : "bg-gray-500"
+                            }`}
                           >
                             Save
                           </button>
@@ -628,21 +643,24 @@ function Adminpanel(props) {
                   </div>
                 )}
               </div>
-              <div className="flex justify-center">
+              {/* <div className="flex justify-center">
                 <button
                   onClick={handleLogout}
                   className="bg-red-500 text-white p-2 rounded font-bold py-2 px-8"
                 >
                   Logout
                 </button>
-              </div>
+              </div> */}
             </section>
           ) : (
-            <section className="bg-gray-50 dark:bg-gray-900">
-              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+            <section className="bg-white rounded-lg shadow dark:border">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center pt-2">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
+              <form
+                className="space-y-4 md:space-y-6 p-5"
+                onSubmit={handleLogin}
+              >
                 <div>
                   <label
                     htmlFor="email"
