@@ -67,16 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->newBooking) && $data->newBooking == "true") {
-        $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, CheckInDate, CheckOutDate, PaymentStatus) VALUES (
+    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->userName) && isset($data->userPhone) && isset($data->newBooking) && $data->newBooking == "true") {
+        $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, CheckInDate, CheckOutDate, UserName, UserPhone, PaymentStatus) VALUES (
                                                                 '$data->bookingRoomId', 
                                                                 '$data->checkInDate', 
                                                                 '$data->checkOutDate', 
+                                                                '$data->userName',
+                                                                '$data->userPhone',
                                                                 'paid')";
         if ($conn->query($insertBookingSQL) === TRUE) {
 
             // Fetch booking details
-            $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate FROM bookings WHERE PaymentStatus = 'paid'";
+            $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate, UserName, UserPhone FROM bookings WHERE PaymentStatus = 'paid'";
             $result = $conn->query($sql);
 
             $bookingsData = array(); // Create an array to store booking details
@@ -85,7 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'BookingID' => $row['BookingID'],
                     'BookingRoomID' => $row['BookingRoomID'],
                     'CheckInDate' => $row['CheckInDate'],
-                    'CheckOutDate' => $row['CheckOutDate']
+                    'CheckOutDate' => $row['CheckOutDate'],
+                    'UserName' => $row['UserName'],
+                    'UserPhone' => $row['UserPhone']
+
                 );
                 $bookingsData[] = $bookingDetails; // Append booking details to the bookingsData array
             }
@@ -235,21 +240,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         }
 
                         if ($row['RoomName'] !== "Mango cottage Room AC") {
-                            if (($numAdults + $numChildren) <= 4) {
+                            if ($numAdults + $numChildren <= 4) {
                                 $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
                                 $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
                                 $row['numberOfNights'] = $numberOfNights;
                                 $row['where'] = "5";
                                 $row['ExtraBed'] = 0;
+                                
                                 $ChildCostForBreakfast=0;
                                 $ChildCostForAllMeals=0;
                                 $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
                                 $RoomsWithAllMeals += $ChildCostForAllMeals;
                                 $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
                                 $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
-
-
-                             
                             }
 
 
@@ -277,28 +280,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 $row['numberOfNights'] = $numberOfNights;
                                 $row['where'] = "0";
                             }
-                            
 
                             if ($numAdults == 2 && $numChildren == 3) {
-
-                                if ($children3Ages > 5 && $children3Ages < 10) {
-
-                                    $ChildCostForBreakfast += $rateChildCostForBreakfast;
-                                    $ChildCostForAllMeals += $rateChildCostForAllMeals;
-                                }
-                                $RoomsWithBreakFast += $ChildCostForBreakfast; //- $ratetosubtract*$rateChildCostForBreakfast;
-                                $RoomsWithAllMeals += $ChildCostForAllMeals;
-                                $row['ChildCostForBreakfast'] = $ChildCostForBreakfast * $numberOfNights;
-                                $row['ChildCostForAllMeals'] = $ChildCostForAllMeals * $numberOfNights;
-                                $row['ExtraBed'] = $ExtraBed;
-
-                                $row['RoomsWithAllMeals'] = $RoomsWithAllMeals * $numberOfNights;
-                                $row['RoomsWithBreakFast'] = $RoomsWithBreakFast * $numberOfNights;
-
-                                $row['numberOfNights'] = $numberOfNights;
-                                $row['where'] = "30";
-                            }
-                            if ($numAdults == 3 && $numChildren == 2) {
 
                                 if ($children3Ages > 5 && $children3Ages < 10) {
 
