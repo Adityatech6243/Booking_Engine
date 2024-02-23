@@ -31,7 +31,9 @@ const formSchema = z.object({
   CheckOut: z.date(),
   priceWithAllMeals: z.string(),
   priceWithBreakfast: z.string(),
-  userName: z.string(),
+  userName: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
   userPhone: z.string(),
 });
 function Adminpanel(props) {
@@ -48,6 +50,28 @@ function Adminpanel(props) {
   const [roomId, setRoomId] = useState("");
   const [priceWithBreakfast, setPriceWithBreakfast] = useState("");
   const [priceWithAllMeals, setPriceWithAllMeals] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [showMessageBox, setShowMessageBox] = useState(false);
+  const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+    setIsValidPhoneNumber(phoneNumberRegex.test(value));
+  };
+
+  const MessageBox = ({ message, onClose }) => {
+    return (
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-black shadow-2xl p-12 rounded-lg">
+        <p className="text-center mb-7">{message}</p>
+        <button
+          onClick={onClose}
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
+          Close
+        </button>
+      </div>
+    );
+  };
 
   useEffect(() => {
     setBookingRoomId(roomsAndBookings?.rooms?.[0].RoomID);
@@ -165,6 +189,11 @@ function Adminpanel(props) {
         ...roomsAndBookings,
         bookings: tempSendData,
       });
+    }
+    const bookingSuccessful = true;
+    if (bookingSuccessful) {
+      // If booking is successful, show the message box
+      setShowMessageBox(true);
     }
 
     sendData();
@@ -336,6 +365,7 @@ function Adminpanel(props) {
                                   {...field}
                                   type="text"
                                   required
+                                  pattern="[A-Za-z\s]+"
                                   className="pl-4"
                                 />
                               </FormControl>
@@ -355,10 +385,13 @@ function Adminpanel(props) {
                               </FormLabel>
                               <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
                                 <Input
+                                 value={phoneNumber}
+                                 onChange={handlePhoneNumberChange}
                                   placeholder="Enter Phone Number"
                                   {...field}
                                   type="tel"
                                   required
+                                  pattern="\d{10}"
                                 />
                               </FormControl>
                               <FormMessage />
@@ -520,6 +553,12 @@ function Adminpanel(props) {
                             ? ""
                             : "bg-gray-500"
                         }`}
+                        onClick={() => {
+                          if (
+                            form.control._formValues?.userName &&
+                            phoneNumberRegex.test(form.control._formValues?.UserPhone))
+                            {console.log(e)}
+                        }}
                       >
                         Book
                       </button>
@@ -723,6 +762,12 @@ function Adminpanel(props) {
           )}
         </div>
       </div>
+      {showMessageBox && (
+        <MessageBox
+          message="Room Booked Successfully"
+          onClose={() => setShowMessageBox(false)} // Function to close the message box
+        />
+      )}
     </div>
   );
 }
