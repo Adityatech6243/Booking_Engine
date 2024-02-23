@@ -653,7 +653,7 @@ function Adminpanel(props) {
               </div> */}
             </section>
           ) : (
-            <section className="bg-white rounded-lg shadow dark:border">
+            <section className="bg-white rounded-lg shadow dark:border sm:w-96 md:w-80 lg:w-80 xl:w-80 2xl:w-96 mx-auto">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center pt-2">
                 Sign in to your account
               </h1>
