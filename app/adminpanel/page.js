@@ -31,7 +31,9 @@ const formSchema = z.object({
   CheckOut: z.date(),
   priceWithAllMeals: z.string(),
   priceWithBreakfast: z.string(),
-  userName: z.string(),
+  userName: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
   userPhone: z.string(),
 });
 function Adminpanel(props) {
@@ -48,6 +50,13 @@ function Adminpanel(props) {
   const [roomId, setRoomId] = useState("");
   const [priceWithBreakfast, setPriceWithBreakfast] = useState("");
   const [priceWithAllMeals, setPriceWithAllMeals] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
+  const handlePhoneNumberChange = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+    setIsValidPhoneNumber(phoneNumberRegex.test(value));
+  };
 
   useEffect(() => {
     setBookingRoomId(roomsAndBookings?.rooms?.[0].RoomID);
@@ -324,6 +333,7 @@ function Adminpanel(props) {
                                 type="text"
                                 required
                                 className="pl-4"
+                                pattern="[A-Za-z\s]+"
                               />
                             </FormControl>
                             <FormMessage />
@@ -342,10 +352,13 @@ function Adminpanel(props) {
                             </FormLabel>
                             <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
                               <Input
+                                value={phoneNumber}
+                                onChange={handlePhoneNumberChange}
                                 placeholder="Enter Phone Number"
                                 {...field}
                                 type="tel"
                                 required
+                                pattern="\d{10}"
                               />
                             </FormControl>
                             <FormMessage />
@@ -506,6 +519,13 @@ function Adminpanel(props) {
                           ? ""
                           : "bg-gray-500"
                           }`}
+                          onClick={() => {
+                            if (
+                              form.control._formValues?.UserName &&
+                              phoneNumberRegex.test(form.control._formValues?.UserPhone))
+                              {console.log(e)}
+                              alert("Room Booked Successfully");
+                          }}
                       >
                         Book
                       </button>
