@@ -51,11 +51,26 @@ function Adminpanel(props) {
   const [priceWithBreakfast, setPriceWithBreakfast] = useState("");
   const [priceWithAllMeals, setPriceWithAllMeals] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [showMessageBox, setShowMessageBox] = useState(false);
   const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
   const handlePhoneNumberChange = (e) => {
     const value = e.target.value;
     setPhoneNumber(value);
     setIsValidPhoneNumber(phoneNumberRegex.test(value));
+  };
+
+  const MessageBox = ({ message, onClose }) => {
+    return (
+      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-black shadow-2xl p-12 rounded-lg">
+        <p className="text-center mb-7">{message}</p>
+        <button
+          onClick={onClose}
+          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
+        >
+          Close
+        </button>
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -174,6 +189,11 @@ function Adminpanel(props) {
         ...roomsAndBookings,
         bookings: tempSendData,
       });
+    }
+    const bookingSuccessful = true;
+    if (bookingSuccessful) {
+      // If booking is successful, show the message box
+      setShowMessageBox(true);
     }
 
     sendData();
@@ -316,170 +336,170 @@ function Adminpanel(props) {
                     className="flex flex-col md:flex-col md:w-full"
                     onSubmit={handleBooking}
                   >
-               <div className="md:flex md:justify-between">
-                    <div className="w-full md:pr-4 mt-4">
-                      <FormField
-                        control={form.control}
-                        name="userName"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Name:</b>
-                            </FormLabel>
-                            <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
-                              <Input
-                                placeholder="Enter Name"
-                                {...field}
-                                type="text"
-                                required
-                                className="pl-4"
-                                pattern="[A-Za-z\s]+"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                    <div className="w-full mt-4 ">
-                      <FormField
-                        control={form.control}
-                        name="userPhone"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Phone Number:</b>
-                            </FormLabel>
-                            <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
-                              <Input
-                                value={phoneNumber}
-                                onChange={handlePhoneNumberChange}
-                                placeholder="Enter Phone Number"
-                                {...field}
-                                type="tel"
-                                required
-                                pattern="\d{10}"
-                              />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </div>
-                  </div>
-                <div className="md:flex md:justify-between">
-                    <div className="w-full md:pr-4 mt-4">
-                      <FormField
-                        control={form.control}
-                        name="CheckIn"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Check In Date</b>
-                            </FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "justify-start text-left font-normal ",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>
-                                      <b>Select Check In Date</b>
-                                    </span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                  selected={field.value}
-                                  mode="single"
-                                  onSelect={(e) => {
-                                    field.onChange(e);
-                                    setCheckIn(
-                                      form.control._formValues.CheckIn
-                                    );
-                                  }}
-                                  disabled={(date) => date < new Date()}
-                                  minDate={new Date()} // Set the minimum date to the current date
-                                  initialFocus
+                    <div className="md:flex md:justify-between">
+                      <div className="w-full md:pr-4 mt-4">
+                        <FormField
+                          control={form.control}
+                          name="userName"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Name:</b>
+                              </FormLabel>
+                              <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
+                                <Input
+                                  placeholder="Enter Name"
+                                  {...field}
+                                  type="text"
+                                  required
+                                  className="pl-4"
+                                  pattern="[A-Za-z\s]+"
                                 />
-                              </PopoverContent>
-                            </Popover>
-                          </FormItem>
-                        )}
-                      />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="w-full mt-4 ">
+                        <FormField
+                          control={form.control}
+                          name="userPhone"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Phone Number:</b>
+                              </FormLabel>
+                              <FormControl className="w-full px-3 py-2 rounded-md focus:outline-none">
+                                <Input
+                                  value={phoneNumber}
+                                  onChange={handlePhoneNumberChange}
+                                  placeholder="Enter Phone Number"
+                                  {...field}
+                                  type="tel"
+                                  required
+                                  pattern="\d{10}"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                    <div className="md:w-full mt-4">
-                      <FormField
-                        control={form.control}
-                        name="CheckOut"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-col">
-                            <FormLabel className="text-gray-600">
-                              <b>Check Out Date</b>
-                            </FormLabel>
-                            <Popover>
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant={"outline"}
-                                  className={cn(
-                                    "justify-start text-left font-normal",
-                                    !field.value && "text-muted-foreground"
-                                  )}
-                                >
-                                  {field.value ? (
-                                    format(field.value, "PPP")
-                                  ) : (
-                                    <span>
-                                      <b>Select Check Out Date</b>
-                                    </span>
-                                  )}
-                                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                  mode="single"
-                                  selected={field.value}
-                                  onSelect={(e) => {
-                                    field.onChange(e);
-                                    setCheckOut(
-                                      form.control._formValues.CheckOut
-                                    );
-                                  }}
-                                  disabled={(date) =>
-                                    date <
-                                    new Date(
+                    <div className="md:flex md:justify-between">
+                      <div className="w-full md:pr-4 mt-4">
+                        <FormField
+                          control={form.control}
+                          name="CheckIn"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Check In Date</b>
+                              </FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "justify-start text-left font-normal ",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>
+                                        <b>Select Check In Date</b>
+                                      </span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    selected={field.value}
+                                    mode="single"
+                                    onSelect={(e) => {
+                                      field.onChange(e);
+                                      setCheckIn(
+                                        form.control._formValues.CheckIn
+                                      );
+                                    }}
+                                    disabled={(date) => date < new Date()}
+                                    minDate={new Date()} // Set the minimum date to the current date
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      <div className="md:w-full mt-4">
+                        <FormField
+                          control={form.control}
+                          name="CheckOut"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col">
+                              <FormLabel className="text-gray-600">
+                                <b>Check Out Date</b>
+                              </FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "justify-start text-left font-normal",
+                                      !field.value && "text-muted-foreground"
+                                    )}
+                                  >
+                                    {field.value ? (
+                                      format(field.value, "PPP")
+                                    ) : (
+                                      <span>
+                                        <b>Select Check Out Date</b>
+                                      </span>
+                                    )}
+                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={(e) => {
+                                      field.onChange(e);
+                                      setCheckOut(
+                                        form.control._formValues.CheckOut
+                                      );
+                                    }}
+                                    disabled={(date) =>
+                                      date <
+                                      new Date(
+                                        form.control._formValues?.CheckIn
+                                      ).setDate(
+                                        new Date(
+                                          form.control._formValues?.CheckIn
+                                        ).getDate() + 1
+                                      )
+                                    }
+                                    minDate={new Date(
                                       form.control._formValues?.CheckIn
                                     ).setDate(
                                       new Date(
                                         form.control._formValues?.CheckIn
                                       ).getDate() + 1
-                                    )
-                                  }
-                                  minDate={new Date(
-                                    form.control._formValues?.CheckIn
-                                  ).setDate(
-                                    new Date(
-                                      form.control._formValues?.CheckIn
-                                    ).getDate() + 1
-                                  )} // Set the minimum date to the current date
-                                  initialFocus
-                                />
-                              </PopoverContent>
-                            </Popover>
-                          </FormItem>
-                        )}
-                      />
+                                    )} // Set the minimum date to the current date
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
                     </div>
-                  </div>
                     <div className="md:w-full mt-4">
                       <FormField
                         control={form.control}
@@ -519,13 +539,12 @@ function Adminpanel(props) {
                           ? ""
                           : "bg-gray-500"
                           }`}
-                          onClick={() => {
-                            if (
-                              form.control._formValues?.UserName &&
-                              phoneNumberRegex.test(form.control._formValues?.UserPhone))
-                              {console.log(e)}
-                              alert("Room Booked Successfully");
-                          }}
+                        onClick={() => {
+                          if (
+                            form.control._formValues?.UserName &&
+                            phoneNumberRegex.test(form.control._formValues?.UserPhone)) { console.log(e) }
+
+                        }}
                       >
                         Book
                       </button>
@@ -725,7 +744,14 @@ function Adminpanel(props) {
           )}
         </div>
       </div>
+      {showMessageBox && (
+        <MessageBox
+          message="Room Booked Successfully"
+          onClose={() => setShowMessageBox(false)} // Function to close the message box
+        />
+      )}
     </div>
+
   );
 }
 
