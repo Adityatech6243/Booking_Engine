@@ -67,16 +67,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
 
-    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->newBooking) && $data->newBooking == "true") {
-        $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, CheckInDate, CheckOutDate, PaymentStatus) VALUES (
+    if (isset($data->bookingRoomId) && isset($data->checkInDate) && isset($data->checkOutDate) && isset($data->userName) && isset($data->userPhone) && isset($data->newBooking) && $data->newBooking == "true") {
+        $insertBookingSQL = "INSERT INTO bookings (BookingRoomID, CheckInDate, CheckOutDate, UserName, UserPhone, PaymentStatus) VALUES (
                                                                 '$data->bookingRoomId', 
                                                                 '$data->checkInDate', 
                                                                 '$data->checkOutDate', 
+                                                                '$data->userName',
+                                                                '$data->userPhone',
                                                                 'paid')";
         if ($conn->query($insertBookingSQL) === TRUE) {
 
             // Fetch booking details
-            $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate FROM bookings WHERE PaymentStatus = 'paid'";
+            $sql = "SELECT BookingID, BookingRoomID, CheckInDate, CheckOutDate, UserName, UserPhone  FROM bookings WHERE PaymentStatus = 'paid'";
             $result = $conn->query($sql);
 
             $bookingsData = array(); // Create an array to store booking details
@@ -85,7 +87,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     'BookingID' => $row['BookingID'],
                     'BookingRoomID' => $row['BookingRoomID'],
                     'CheckInDate' => $row['CheckInDate'],
-                    'CheckOutDate' => $row['CheckOutDate']
+                    'CheckOutDate' => $row['CheckOutDate'],
+                    'UserName' => $row['UserName'],
+                    'UserPhone' => $row['UserPhone']
                 );
                 $bookingsData[] = $bookingDetails; // Append booking details to the bookingsData array
             }
