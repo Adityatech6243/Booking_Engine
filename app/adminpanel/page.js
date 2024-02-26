@@ -34,9 +34,6 @@ const formSchema = z.object({
   userName: z.string().min(2, {
     message: "Username must be at least 2 characters.",
   }),
-  userName: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
   userPhone: z.string(),
 });
 function Adminpanel(props) {
@@ -75,29 +72,6 @@ function Adminpanel(props) {
       </div>
     );
   };
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [showMessageBox, setShowMessageBox] = useState(false);
-  const phoneNumberRegex = /^[0-9]{10}$/; // This example assumes a 10-digit number
-  const handlePhoneNumberChange = (e) => {
-    const value = e.target.value;
-    setPhoneNumber(value);
-    setIsValidPhoneNumber(phoneNumberRegex.test(value));
-  };
-
-  const MessageBox = ({ message, onClose }) => {
-    return (
-      <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white border border-black shadow-2xl p-12 rounded-lg">
-        <p className="text-center mb-7">{message}</p>
-        <button
-          onClick={onClose}
-          className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600"
-        >
-          Close
-        </button>
-      </div>
-    );
-  };
-
   useEffect(() => {
     setBookingRoomId(roomsAndBookings?.rooms?.[0].RoomID);
     setRoomId(roomsAndBookings?.rooms?.[0].RoomID);
@@ -214,11 +188,6 @@ function Adminpanel(props) {
         ...roomsAndBookings,
         bookings: tempSendData,
       });
-    }
-    const bookingSuccessful = true;
-    if (bookingSuccessful) {
-      // If booking is successful, show the message box
-      setShowMessageBox(true);
     }
     const bookingSuccessful = true;
     if (bookingSuccessful) {
@@ -387,7 +356,7 @@ function Adminpanel(props) {
                                   required
                                   pattern="[A-Za-z\s]+"
                                   className="pl-4"
-                                  pattern="[A-Za-z\s]+"
+                                  
                                 />
                               </FormControl>
                               <FormMessage />
@@ -413,7 +382,7 @@ function Adminpanel(props) {
                                   type="tel"
                                   required
                                   pattern="\d{10}"
-                                  pattern="\d{10}"
+                              
                                 />
                               </FormControl>
                               <FormMessage />
@@ -702,14 +671,6 @@ function Adminpanel(props) {
                   </div>
                 )}
               </div>
-              <div className="flex justify-center">
-                <button
-                  onClick={handleLogout}
-                  className="bg-red-500 text-white p-2 rounded font-bold py-2 px-8"
-                >
-                  Logout
-                </button>
-              </div>
             </section>
           ) : (
             <section className="bg-gray-50 dark:bg-gray-900">
@@ -753,14 +714,14 @@ function Adminpanel(props) {
                     required
                   />
                 </div>
-                <div className="flex items-center justify-between">
+                {/* <div className="flex items-center justify-between">
                   <a
                     href="#"
                     className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Forgot password?
                   </a>
-                </div>
+                </div> */}
                 <button
                   type="submit"
                   className="flex items-center"
@@ -779,12 +740,6 @@ function Adminpanel(props) {
           )}
         </div>
       </div>
-      {showMessageBox && (
-        <MessageBox
-          message="Room Booked Successfully"
-          onClose={() => setShowMessageBox(false)} // Function to close the message box
-        />
-      )}
       {showMessageBox && (
         <MessageBox
           message="Room Booked Successfully"
