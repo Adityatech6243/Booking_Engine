@@ -139,19 +139,25 @@ function Adminpanel(props) {
   // Function to handle login
   const handleLogin = (event) => {
     event.preventDefault();
-    console.log("test");
-    async function sendData() {
-      let tempSendData = await fetch(`//${basepath}/index.php`, {
-        method: "POST",
-        body: JSON.stringify({ username: UserEmail, password: UserPass }),
+   // console.log("test");
+   async function sendData() {
+    let tempSendData = await fetch(`//${basepath}/index.php`, {
+      method: "POST",
+      body: JSON.stringify({ username: UserEmail, password: UserPass }),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
       })
-        .then((response) => response.json())
-        .then((json) => json)
-        .catch((error) => {
-          return "{}";
-        });
-      setLoggedIn(Boolean(tempSendData));
-    }
+      .then((json) => json)
+      .catch((error) => {
+        console.error('There was a problem with the fetch operation:', error);
+        return false; // return false if there's an error
+      });
+    setLoggedIn(Boolean(tempSendData));
+  }
 
     sendData();
     //  setLoggedIn(true);
@@ -673,7 +679,7 @@ function Adminpanel(props) {
               </div>
             </section>
           ) : (
-            <section className="bg-gray-50 dark:bg-gray-900">
+            <section className="bg-gray-50 dark:bg-gray-900 ">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
@@ -735,6 +741,7 @@ function Adminpanel(props) {
                 >
                   Sign in
                 </button>
+                   
               </form>
             </section>
           )}
