@@ -69,7 +69,7 @@ export default function Home() {
     typeof window !== "undefined" ? window.location.reload() : "";
   };
   const [data, setData] = useState({});
-  const [roomdata, setRoomData] = useState();
+  const [roomdata, setRoomData] = useState([]);
 
   const [searchdata, setSearchData] = useState();
   const [childrensCount, setChildrensCount] = useState(0);
@@ -590,7 +590,7 @@ export default function Home() {
                 </div>
               </AccordionTrigger>
               <AccordionContent>
-                {roomdata
+                {roomdata[0]
                   ? roomdata?.map((item, i) => (
                       <Availability
                         className="pt-2"
@@ -601,7 +601,7 @@ export default function Home() {
                         enableEdit2={() => enableEdit2("item-2")}
                       />
                     ))
-                  : "All the rooms for these dates are booked, please select different dates."}
+                  :   "All the rooms for these dates are booked, please select different dates."}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4" className="bg-[#ffffff] my-1">
