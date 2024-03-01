@@ -156,6 +156,9 @@ function Adminpanel(props) {
         console.error('There was a problem with the fetch operation:', error);
         return false; // return false if there's an error
       });
+     if(Boolean(tempSendData)==false){
+      alert("Please Enter Correct Username Or Password")
+     }
     setLoggedIn(Boolean(tempSendData));
   }
 
@@ -167,6 +170,7 @@ function Adminpanel(props) {
   const handleLogout = () => {
     // Perform logout logic
     setLoggedIn(false);
+    window.location.reload();
   };
   // Function to handle login
   const handleBooking = (event) => {
