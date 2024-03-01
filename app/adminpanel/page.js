@@ -264,16 +264,24 @@ function Adminpanel(props) {
   };
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
-      <div className="flex flex-col items-center  mx-auto md:h-screen">
-        <a
-          href="#"
-          className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
-        >
-          <img src="/booking-engine/Logo.png" alt="logo" className="w-20" />
-        </a>
-        <div className="w-full bg-white rounded-lg shadow dark:border p-5 md:mt-0 dark:bg-gray-800 dark:border-gray-700">
+      <div className="flex flex-col mx-auto md:h-screen">
+        <div className="w-full  p-5 md:mt-0 dark:bg-gray-800 dark:border-gray-700">
+          <a
+            href="#"
+            className="flex justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+          >
+            <img src="/booking-engine/Logo.png" alt="logo" className="w-20" />
+          </a>
           {isLoggedIn ? (
             <section>
+              <div className="flex justify-end pb">
+                <button
+                  onClick={handleLogout}
+                  className="bg-red-500 text-white p-2 rounded font-bold py-2 px-8"
+                >
+                  Logout
+                </button>
+              </div>
               <table className="table-bordered p-2 w-full">
                 <thead>
                   <tr>
@@ -290,45 +298,46 @@ function Adminpanel(props) {
                     <tr key={room.RoomID} className="border-b-2">
                       <td className="py-2">{room.RoomName}</td>
                       <td>
-                        {Array.isArray(roomsAndBookings?.bookings) && roomsAndBookings?.bookings.map(
-                          (booking, index) =>
-                            room.RoomID == booking.BookingRoomID && (
-                              <span
-                                className="m-2 inline-block"
-                                key={index}
-                                style={{
-                                  backgroundColor: "green",
-                                  padding: "4px 14px",
-                                  color: "white",
-                                  borderRadius: "10px",
-                                  position: "relative",
-                                }}
-                              >
-                                {`${toIST(booking.CheckInDate)} to ${toIST(
-                                  booking.CheckOutDate
-                                )}`}
-                                <button
-                                  onClick={() =>
-                                    handlebookingdel(booking.BookingID)
-                                  }
-                                  className="bg-white-500 text-white rounded fas fa-times"
+                        {Array.isArray(roomsAndBookings?.bookings) &&
+                          roomsAndBookings?.bookings.map(
+                            (booking, index) =>
+                              room.RoomID == booking.BookingRoomID && (
+                                <span
+                                  className="m-2 inline-block"
+                                  key={index}
                                   style={{
-                                    borderRadius: "50%",
-                                    margin: "-2px -6px",
-                                    padding: "2px 6px 0px 6px",
-                                    backgroundColor: "#030303",
-                                    position: "absolute",
-                                    top: "-2px",
-                                    right: "2px",
-                                    fontSize: "10px",
+                                    backgroundColor: "green",
+                                    padding: "4px 14px",
+                                    color: "white",
+                                    borderRadius: "10px",
+                                    position: "relative",
                                   }}
                                 >
-                                  {" "}
-                                  X
-                                </button>
-                              </span>
-                            )
-                        )}
+                                  {`${toIST(booking.CheckInDate)} to ${toIST(
+                                    booking.CheckOutDate
+                                  )}`}
+                                  <button
+                                    onClick={() =>
+                                      handlebookingdel(booking.BookingID)
+                                    }
+                                    className="bg-white-500 text-white rounded fas fa-times"
+                                    style={{
+                                      borderRadius: "50%",
+                                      margin: "-2px -6px",
+                                      padding: "2px 6px 0px 6px",
+                                      backgroundColor: "#030303",
+                                      position: "absolute",
+                                      top: "-2px",
+                                      right: "2px",
+                                      fontSize: "10px",
+                                    }}
+                                  >
+                                    {" "}
+                                    X
+                                  </button>
+                                </span>
+                              )
+                          )}
                       </td>
                     </tr>
                   ))}
@@ -362,7 +371,6 @@ function Adminpanel(props) {
                                   required
                                   pattern="[A-Za-z\s]+"
                                   className="pl-4"
-                                  
                                 />
                               </FormControl>
                               <FormMessage />
@@ -388,7 +396,6 @@ function Adminpanel(props) {
                                   type="tel"
                                   required
                                   pattern="\d{10}"
-                              
                                 />
                               </FormControl>
                               <FormMessage />
@@ -544,16 +551,21 @@ function Adminpanel(props) {
                             form.control._formValues?.CheckOut
                           )
                         }
-                        className={`bg-blue-500  text-white font-bold py-2 px-10 rounded ${form.control._formValues?.CheckIn &&
+                        className={`bg-blue-500  text-white font-bold py-2 px-10 rounded ${
+                          form.control._formValues?.CheckIn &&
                           form.control._formValues?.CheckOut
-                          ? ""
-                          : "bg-gray-500"
-                          }`}
+                            ? ""
+                            : "bg-gray-500"
+                        }`}
                         onClick={() => {
                           if (
                             form.control._formValues?.UserName &&
-                            phoneNumberRegex.test(form.control._formValues?.UserPhone)) { console.log(e) }
-
+                            phoneNumberRegex.test(
+                              form.control._formValues?.UserPhone
+                            )
+                          ) {
+                            console.log(e);
+                          }
                         }}
                       >
                         Book
@@ -664,10 +676,11 @@ function Adminpanel(props) {
                             disabled={
                               !(priceWithBreakfast && priceWithAllMeals)
                             }
-                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${priceWithBreakfast && priceWithAllMeals
-                              ? ""
-                              : "bg-gray-500"
-                              }`}
+                            className={`bg-blue-500  text-white font-bold p-2 py-2 px-4 rounded ${
+                              priceWithBreakfast && priceWithAllMeals
+                                ? ""
+                                : "bg-gray-500"
+                            }`}
                           >
                             Save
                           </button>
@@ -679,7 +692,7 @@ function Adminpanel(props) {
               </div>
             </section>
           ) : (
-            <section className="bg-gray-50 dark:bg-gray-900 ">
+            <section className=" dark:bg-gray-900 bg-white rounded-lg shadow dark:border ">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
@@ -741,7 +754,6 @@ function Adminpanel(props) {
                 >
                   Sign in
                 </button>
-                   
               </form>
             </section>
           )}
@@ -754,7 +766,6 @@ function Adminpanel(props) {
         />
       )}
     </div>
-
   );
 }
 
