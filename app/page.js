@@ -53,6 +53,8 @@ import { basepath } from "@/lib/constant";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import emailjs from "emailjs-com";
+import { resolve } from "styled-jsx/css";
+import { handler } from "tailwindcss-animate";
 
 const formSchema = z.object({
   CheckIn: z.date(),
@@ -64,6 +66,7 @@ const formSchema = z.object({
   Child2Age: z.string(),
   Child3Age: z.string(),
 });
+
 export default function Home() {
   const refreshPage = () => {
     typeof window !== "undefined" ? window.location.reload() : "";
@@ -262,6 +265,51 @@ export default function Home() {
       .catch((error) => {
         console.error("Email send failed", error);
       });
+  };
+
+  const loadScript = (src) => {
+    return new Promise((resolve) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.onload = () => {
+        resolve(true);
+      };
+  
+      script.onerror = () => {
+        resolve(false);
+      };
+      document.body.appendChild(script);
+    });
+  };
+  
+  const displayRazorPay = async (amount) => {
+    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    if (!res) {
+      alert("Failed to load");
+      return;
+    }
+  
+    const options = {
+      key: "rzp_live_gmcVO4YsDz8cJA",
+      currency: "INR",
+      amount: amount * 100,
+      name: "Athang Infotech",
+      description: "Thanks for making booking",
+      image: 'https://mern-blog-akky.herokuapp.com/static/media/logo.8c649bfa.png',
+      handler: function (response) {
+       // alert(response.razorpay_payment_id); {razorpay_payment_id: 'pay_NlObNcOeIDdBpV', status_code: 200}
+        console.log(response);
+        if(response.status_code==200 && response.razorpay_payment_id){
+          alert("Payment successful");
+        }
+      },
+      prefill: {
+        name: "Athang Infotech"
+      }
+    };
+  
+    const paymentObject = new window.Razorpay(options);
+    paymentObject.open();
   };
 
   useEffect(() => {
@@ -592,16 +640,16 @@ export default function Home() {
               <AccordionContent>
                 {roomdata[0]
                   ? roomdata?.map((item, i) => (
-                      <Availability
-                        className="pt-2"
-                        room={item}
-                        key={i}
-                        setFinaldata={handleSetFinalData}
-                        handleSearch={() => handleSearch("item-4")}
-                        enableEdit2={() => enableEdit2("item-2")}
-                      />
-                    ))
-                  :   "All the rooms for these dates are booked, please select different dates."}
+                    <Availability
+                      className="pt-2"
+                      room={item}
+                      key={i}
+                      setFinaldata={handleSetFinalData}
+                      handleSearch={() => handleSearch("item-4")}
+                      enableEdit2={() => enableEdit2("item-2")}
+                    />
+                  ))
+                  : "All the rooms for these dates are booked, please select different dates."}
               </AccordionContent>
             </AccordionItem>
             <AccordionItem value="item-4" className="bg-[#ffffff] my-1">
@@ -830,7 +878,15 @@ export default function Home() {
                   >
                     Reset
                   </Button>
-                  <form id="rzp_payment_form" className="ml-5 mt-2"></form>
+                  <Button
+                    className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
+                    onClick={() => { displayRazorPay(Number(review?.AmtToPaid))}}
+                  >
+                    Paynow
+                  </Button>
+
+
+                  {/* <form id="rzp_payment_form" className="ml-5 mt-2"></form> */}
                   {/* <Button
                     onClick={PayNow}
                     className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
