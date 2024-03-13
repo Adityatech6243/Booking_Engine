@@ -286,6 +286,30 @@ export default function Home() {
   };
 
   const displayRazorPay = async (amount) => {
+    //     var paymentData = {
+    //       PaymentDetails : "true",
+    //       BookingID:review.BookingID,
+    //       PaymentStatus: "paid",
+    //       PaymentId: 11
+    //   };
+    //   async function sendData() {
+    //     let tempSendData = await fetch(`//${basepath}/index.php`, {
+    //       method: "POST",
+    //       body: JSON.stringify(paymentData),
+    //     })
+    //       .then((response) => response.text())
+    //       .then((json) => json)
+    //       .catch((error) => {
+    //         return "{}";
+    //       });
+    //       try {
+    // alert("payment data saved in table");
+    //       } catch (error) {
+    //         console.error("Error parsing JSON:", error);
+    //       }
+    //   }
+    //   sendData();
+
     const res = await loadScript(
       "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -304,9 +328,35 @@ export default function Home() {
         "https://mern-blog-akky.herokuapp.com/static/media/logo.8c649bfa.png",
       handler: function (response) {
         // alert(response.razorpay_payment_id); {razorpay_payment_id: 'pay_NlObNcOeIDdBpV', status_code: 200}
-        console.log(response);
+        // console.log(response);
+
         if (response.status_code == 200 && response.razorpay_payment_id) {
-          alert("Payment successful");
+          var paymentData = {
+            PaymentDetails: "true",
+            BookingID: review.BookingID,
+            PaymentStatus: "paid",
+            PaymentId: response.razorpay_payment_id,
+          };
+          // Make an AJAX POST request to the server using fetch
+          fetch(`//${basepath}/index.php`, {
+            method: "POST",
+            body: JSON.stringify(paymentData),
+          })
+            .then((response) => {
+              if (response.ok) {
+                // Alert the user that the data was saved successfully
+                alert("Booking done successfully!");
+              } else {
+                // Handle errors when saving data to the server
+                alert("Error saving data to the server!");
+              }
+            })
+            .catch((error) => {
+              // Handle network errors or other errors that occur during the request
+              console.error("Error:", error);
+            });
+        } else {
+          alert("Error while payment");
         }
       },
       prefill: {
@@ -920,6 +970,7 @@ export default function Home() {
                     onClick={() => {
                       displayRazorPay(Number(review?.AmtToPaid));
                     }}
+                    // Number(review?.AmtToPaid)
                   >
                     Paynow
                   </Button>
