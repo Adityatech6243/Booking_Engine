@@ -516,6 +516,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Error inserting booking data: " . $conn->error;
         }
     }
+    if(isset($data->PaymentDetails)){
+        $PaymentStatus = sanitizeInput($data->PaymentStatus);
+        $PaymentId = sanitizeInput($data->PaymentId);
+        $BookingID = sanitizeInput($data->BookingID);
+
+        $insertBookingSQL = "UPDATE bookings SET PaymentStatus='$PaymentStatus', PaymentId='$PaymentId' WHERE BookingID='$BookingID'";
+
+ if ($conn->query($insertBookingSQL) === TRUE) {
+            echo "Successfull";
+        } else {
+            echo "Error inserting booking data: " . $conn->error;
+        }
+        
+    }
 }
 
 if (isset($_GET['getAllBookings'])) {

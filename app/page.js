@@ -71,6 +71,7 @@ export default function Home() {
   const refreshPage = () => {
     typeof window !== "undefined" ? window.location.reload() : "";
   };
+
   const [data, setData] = useState({});
   const [roomdata, setRoomData] = useState([]);
 
@@ -83,6 +84,8 @@ export default function Home() {
   const [edit1, enableEdit1] = useState();
   const [edit2, enableEdit2] = useState();
   const [edit4, enableEdit4] = useState();
+  const [isPopContentOpen, setIsPopContentOpen] = React.useState(false); // State to manage popover content open/close
+  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleSearch = (value) => {
     setActiveItem(value);
@@ -269,45 +272,98 @@ export default function Home() {
 
   const loadScript = (src) => {
     return new Promise((resolve) => {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = src;
       script.onload = () => {
         resolve(true);
       };
-  
+
       script.onerror = () => {
         resolve(false);
       };
       document.body.appendChild(script);
     });
   };
-  
+
   const displayRazorPay = async (amount) => {
-    const res = await loadScript('https://checkout.razorpay.com/v1/checkout.js');
+    //     var paymentData = {
+    //       PaymentDetails : "true",
+    //       BookingID:review.BookingID,
+    //       PaymentStatus: "paid",
+    //       PaymentId: 11
+    //   };
+    //   async function sendData() {
+    //     let tempSendData = await fetch(`//${basepath}/index.php`, {
+    //       method: "POST",
+    //       body: JSON.stringify(paymentData),
+    //     })
+    //       .then((response) => response.text())
+    //       .then((json) => json)
+    //       .catch((error) => {
+    //         return "{}";
+    //       });
+    //       try {
+    // alert("payment data saved in table");
+    //       } catch (error) {
+    //         console.error("Error parsing JSON:", error);
+    //       }
+    //   }
+    //   sendData();
+
+    const res = await loadScript(
+      "https://checkout.razorpay.com/v1/checkout.js"
+    );
     if (!res) {
       alert("Failed to load");
       return;
     }
-  
+
     const options = {
       key: "rzp_live_gmcVO4YsDz8cJA",
       currency: "INR",
       amount: amount * 100,
       name: "Athang Infotech",
       description: "Thanks for making booking",
-      image: 'https://mern-blog-akky.herokuapp.com/static/media/logo.8c649bfa.png',
+      image:
+        "https://mern-blog-akky.herokuapp.com/static/media/logo.8c649bfa.png",
       handler: function (response) {
-       // alert(response.razorpay_payment_id); {razorpay_payment_id: 'pay_NlObNcOeIDdBpV', status_code: 200}
-        console.log(response);
-        if(response.status_code==200 && response.razorpay_payment_id){
-          alert("Payment successful");
+        // alert(response.razorpay_payment_id); {razorpay_payment_id: 'pay_NlObNcOeIDdBpV', status_code: 200}
+        // console.log(response);
+
+        if (response.status_code == 200 && response.razorpay_payment_id) {
+          var paymentData = {
+            PaymentDetails: "true",
+            BookingID: review.BookingID,
+            PaymentStatus: "paid",
+            PaymentId: response.razorpay_payment_id,
+          };
+          // Make an AJAX POST request to the server using fetch
+          fetch(`//${basepath}/index.php`, {
+            method: "POST",
+            body: JSON.stringify(paymentData),
+          })
+            .then((response) => {
+              if (response.ok) {
+                // Alert the user that the data was saved successfully
+                alert("Booking done successfully!");
+              } else {
+                // Handle errors when saving data to the server
+                alert("Error saving data to the server!");
+              }
+            })
+            .catch((error) => {
+              // Handle network errors or other errors that occur during the request
+              console.error("Error:", error);
+            });
+        } else {
+          alert("Error while payment");
         }
       },
       prefill: {
-        name: "Athang Infotech"
-      }
+        name: "Athang Infotech",
+      },
     };
-  
+
     const paymentObject = new window.Razorpay(options);
     paymentObject.open();
   };
@@ -387,7 +443,7 @@ export default function Home() {
                                   <Button
                                     variant={"outline"}
                                     className={cn(
-                                      "justify-start text-left font-normal ",
+                                      "justify-start text-left font-normal",
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
@@ -399,11 +455,40 @@ export default function Home() {
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0">
+                                <PopoverContent
+                                  isOpen={isPopContentOpen}
+                                  className="w-auto p-0"
+                                >
                                   <Calendar
                                     selected={field.value}
                                     mode="single"
-                                    onSelect={field.onChange}
+                                    onSelect={(date) => {
+                                      if (!selectedDate) {
+                                        // Update the selected date and form value
+                                        setSelectedDate(date);
+                                        field.onChange(date);
+
+                                        // Calculate the check-out date (one day after check-in)
+                                        const checkOutDate = new Date(date);
+                                        checkOutDate.setDate(
+                                          checkOutDate.getDate() + 1
+                                        );
+
+                                        // Update the check-out date in the form
+                                        // form.setValue("CheckOut", checkOutDate);
+                                      }
+                                      // Update the check-in date
+                                      field.onChange(date);
+
+                                      // Calculate the check-out date (one day after check-in)
+                                      const checkOutDate = new Date(date);
+                                      checkOutDate.setDate(
+                                        checkOutDate.getDate() + 1
+                                      );
+
+                                      // Update the check-out date
+                                      form.setValue("CheckOut", checkOutDate);
+                                    }}
                                     disabled={(date) => date < new Date()}
                                     minDate={new Date()} // Set the minimum date to the current date
                                     initialFocus
@@ -433,11 +518,13 @@ export default function Home() {
                                       !field.value && "text-muted-foreground"
                                     )}
                                   >
-                                    {field.value ? (
+                                    {field.value instanceof Date &&
+                                    !isNaN(field.value.getTime()) ? (
                                       format(field.value, "PPP")
                                     ) : (
                                       <span>Select Check Out Date</span>
                                     )}
+
                                     <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                   </Button>
                                 </PopoverTrigger>
@@ -640,15 +727,15 @@ export default function Home() {
               <AccordionContent>
                 {roomdata[0]
                   ? roomdata?.map((item, i) => (
-                    <Availability
-                      className="pt-2"
-                      room={item}
-                      key={i}
-                      setFinaldata={handleSetFinalData}
-                      handleSearch={() => handleSearch("item-4")}
-                      enableEdit2={() => enableEdit2("item-2")}
-                    />
-                  ))
+                      <Availability
+                        className="pt-2"
+                        room={item}
+                        key={i}
+                        setFinaldata={handleSetFinalData}
+                        handleSearch={() => handleSearch("item-4")}
+                        enableEdit2={() => enableEdit2("item-2")}
+                      />
+                    ))
                   : "All the rooms for these dates are booked, please select different dates."}
               </AccordionContent>
             </AccordionItem>
@@ -880,11 +967,13 @@ export default function Home() {
                   </Button>
                   <Button
                     className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
-                    onClick={() => { displayRazorPay(Number(review?.AmtToPaid))}}
+                    onClick={() => {
+                      displayRazorPay(Number(review?.AmtToPaid));
+                    }}
+                    // Number(review?.AmtToPaid)
                   >
                     Paynow
                   </Button>
-
 
                   {/* <form id="rzp_payment_form" className="ml-5 mt-2"></form> */}
                   {/* <Button
