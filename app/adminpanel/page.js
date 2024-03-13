@@ -139,28 +139,28 @@ function Adminpanel(props) {
   // Function to handle login
   const handleLogin = (event) => {
     event.preventDefault();
-   // console.log("test");
-   async function sendData() {
-    let tempSendData = await fetch(`//${basepath}/index.php`, {
-      method: "POST",
-      body: JSON.stringify({ username: UserEmail, password: UserPass }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
+    // console.log("test");
+    async function sendData() {
+      let tempSendData = await fetch(`//${basepath}/index.php`, {
+        method: "POST",
+        body: JSON.stringify({ username: UserEmail, password: UserPass }),
       })
-      .then((json) => json)
-      .catch((error) => {
-        console.error('There was a problem with the fetch operation:', error);
-        return false; // return false if there's an error
-      });
-     if(Boolean(tempSendData)==false){
-      alert("Please Enter Correct Username Or Password")
-     }
-    setLoggedIn(Boolean(tempSendData));
-  }
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((json) => json)
+        .catch((error) => {
+          console.error("There was a problem with the fetch operation:", error);
+          return false; // return false if there's an error
+        });
+      if (Boolean(tempSendData) == false) {
+        alert("Please Enter Correct Username Or Password");
+      }
+      setLoggedIn(Boolean(tempSendData));
+    }
 
     sendData();
     //  setLoggedIn(true);
@@ -269,14 +269,18 @@ function Adminpanel(props) {
   return (
     <div className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center  mx-auto md:h-screen">
-      <div className="w-full  p-5 md:mt-0">
-        <a
-          href="#"
-          className="flex justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white "
-        >
-          <img src="/booking-engine/Logo.png" alt="logo" className="w-25 h-25"  />
-        </a>
-        
+        <div className="w-full  p-5 md:mt-0">
+          <a
+            href="#"
+            className="flex justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white "
+          >
+            <img
+              src="/booking-engine/Logo.png"
+              alt="logo"
+              className="w-25 h-25"
+            />
+          </a>
+
           {isLoggedIn ? (
             <section>
               <div className="flex justify-end pb">
@@ -291,7 +295,7 @@ function Adminpanel(props) {
                 <thead>
                   <tr>
                     <th className="text-left pb-10">
-                      <b >Room Category</b>
+                      <b>Room Category</b>
                     </th>
                     <th className="text-left pb-10">
                       <b>Bookings</b>
@@ -701,7 +705,10 @@ function Adminpanel(props) {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white text-center pt-5">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6 p-5" onSubmit={handleLogin}>
+              <form
+                className="space-y-4 md:space-y-6 p-5"
+                onSubmit={handleLogin}
+              >
                 <div>
                   <label
                     htmlFor="email"
