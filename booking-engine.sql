@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 13, 2024 at 11:15 AM
+-- Generation Time: Mar 28, 2024 at 08:30 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -65,7 +65,8 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`BookingID`, `BookingRoomID`, `CheckInDate`, `CheckOutDate`, `TotalPrice`, `PaymentStatus`, `BookingRoomType`, `BookingRoomPrice`, `Adults`, `NumChildrens`, `Child1Age`, `Child2Age`, `Child3Age`, `ExtraBed`, `ExtraBedCost`, `ChildCost`, `UserName`, `UserPhone`, `UserEmail`, `UserAddress`, `IsGST`, `CompanyName`, `CompanyGST`, `CompanyAddress`, `SpecialRequest`, `RoomName`, `Capacity`, `numberOfNights`, `AmtToPaid`, `PaymentId`) VALUES
-(1710324787890187, 1, '2024-03-13T18:30:00.000Z', '2024-03-14T18:30:00.000Z', 3500, 'paid', 'With Breakfast', '3500', '1', '0', '', '', '', '0', '0', '0', 'prathamesh gadhave', '8421863607', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', '', 'Blue Bell cottage couple AC', '5', 1, 1050, 'pay_Nlnp7SURLdbqOb');
+(1710648099480385, 1, '2024-03-19T18:30:00.000Z', '2024-03-20T18:30:00.000Z', 3500, 'paid', 'With Breakfast', '3500', '1', '0', '', '', '', '0', '0', '0', 'prathamesh gadhave', '0842186360', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', '', 'Blue Bell cottage couple AC', '5', 1, 1050, 'pay_NnHeSmuVR4gE5Q'),
+(1711610865450806, 1, '2024-03-28T18:30:00.000Z', '2024-03-29T18:30:00.000Z', 3500, 'paid', 'With Breakfast', '3500', '1', '0', '', '', '', '0', '0', '0', 'suraj koli', '1111111111', 'gadhaveprathamesh16@gmail.com', 'satara', 'no', '', '', '', '', 'Blue Bell cottage couple AC', '5', 1, 1050, 'pay_Nrh1b7cHlm6TSR');
 
 -- --------------------------------------------------------
 
@@ -216,7 +217,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1710324787890188;
+  MODIFY `BookingID` bigint(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1711610865450807;
 
 --
 -- AUTO_INCREMENT for table `clients`

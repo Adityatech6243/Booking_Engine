@@ -968,7 +968,7 @@ export default function Home() {
                   <Button
                     className="ml-5 bg-[#9f1f63] text-white hover:bg-[#9f1f63] mt-2"
                     onClick={() => {
-                      displayRazorPay(Number(review?.AmtToPaid));
+                      displayRazorPay(1);
                     }}
                     // Number(review?.AmtToPaid)
                   >
